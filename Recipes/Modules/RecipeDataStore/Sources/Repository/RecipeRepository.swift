@@ -12,6 +12,7 @@ import SwiftData
 @frozen
 public enum SDError: Error {
     case modelNotFound
+    case modelObjNotFound
 }
 
 
@@ -64,7 +65,7 @@ public final class RecipeSDRepository: RecipeSDRepositoryType {
         let descriptor = FetchDescriptor<SDRecipe>(predicate: predicate)
         
         guard let existingRecipe = try context.fetch(descriptor).first else {
-            throw SDError.modelNotFound
+            throw SDError.modelObjNotFound
         }
         
         existingRecipe.isFavorite.toggle()

@@ -51,6 +51,8 @@ struct ErrorView: View {
     }
 }
 
+#if DEBUG
 #Preview {
     ErrorView(error: APIError.decodingError, handler: {})
 }
+#endif

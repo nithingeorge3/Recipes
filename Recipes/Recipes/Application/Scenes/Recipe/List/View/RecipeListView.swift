@@ -46,6 +46,7 @@ struct RecipeListView<ViewModel: RecipeListViewModelType>: View {
 }
 
 // MARK: - Previews
+#if DEBUG
 #Preview("Loading State") {
     RecipeListView(viewModel: PreviewRecipeListViewModel(state: .loading))
 }
@@ -101,3 +102,5 @@ private class PreviewPaginationState: PaginationStateType {
         self.hasMoreData = hasMoreData
     }
 }
+
+#endif
