@@ -18,19 +18,27 @@ struct RecipeImageCarousel: View {
             ScrollViewReader { proxy in
                 ScrollView(.horizontal) {
                     LazyHStack(spacing: 12) {
-                        let height = max(geometry.size.width - 30, 0)
+                        let width = geometry.size.width - (mediaItems.count == 1 ? 16 : 44)
+                        let height = geometry.size.width - 30
                         ForEach(Array(mediaItems.enumerated()), id: \.element.id) { index, mediaItem in
-                            MediaThumbnailView(mediaItem: mediaItem, height: height)
-                                .id(index)
-                                .onTapGesture {
-                                    presentedMedia = mediaItem
-                                    selectedIndex = index
-                                }
+                            MediaThumbnailView(
+                                mediaItem: mediaItem,
+                                width: width,
+                                height: height
+                            )
+                            .id(index)
+                            .padding(.leading, index == 0 ? 4 : 0)
+                            .onTapGesture {
+                                presentedMedia = mediaItem
+                                selectedIndex = index
+                            }
                         }
                     }
+                    .padding(.trailing, 24) // for last item to scroll fully :)
                 }
                 .scrollDisabled(mediaItems.count == 1)
-                .contentMargins(24)
+                .contentMargins(.leading, 4)
+                .contentMargins(.trailing, 24)
                 .scrollTargetBehavior(.paging)
                 .onChange(of: selectedIndex) {
                     withAnimation {
@@ -47,30 +55,32 @@ struct RecipeImageCarousel: View {
 
 struct MediaThumbnailView: View {
     let mediaItem: PresentedMedia
+    let width: CGFloat
     let height: CGFloat
 
     var body: some View {
         ZStack {
-            switch mediaItem {
-            case .image(let url):
-                KFImage(url)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(height: height)
-                    .clipped()
-            case .video(let url):
-                Image(Constants.placeHolderImage)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: height, height: height)
-                    .foregroundColor(.blue)
+            Group {
+                switch mediaItem {
+                case .image(let url):
+                    KFImage(url)
+                        .resizable()
+                        .scaledToFill()
+                case .video(_):
+                    //ToDo: we can use video image later. I just used placeholder image
+                    Image(Constants.placeHolderImage)
+                        .resizable()
+                        .scaledToFill()
+                }
             }
+            .frame(width: width, height: height)
+            .clipped()
             
             if case .video = mediaItem {
                 Image(systemName: "play.circle.fill")
                     .resizable()
                     .frame(width: 50, height: 50)
-                    .foregroundColor(.white.opacity(0.9))
+                    .foregroundColor(.black.opacity(0.5))
             }
         }
         .clipShape(RoundedRectangle(cornerRadius: 16))
