@@ -6,11 +6,15 @@
 //
 
 protocol RecipeDetailViewFactoryType {
-    func makeRecipeDetailView(viewModel: RecipeDetailViewModel) -> RecipeDetailView
+    @MainActor func makeRecipeDetailView<ViewModel: RecipeDetailViewModelType>(
+        viewModel: ViewModel
+    ) -> RecipeDetailView<ViewModel>
 }
 
 final class RecipeDetailViewFactory: RecipeDetailViewFactoryType {
-    func makeRecipeDetailView(viewModel: RecipeDetailViewModel) -> RecipeDetailView {
+    @MainActor func makeRecipeDetailView<ViewModel: RecipeDetailViewModelType>(
+        viewModel: ViewModel
+    ) -> RecipeDetailView<ViewModel> {
         RecipeDetailView(viewModel: viewModel)
     }
 }

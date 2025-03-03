@@ -10,7 +10,7 @@ import RecipeNetworking
 import Observation
 
 @MainActor
-protocol RecipeDetailViewModelType {
+protocol RecipeDetailViewModelType: AnyObject, Observable {
     var recipe: Recipe { get set }
     func send(_ action: RecipeDetailActions)
 }

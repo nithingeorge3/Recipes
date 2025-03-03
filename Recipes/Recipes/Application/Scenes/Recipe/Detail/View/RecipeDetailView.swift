@@ -8,8 +8,8 @@
 import SwiftUI
 import Kingfisher
 
-struct RecipeDetailView: View {
-    @Bindable var viewModel: RecipeDetailViewModel //ToDo: use depency inversion later
+struct RecipeDetailView<ViewModel: RecipeDetailViewModelType>: View {
+    @Bindable var viewModel: ViewModel
     @State private var selectedIndex: Int = 0
     
     var body: some View {

@@ -28,7 +28,7 @@ struct RecipeView: View {
             Text(recipe.name)
                 .font(.system(size: 14, weight: .semibold))
                 .multilineTextAlignment(.center)
-                .lineLimit(2)
+                .lineLimit(1)
         }
     }
 }
