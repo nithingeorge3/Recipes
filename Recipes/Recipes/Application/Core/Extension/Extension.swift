@@ -7,9 +7,9 @@
 
 import Foundation
 
-extension Optional where Wrapped == String {
+extension String? {
     var validatedURL: URL? {
-        guard let string = self, !string.isEmpty else { return nil }
-        return URL(string: string)
+        guard let self = self else { return nil }
+        return URL(string: self)
     }
 }

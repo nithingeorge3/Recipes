@@ -45,10 +45,8 @@ public final class RecipeSDRepository: RecipeSDRepositoryType {
         
         for domainRecipe in recipes {
             if let existingRecipes = existingDict[domainRecipe.id] {
-                print("***** ExistingID: \(domainRecipe.id)")
                 existingRecipes.update(from: domainRecipe)
             } else {
-                print("***** NewID: \(domainRecipe.id)")
                 let newRecipe = SDRecipe(from: domainRecipe)
                 context.insert(newRecipe)
             }

@@ -15,46 +15,24 @@ struct RecipeDetailView<ViewModel: RecipeDetailViewModelType>: View {
     @State private var selectedIndex: Int = 0
     
     var body: some View {
-        Group {
-            contentView(for: viewModel.recipe)
-                .withCustomNavigationTitle(title: viewModel.recipe.name)
-//            if let recipe = viewModel.recipe {
-//                contentView(for: viewModel.recipe)
-//                    .withCustomNavigationTitle(title: viewModel.recipe.name)
-//            } else {
-//                EmptyStateView(message: "No recipe detail found. Please try again later.")
-//            }
-        }
-//        .onAppear() {
-//            if viewModel.recipe == nil {
-//                viewModel.send(.loadRecipe)
-//            }
-//        }
-        .withCustomBackButton()
-    }
-    
-    @ViewBuilder
-    private func contentView(for recipe: Recipe) -> some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
                 Group {
-                    if let image = recipe.thumbnailURL {
-                        RecipeImageCarousel(image: image, selectedIndex: $selectedIndex)
-                    } else {
-                        Image(Constants.placeHolderImage)
-                            .resizable()
-                            .cornerRadius(25)
-                            .padding(.horizontal, 8)
-                    }
+                    RecipeImageCarousel(
+                        image: viewModel.recipe.thumbnailURL,
+                        selectedIndex: $selectedIndex
+                    )
                 }
                 .frame(height: 400)
                 .padding(.bottom, 4)
 
                 // adding more Recipe details
-                nameCountrySection(for: recipe)
-                detailSection(for: recipe)
+                nameCountrySection(for: viewModel.recipe)
+                detailSection(for: viewModel.recipe)
             }
         }
+        .withCustomBackButton()
+        .withCustomNavigationTitle(title: viewModel.recipe.name)
     }
     
     @ViewBuilder
@@ -177,7 +155,7 @@ extension PreviewDetailViewModel {
         PreviewDetailViewModel(recipe: Recipe(
             id: 3,
             name: "Kerala Chicken Curry",
-            description: "", //Handle UI if no description available. Now jsut showing Title
+            description: "",
             thumbnailURL: "https://img.buzzfeed.com/thumbnailer-prod-us-east-1/45b4efeb5d2c4d29970344ae165615ab/FixedFBFinal.jpg"
         ))
     }
