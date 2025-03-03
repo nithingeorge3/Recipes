@@ -9,38 +9,27 @@ import SwiftUI
 import Kingfisher
 
 struct RecipeImageCarousel: View {
-    let image: String?
+    let mediaItems: [PresentedMedia]
     @Binding var selectedIndex: Int
-    @State private var isShowingFullImage: Bool = false
+    @State private var presentedMedia: PresentedMedia?
     
-    //I used scrollview here in case we have more images. I just added for showcasing listing more images.
-    //Notmally we don't want to use scrollview and LazyHStack for single image display
     var body: some View {
         GeometryReader { geometry in
             ScrollViewReader { proxy in
                 ScrollView(.horizontal) {
                     LazyHStack(spacing: 12) {
-                        let height = max(geometry.size.width - 16, 0)
-                                                
-                        if let url = image.validatedURL {
-                            RecipeImageView(imageURL: url, height: height)
-                                .containerRelativeFrame(.horizontal)
-                                .clipShape(RoundedRectangle(cornerRadius: 25))
-                                .id(0)
+                        let height = max(geometry.size.width - 30, 0)
+                        ForEach(Array(mediaItems.enumerated()), id: \.element.id) { index, mediaItem in
+                            MediaThumbnailView(mediaItem: mediaItem, height: height)
+                                .id(index)
                                 .onTapGesture {
-                                    selectedIndex = 0
-                                    isShowingFullImage = true
+                                    presentedMedia = mediaItem
+                                    selectedIndex = index
                                 }
-                        } else {
-                            Image(Constants.placeHolderImage)
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: height, height: height)
-                                .foregroundColor(.blue)
                         }
                     }
                 }
-                .scrollDisabled(true)// just only one image. normally we don;t wantLazyHStack for one image. I just added for future and adding more images or videos
+                .scrollDisabled(mediaItems.count == 1)
                 .contentMargins(24)
                 .scrollTargetBehavior(.paging)
                 .onChange(of: selectedIndex) {
@@ -48,19 +37,43 @@ struct RecipeImageCarousel: View {
                         proxy.scrollTo(selectedIndex, anchor: .center)
                     }
                 }
-                .sheet(isPresented: $isShowingFullImage) {
-                    Group {                        
-                        if let url = image.validatedURL {
-                            CatFullImageView(url: url)
-                        } else {
-                            Text("Image is not available")
-                                .foregroundColor(.red)
-                                .font(.headline)
-                        }
-                    }
-                    
-                }
             }
         }
+        .sheet(item: $presentedMedia) { media in
+            FullScreenMediaView(media: media)
+        }
+    }
+}
+
+struct MediaThumbnailView: View {
+    let mediaItem: PresentedMedia
+    let height: CGFloat
+
+    var body: some View {
+        ZStack {
+            switch mediaItem {
+            case .image(let url):
+                KFImage(url)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(height: height)
+                    .clipped()
+            case .video(let url):
+                Image(Constants.placeHolderImage)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: height, height: height)
+                    .foregroundColor(.blue)
+            }
+            
+            if case .video = mediaItem {
+                Image(systemName: "play.circle.fill")
+                    .resizable()
+                    .frame(width: 50, height: 50)
+                    .foregroundColor(.white.opacity(0.9))
+            }
+        }
+        .clipShape(RoundedRectangle(cornerRadius: 16))
+        .shadow(radius: 4)
     }
 }
