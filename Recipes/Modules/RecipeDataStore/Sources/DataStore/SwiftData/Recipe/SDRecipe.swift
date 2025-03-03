@@ -15,6 +15,7 @@ public final class SDRecipe {
     public var id: Int
     public var name: String
     public var desc: String?
+    public var country: Country
     public var thumbnailURL: String?
     public var originalVideoURL: String?
     public var createdAt: Int?
@@ -23,7 +24,6 @@ public final class SDRecipe {
     public var isFavorite: Bool
     public var userRatings: UserRatingsDomain?
     
-//    // Transient property for business logic (not persisted)
 //    @Transient
 //    var country: Country {
 //        Country(code: countryCode)
@@ -36,6 +36,7 @@ public final class SDRecipe {
         id: Int,
         name: String,
         desc: String? = nil,
+        country: Country = .unknown,
         thumbnailURL: String? = nil,
         originalVideoURL: String? = nil,
         createdAt: Int? = nil,
@@ -48,6 +49,7 @@ public final class SDRecipe {
         self.id = id
         self.name = name
         self.desc = desc
+        self.country = country
         self.thumbnailURL = thumbnailURL
         self.originalVideoURL = originalVideoURL
         self.createdAt = createdAt
@@ -67,6 +69,7 @@ extension SDRecipe {
             id: recipe.id,
             name: recipe.name,
             desc: recipe.description,
+            country: recipe.country,
             thumbnailURL: recipe.thumbnailURL,
             originalVideoURL: recipe.originalVideoURL,
             createdAt: recipe.createdAt,
@@ -83,6 +86,7 @@ extension SDRecipe {
         self.id = domain.id
         self.name = domain.name
         self.desc = domain.description
+        self.country = domain.country
         self.thumbnailURL = domain.thumbnailURL
         self.originalVideoURL = domain.originalVideoURL
         self.createdAt = domain.createdAt

@@ -10,8 +10,8 @@ import RecipeDomain
 
 struct Recipe: Identifiable, Hashable {
     let id: Int?
-    public var name: String
-//    public var country: Country?
+    let name: String
+    let country: Country
     let description: String?
     let thumbnailURL: String?
     let originalVideoURL: String?
@@ -28,10 +28,11 @@ struct Recipe: Identifiable, Hashable {
         lhs.id == rhs.id
     }
     
-    init(id: Int, name: String, description: String? = nil, thumbnailURL: String? = nil, originalVideoURL: String? = nil, createdAt: Int? = nil, approvedAt: Int? = nil, yields: String? = nil, isFavorite: Bool = false, userRatings: UserRatings? = nil) {
+    init(id: Int, name: String, description: String? = nil, country: Country = .unknown, thumbnailURL: String? = nil, originalVideoURL: String? = nil, createdAt: Int? = nil, approvedAt: Int? = nil, yields: String? = nil, isFavorite: Bool = false, userRatings: UserRatings? = nil) {
         self.id = id
         self.name = name
         self.description = description
+        self.country = country
         self.thumbnailURL = thumbnailURL
         self.originalVideoURL = originalVideoURL
         self.createdAt = createdAt
@@ -49,6 +50,7 @@ extension Recipe {
         self.id = recipeDomain?.id
         self.name = recipeDomain?.name ?? "Unknown"
         self.description = recipeDomain?.description
+        self.country = recipeDomain?.country ?? .unknown
         self.thumbnailURL = recipeDomain?.thumbnailURL
         self.originalVideoURL = recipeDomain?.originalVideoURL
         self.createdAt = recipeDomain?.createdAt

@@ -43,26 +43,28 @@ struct RecipeDetailView<ViewModel: RecipeDetailViewModelType>: View {
                 
                 Spacer()
                 
-                Button(action: {
-                    viewModel.send(.toggleFavorite)
-                }) {
-                    Image(systemName: recipe.isFavorite ? "heart.fill" : "heart")
-                        .font(.system(size: 28))
-                        .foregroundColor(recipe.isFavorite ? .red : .gray)
-                        .symbolEffect(.bounce, value: recipe.isFavorite)
+                VStack(alignment: .center) {
+                    Spacer().frame(height: 10.0)
+                    Button(action: {
+                        viewModel.send(.toggleFavorite)
+                    }) {
+                        Image(systemName: recipe.isFavorite ? "heart.fill" : "heart")
+                            .font(.system(size: 28))
+                            .foregroundColor(recipe.isFavorite ? .red : .gray)
+                            .symbolEffect(.bounce, value: recipe.isFavorite)
+                    }
+                    Spacer()
                 }
                 
                 Spacer().frame(width: 30)
             }
             
-//            if let origin = recipe.country {
-                HStack(spacing: 4) {
-                    Image(systemName: "mappin.and.ellipse")
-                    Text("origin")
-                }
-                .font(.title3)
-                .foregroundColor(.secondary)
-//            }
+            HStack(spacing: 4) {
+                Image(systemName: "mappin.and.ellipse")
+                Text(recipe.country.displayName)
+            }
+            .font(.title3)
+            .foregroundColor(.secondary)
         }
         .padding(.horizontal, 8)
     }

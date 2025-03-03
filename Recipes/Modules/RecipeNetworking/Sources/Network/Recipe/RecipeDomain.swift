@@ -16,6 +16,7 @@ extension RecipeDomain {
             id: dto.id,
             name: dto.name,
             description: dto.description,
+            country: dto.country ?? .unknown,
             thumbnailURL: dto.thumbnailURL,
             originalVideoURL: dto.originalVideoURL,
             createdAt: dto.createdAt,

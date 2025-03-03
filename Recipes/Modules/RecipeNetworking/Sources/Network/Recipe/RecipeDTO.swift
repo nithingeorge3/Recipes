@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import RecipeDomain
 
 struct RecipeResponseDTO: Codable {
     let count: Int
@@ -42,55 +43,6 @@ struct RecipeDTO: Codable {
 //        case language
     }
 }
-
-enum Country: String, Codable {
-    case us = "US"
-    case unknown
-    
-    init(from decoder: Decoder) throws {
-        let container = try decoder.singleValueContainer()
-        let rawValue = try container.decode(String.self)
-        self = Country(rawValue: rawValue) ?? .unknown
-    }
-}
-/*
- struct Country: Hashable, Codable {
-     let code: String
-     
-     var localizedName: String? {
-         Locale.current.localizedString(forRegionCode: code)
-     }
-     
-     private static let recognizedCodes: Set<String> = [
-         "US", "GB", "CA", "FR", "DE", "IT", "JP", "KR", "IN", "BR"
-     ]
-     
-     var isRecognized: Bool {
-         Self.recognizedCodes.contains(code)
-     }
-     
-     init(code: String) {
-         self.code = code.uppercased()
-     }
-     
-     init(from decoder: Decoder) throws {
-         let container = try decoder.singleValueContainer()
-         let rawValue = try container.decode(String.self)
-         self.init(code: rawValue)
-     }
-     
-     func encode(to encoder: Encoder) throws {
-         var container = encoder.singleValueContainer()
-         try container.encode(code)
-     }
-     
-     static let unitedStates = Country(code: "US")
-     static let unitedKingdom = Country(code: "GB")
-     static let canada = Country(code: "CA")
-     static let france = Country(code: "FR")
-     static let germany = Country(code: "DE")
- }
- */
 
 struct InstructionDTO: Codable {
     let startTime: Int

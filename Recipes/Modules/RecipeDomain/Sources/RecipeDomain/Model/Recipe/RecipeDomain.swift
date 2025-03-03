@@ -10,7 +10,7 @@ import Foundation
 public struct RecipeDomain: Identifiable, @unchecked Sendable {
     public var id: Int
     public var name: String
-//    public var country: Country?
+    public var country: Country
     public var description: String?
     public var thumbnailURL: String?
     public var originalVideoURL: String?
@@ -19,10 +19,11 @@ public struct RecipeDomain: Identifiable, @unchecked Sendable {
     public var isFavorite: Bool
     public var userRatings: UserRatingsDomain?
     
-    public init(id: Int, name: String, description: String? = nil, thumbnailURL: String? = nil, originalVideoURL: String? = nil, createdAt: Int? = nil, approvedAt: Int? = nil, yields: String? = nil, isFavorite: Bool = false, userRatings: UserRatingsDomain? = nil) {
+    public init(id: Int, name: String, description: String? = nil, country: Country = .unknown, thumbnailURL: String? = nil, originalVideoURL: String? = nil, createdAt: Int? = nil, approvedAt: Int? = nil, yields: String? = nil, isFavorite: Bool = false, userRatings: UserRatingsDomain? = nil) {
         self.id = id
         self.name = name
         self.description = description
+        self.country = country
         self.thumbnailURL = thumbnailURL
         self.originalVideoURL = originalVideoURL
         self.createdAt = createdAt
