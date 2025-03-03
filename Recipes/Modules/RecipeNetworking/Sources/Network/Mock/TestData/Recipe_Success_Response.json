@@ -1,0 +1,68 @@
+{
+    "count": 10,
+    "results": [
+        {
+            "compilations": [
+                {
+                    "approved_at": 1553197578,
+                    "aspect_ratio": "1:1",
+                    "beauty_url": null,
+                    "buzz_id": null,
+                    "canonical_id": "compilation:848",
+                    "country": "US",
+                    "created_at": 1546890391,
+                    "description": "Whether you’re trying to be healthy, pulling an all-nighter, or just trying to get through the day, protein-packed snacks are your best friends. That’s because protein can give you an energy boost and help you stay fuller longer. From <a href=\"https://tasty.co/recipe/avocado-deviled-eggs\">avocado deviled eggs</a> to <a href=\"https://tasty.co/recipe/cacao-chia-pudding\">cacao chia pudding</a>, these snacks are full of protein-packed ingredients like Greek yogurt and almond butter, which will ensure you don’t get hangry anytime soon.",
+                    "draft_status": "published",
+                    "facebook_posts": [],
+                    "id": 848,
+                    "is_shoppable": true,
+                    "keywords": null,
+                    "language": "eng",
+                    "name": "Protein-Packed Snacks",
+                    "promotion": "partial",
+                    "show": [
+                        {
+                            "id": 34,
+                            "name": "Goodful"
+                        }
+                    ],
+                    "slug": "protein-packed-snacks",
+                    "thumbnail_alt_text": "",
+                    "thumbnail_url": "https://img.buzzfeed.com/thumbnailer-prod-us-east-1/video-api/assets/199563.jpg",
+                    "video_id": 73153,
+                    "video_url": "https://vid.tasty.co/output/121934/hls24_1546897597.m3u8"
+                }
+            ],
+            "country": "US",
+            "created_at": 1546890315,
+            "description": "This chicken salad is a lunchtime delight! Packed with creamy avocado, tender chicken, and crunchy veggies, it's a healthy and satisfying meal that won't weigh you down. Tossed in a tangy yogurt dressing with a hint of spice, it's a flavor explosion that's perfect for a light meal.",
+            "id": 4704,
+            "original_video_url": "https://s3.amazonaws.com/video-api-prod/assets/a0e1b07dc71c4ac6b378f24493ae2d85/FixedFBFinal.mp4",
+            "price": {
+                "consumption_portion": 200,
+                "consumption_total": 800,
+                "portion": 450,
+                "total": 1750,
+                "updated_at": "2025-03-02T06:14:47+01:00"
+            },
+            "tags": [
+                {
+                    "display_name": "North American",
+                    "id": 64444,
+                    "name": "north_american",
+                    "parent_tag_name": "cuisine",
+                    "root_tag_type": "cuisine",
+                    "type": "cuisine"
+                }
+            ],
+            "thumbnail_url": "https://img.buzzfeed.com/thumbnailer-prod-us-east-1/45b4efeb5d2c4d29970344ae165615ab/FixedFBFinal.jpg",
+            "user_ratings": {
+                "count_negative": 75,
+                "count_positive": 845,
+                "score": 0.9184782608695652
+            },
+            "video_url": "https://vid.tasty.co/output/121934/hls24_1546897597.m3u8",
+            "yields": "Servings: 4"
+        }
+    ]
+}

@@ -6,6 +6,13 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		282279DA2D73DF7F00583E2C /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 282279D92D73DF7F00583E2C /* Kingfisher */; };
+		28227A4B2D73E8E200583E2C /* RecipeNetworking in Frameworks */ = {isa = PBXBuildFile; productRef = 28227A4A2D73E8E200583E2C /* RecipeNetworking */; };
+		28227A4D2D73EA0900583E2C /* RecipeDataStore in Frameworks */ = {isa = PBXBuildFile; productRef = 28227A4C2D73EA0900583E2C /* RecipeDataStore */; };
+		28227A4F2D73EA0E00583E2C /* RecipeDomain in Frameworks */ = {isa = PBXBuildFile; productRef = 28227A4E2D73EA0E00583E2C /* RecipeDomain */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		282279BC2D73DE5700583E2C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,6 +34,9 @@
 		282279AB2D73DE5500583E2C /* Recipes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Recipes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		282279BB2D73DE5700583E2C /* RecipesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RecipesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		282279C52D73DE5700583E2C /* RecipesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RecipesUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		28227A452D73E8C900583E2C /* RecipeDataStore */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = RecipeDataStore; sourceTree = "<group>"; };
+		28227A462D73E8C900583E2C /* RecipeDomain */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = RecipeDomain; sourceTree = "<group>"; };
+		28227A472D73E8C900583E2C /* RecipeNetworking */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = RecipeNetworking; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -52,6 +62,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28227A4F2D73EA0E00583E2C /* RecipeDomain in Frameworks */,
+				28227A4B2D73E8E200583E2C /* RecipeNetworking in Frameworks */,
+				282279DA2D73DF7F00583E2C /* Kingfisher in Frameworks */,
+				28227A4D2D73EA0900583E2C /* RecipeDataStore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,9 +89,11 @@
 		282279A22D73DE5500583E2C = {
 			isa = PBXGroup;
 			children = (
+				28227A482D73E8C900583E2C /* Modules */,
 				282279AD2D73DE5500583E2C /* Recipes */,
 				282279BE2D73DE5700583E2C /* RecipesTests */,
 				282279C82D73DE5700583E2C /* RecipesUITests */,
+				28227A492D73E8E200583E2C /* Frameworks */,
 				282279AC2D73DE5500583E2C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -90,6 +106,23 @@
 				282279C52D73DE5700583E2C /* RecipesUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		28227A482D73E8C900583E2C /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				28227A452D73E8C900583E2C /* RecipeDataStore */,
+				28227A462D73E8C900583E2C /* RecipeDomain */,
+				28227A472D73E8C900583E2C /* RecipeNetworking */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		28227A492D73E8E200583E2C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -112,6 +145,10 @@
 			);
 			name = Recipes;
 			packageProductDependencies = (
+				282279D92D73DF7F00583E2C /* Kingfisher */,
+				28227A4A2D73E8E200583E2C /* RecipeNetworking */,
+				28227A4C2D73EA0900583E2C /* RecipeDataStore */,
+				28227A4E2D73EA0E00583E2C /* RecipeDomain */,
 			);
 			productName = Recipes;
 			productReference = 282279AB2D73DE5500583E2C /* Recipes.app */;
@@ -195,6 +232,9 @@
 			);
 			mainGroup = 282279A22D73DE5500583E2C;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				282279D82D73DF7F00583E2C /* XCRemoteSwiftPackageReference "Kingfisher" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 282279AC2D73DE5500583E2C /* Products */;
 			projectDirPath = "";
@@ -403,6 +443,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -431,6 +472,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -552,6 +594,37 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		282279D82D73DF7F00583E2C /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.2.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		282279D92D73DF7F00583E2C /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 282279D82D73DF7F00583E2C /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+		28227A4A2D73E8E200583E2C /* RecipeNetworking */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = RecipeNetworking;
+		};
+		28227A4C2D73EA0900583E2C /* RecipeDataStore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = RecipeDataStore;
+		};
+		28227A4E2D73EA0E00583E2C /* RecipeDomain */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = RecipeDomain;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 282279A32D73DE5500583E2C /* Project object */;
 }
