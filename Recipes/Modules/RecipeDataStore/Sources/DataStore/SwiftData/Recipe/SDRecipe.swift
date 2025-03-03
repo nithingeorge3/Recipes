@@ -9,11 +9,10 @@ import Foundation
 import SwiftData
 import RecipeDomain
 
-#warning("add final for needed class, check id: Int?")
 @Model
 public final class SDRecipe {
     @Attribute(.unique)
-    public var id: Int?
+    public var id: Int
     public var name: String
     public var desc: String?
     public var thumbnailURL: String?
@@ -34,7 +33,7 @@ public final class SDRecipe {
     public var rating: SDUserRatings?
     
     init(
-        id: Int?,
+        id: Int,
         name: String,
         desc: String? = nil,
         thumbnailURL: String? = nil,
@@ -78,16 +77,45 @@ extension SDRecipe {
             rating: ratings
             )
     }
+    
+    //Not updating isFavorite because we are not fetching isFavorite from backend
+    func update(from domain: RecipeDomain) {
+        self.id = domain.id
+        self.name = domain.name
+        self.desc = domain.description
+        self.thumbnailURL = domain.thumbnailURL
+        self.originalVideoURL = domain.originalVideoURL
+        self.createdAt = domain.createdAt
+        self.approvedAt = domain.approvedAt
+        self.yields = domain.yields
+        self.userRatings = domain.userRatings
+        
+        self.rating = {
+            guard let domainRatings = domain.userRatings else { return nil }
+            
+            if let existing = self.rating {
+                existing.countNegative = domainRatings.countNegative
+                existing.countPositive = domainRatings.countPositive
+                existing.score = domainRatings.score
+                return existing
+            }
+            return SDUserRatings(
+                id: domainRatings.id,
+                countNegative: domainRatings.countNegative,
+                countPositive: domainRatings.countPositive,
+                score: domainRatings.score
+            )
+        }()
+    }
 }
 
 extension RecipeDomain {
     init(from sdRecipe: SDRecipe) {
-
+#warning("check sdRecipe.userRatings?.id ?? 0. do we need optional here")
         let ratings = UserRatingsDomain(id: sdRecipe.userRatings?.id ?? 0, countNegative: sdRecipe.userRatings?.countNegative, countPositive: sdRecipe.userRatings?.countPositive, score: sdRecipe.userRatings?.score)
         
-#warning("remove optional for id")
         self.init(
-            id: sdRecipe.id ?? 0,
+            id: sdRecipe.id,
             name: sdRecipe.name,
             description: sdRecipe.desc,
             thumbnailURL: sdRecipe.thumbnailURL,

@@ -42,12 +42,9 @@ final class RecipeRepository: RecipeRepositoryType {
                 response: response,
                 type: RecipeResponseDTO.self
             )
-            print(dtos.count)
-            print(dtos.results.count)
-            
+
             let domains = dtos.results.map { RecipeDomain(from: $0) }
 
-            print(domains.count)
             //Reach the page end or no data
             if domains.count == 0 {
                 return domains
@@ -55,7 +52,7 @@ final class RecipeRepository: RecipeRepositoryType {
             
             try await recipeSDRepo.saveRecipes(domains)
             
-#warning("fetch batch recipes")
+            //fetch batch recipes
             let savedRecipes = try await recipeSDRepo.fetchRecipes()
             print("***Saved recipe Count: \(savedRecipes.count)")
             

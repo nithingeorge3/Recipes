@@ -33,31 +33,28 @@ public final class RecipeSDRepository: RecipeSDRepositoryType {
     }
     
     public func saveRecipes(_ recipes: [RecipeDomain]) async throws {
+        let ids = recipes.map { $0.id }
         
-        print(recipes.count)
-        print(recipes.first?.name)
+        let predicate = #Predicate<SDRecipe> { ids.contains($0.id) }
+        let descriptor = FetchDescriptor<SDRecipe>(predicate: predicate)
+        let existingRecipes = try context.fetch(descriptor)
+        var existingDict: [Int: SDRecipe] = [:]
+        for recipe in existingRecipes {
+            existingDict[recipe.id] = recipe
+        }
         
-//        print("**** recipes.count: \(recipes.count)")
-//        let ids = recipes.map { $0.id }
-//        
-//        let predicate = #Predicate<SDRecipe> { ids.contains($0.id ?? 0) }
-//        let descriptor = FetchDescriptor<SDRecipe>(predicate: predicate)
-//        let existingRecipes = try context.fetch(descriptor)
-//        var existingDict: [String: SDRecipe] = [:]
-//        for recipe in existingRecipes {
-//            existingDict[recipe.id] = recipe
-//        }
-//        
-//        for domainRecipe in recipes {
-//            if let existingRecipes = existingDict[domainRecipe.id] {
-//                existingRecipes.update(from: domainRecipe)
-//            } else {
-//                let newRecipe = SDRecipe(from: domainRecipe)
-//                context.insert(newRecipe)
-//            }
-//        }
-//        
-//        try context.save()
+        for domainRecipe in recipes {
+            if let existingRecipes = existingDict[domainRecipe.id] {
+                print("***** ExistingID: \(domainRecipe.id)")
+                existingRecipes.update(from: domainRecipe)
+            } else {
+                print("***** NewID: \(domainRecipe.id)")
+                let newRecipe = SDRecipe(from: domainRecipe)
+                context.insert(newRecipe)
+            }
+        }
+        
+        try context.save()
     }
 
     public func updateFavouriteRecipe(_ recipeID: Int) async throws -> Bool {
