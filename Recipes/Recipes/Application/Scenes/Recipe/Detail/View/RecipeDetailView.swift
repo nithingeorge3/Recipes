@@ -91,88 +91,100 @@ struct SubTitleView: View {
     }
 }
 
-//// MARK: - Previews
-//#if DEBUG
-//#Preview("Default Detail") {
-//    RecipeDetailView(viewModel: PreviewDetailViewModel.fullRecipe)
-//}
-//
-//#Preview("No Image") {
-//    RecipeDetailView(viewModel: PreviewDetailViewModel.noImageRecipe)
-//}
-//
-//#Preview("No Description") {
-//    RecipeDetailView(viewModel: PreviewDetailViewModel.noDescriptionRecipe)
-//}
-//
-//#Preview("Favorite State") {
-//    let vm = PreviewDetailViewModel.fullRecipe
-//    vm.recipe.isFavorite.toggle()
-//    return RecipeDetailView(viewModel: vm)
-//}
-//
-//// MARK: - Preview ViewModel
-//private class PreviewDetailViewModel: RecipeDetailViewModelType {
-//    var mediaItems: [PresentedMedia]()
-//    
-//    var recipe: Recipe
-//    private let service: MockPreviewService
-//    
-//    init(recipe: Recipe, service: MockPreviewService = MockPreviewService()) {
-//        self.recipe = recipe
-//        self.service = service
-//    }
-//    
-//    func send(_ action: RecipeDetailActions) {
-//        switch action {
-//        case .toggleFavorite:
-//            recipe.isFavorite.toggle()
-//            Task { try? await service.updateFavouriteRecipe(recipe.id ?? 0) }
-//        }
-//    }
-//}
-//
-//extension PreviewDetailViewModel {
-//    static var fullRecipe: PreviewDetailViewModel {
-//        PreviewDetailViewModel(recipe: Recipe(
-//            id: 1,
-//            name: "Indian Chicken Curry",
-//            description: "Indian Chicken Curry is a rich, flavorful dish made with tender chicken simmered in a spiced tomato and onion gravy. It’s infused with aromatic Indian spices, garlic, ginger, and creamy textures, making it perfect to pair with rice or naan bread.",
-//            thumbnailURL: "https://img.buzzfeed.com/thumbnailer-prod-us-east-1/45b4efeb5d2c4d29970344ae165615ab/FixedFBFinal.jpg"
-//        ))
-//    }
-//    
-//    static var noImageRecipe: PreviewDetailViewModel {
-//        PreviewDetailViewModel(recipe: Recipe(
-//            id: 2,
-//            name: "Kerala Chicken Biriyani (CB)",
-//            description: "A flavorful one-pot dish made with fragrant basmati rice, marinated chicken, and aromatic Kerala spices, layered and cooked to perfection. Side dish: Fresh yummy salad",
-//            thumbnailURL: nil
-//        ))
-//    }
-//    
-//    static var noDescriptionRecipe: PreviewDetailViewModel {
-//        PreviewDetailViewModel(recipe: Recipe(
-//            id: 3,
-//            name: "Kerala Chicken Curry",
-//            description: "",
-//            thumbnailURL: "https://img.buzzfeed.com/thumbnailer-prod-us-east-1/45b4efeb5d2c4d29970344ae165615ab/FixedFBFinal.jpg"
-//        ))
-//    }
-//}
-//
-//// MARK: - Mock Service
-//private class MockPreviewService: RecipeServiceType, @unchecked Sendable {
-//    func updateFavouriteRecipe(_ id: Int) async throws -> Bool {
-//        return true
-//    }
-//    
-//    var favoritesDidChange: AsyncStream<Int> {
-//        AsyncStream { _ in }
-//    }
-//    
-//    func fetchRecipes(endPoint: EndPoint) async throws -> [RecipeDomain] {
-//        return []
-//    }
-//}
-//#endif
+// MARK: - Previews
+#if DEBUG
+#Preview("Default Detail") {
+    RecipeDetailView(viewModel: PreviewDetailViewModel.fullRecipe)
+}
+
+#Preview("No Image") {
+    RecipeDetailView(viewModel: PreviewDetailViewModel.noImageRecipe)
+}
+
+#Preview("No Description") {
+    RecipeDetailView(viewModel: PreviewDetailViewModel.noDescriptionRecipe)
+}
+
+#Preview("Favorite State") {
+    let vm = PreviewDetailViewModel.fullRecipe
+    vm.recipe.isFavorite.toggle()
+    return RecipeDetailView(viewModel: vm)
+}
+
+// MARK: - Preview ViewModel
+private class PreviewDetailViewModel: RecipeDetailViewModelType {
+    var recipe: Recipe
+    
+    var mediaItems: [PresentedMedia] {
+        var result: [PresentedMedia] = []
+        if let imageURL = recipe.thumbnailURL.validatedURL {
+            result.append(.image(imageURL))
+        }
+        if let videoURL = recipe.originalVideoURL.validatedURL {
+            result.append(.video(videoURL))
+        }
+        
+        return result
+    }
+    
+    private let service: MockPreviewService
+    
+    init(recipe: Recipe, service: MockPreviewService = MockPreviewService()) {
+        self.recipe = recipe
+        self.service = service
+    }
+    
+    func send(_ action: RecipeDetailActions) {
+        switch action {
+        case .toggleFavorite:
+            recipe.isFavorite.toggle()
+            Task { try? await service.updateFavouriteRecipe(recipe.id ?? 0) }
+        }
+    }
+}
+
+extension PreviewDetailViewModel {
+    static var fullRecipe: PreviewDetailViewModel {
+        PreviewDetailViewModel(recipe: Recipe(
+            id: 1,
+            name: "Indian Chicken Curry",
+            description: "Indian Chicken Curry is a rich, flavorful dish made with tender chicken simmered in a spiced tomato and onion gravy. It’s infused with aromatic Indian spices, garlic, ginger, and creamy textures, making it perfect to pair with rice or naan bread.",
+            thumbnailURL: "https://img.buzzfeed.com/thumbnailer-prod-us-east-1/45b4efeb5d2c4d29970344ae165615ab/FixedFBFinal.jpg",
+            originalVideoURL: "https://s3.amazonaws.com/video-api-prod/assets/a0e1b07dc71c4ac6b378f24493ae2d85/FixedFBFinal.mp4"
+        ))
+    }
+    
+    static var noImageRecipe: PreviewDetailViewModel {
+        PreviewDetailViewModel(recipe: Recipe(
+            id: 2,
+            name: "Kerala Chicken Biriyani (CB)",
+            description: "A flavorful one-pot dish made with fragrant basmati rice, marinated chicken, and aromatic Kerala spices, layered and cooked to perfection. Side dish: Fresh yummy salad",
+            thumbnailURL: nil
+        ))
+    }
+    
+    static var noDescriptionRecipe: PreviewDetailViewModel {
+        PreviewDetailViewModel(recipe: Recipe(
+            id: 3,
+            name: "Kerala Chicken Curry",
+            description: "",
+            thumbnailURL: "https://img.buzzfeed.com/thumbnailer-prod-us-east-1/45b4efeb5d2c4d29970344ae165615ab/FixedFBFinal.jpg"
+        ))
+    }
+}
+
+// MARK: - Mock Service
+private class MockPreviewService: RecipeServiceType, @unchecked Sendable {
+    func updateFavouriteRecipe(_ id: Int) async throws -> Bool {
+        return true
+    }
+    
+    var favoritesDidChange: AsyncStream<Int> {
+        AsyncStream { _ in }
+    }
+    
+    func fetchRecipes(endPoint: EndPoint) async throws -> [RecipeDomain] {
+        return []
+    }
+}
+#endif
