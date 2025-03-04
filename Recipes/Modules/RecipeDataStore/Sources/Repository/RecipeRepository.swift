@@ -24,7 +24,6 @@ public final class RecipeSDRepository: RecipeSDRepositoryType {
         self.context = context
     }
     
-#warning("fetch with page count, first 50")
     public func fetchRecipes() async throws -> [RecipeDomain] {
         let descriptor = FetchDescriptor<SDRecipe>()
         let objs = try context.fetch(descriptor)

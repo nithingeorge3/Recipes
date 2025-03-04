@@ -18,4 +18,6 @@ public protocol RecipeServiceType: Sendable {
     
     func fetchRecipes(endPoint: EndPoint) async throws -> [RecipeDomain]
     func updateFavouriteRecipe(_ recipeID: Int) async throws -> Bool
+    
+    func fetchRecipePagination(_ type: EntityType) async throws -> PaginationDomain
 }

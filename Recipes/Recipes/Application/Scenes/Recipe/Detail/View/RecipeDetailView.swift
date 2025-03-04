@@ -177,6 +177,7 @@ extension PreviewDetailViewModel {
 
 // MARK: - Mock Service
 private class MockPreviewService: RecipeServiceType, @unchecked Sendable {
+    
     func updateFavouriteRecipe(_ id: Int) async throws -> Bool {
         return true
     }
@@ -187,6 +188,10 @@ private class MockPreviewService: RecipeServiceType, @unchecked Sendable {
     
     func fetchRecipes(endPoint: EndPoint) async throws -> [RecipeDomain] {
         return []
+    }
+    
+    func fetchRecipePagination(_ type: EntityType) async throws -> PaginationDomain {
+        PaginationDomain(entityType: .recipe, totalCount: 10, currentPage: 10)
     }
 }
 #endif

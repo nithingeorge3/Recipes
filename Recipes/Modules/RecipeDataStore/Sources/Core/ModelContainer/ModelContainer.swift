@@ -15,17 +15,28 @@ extension ModelContainer {
                 cloudKitDatabase: .none
             )
 
+        let schema = Schema([
+            SDRecipe.self,
+            SDPagination.self
+        ])
+        
         return try ModelContainer(
-            for: SDRecipe.self,
+            for: schema,
             configurations: config
         )
     }
     
     static func makeInMemoryContext() -> ModelContainer {
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
+        
+        let schema = Schema([
+            SDRecipe.self,
+            SDPagination.self
+        ])
+        
         //ToDo: avoid force unwrapping later
         return try! ModelContainer(
-            for: SDRecipe.self,
+            for: schema,
             configurations: config
         )
     }
@@ -35,8 +46,13 @@ extension ModelContainer {
             isStoredInMemoryOnly: true
         )
         
+        let schema = Schema([
+            SDRecipe.self,
+            SDPagination.self
+        ])
+        
         return try ModelContainer(
-            for: SDRecipe.self,
+            for: schema,
             configurations: config
         )
     }

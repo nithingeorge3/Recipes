@@ -18,7 +18,7 @@ struct RecipeView: View {
                 RecipeImageView(imageURL: url, height: gridSize)
                     .cornerRadius(10)
             } else {
-                Image(Constants.placeHolderImage)
+                Image(Constants.Recipe.placeholderImage)
                     .resizable()
                     .scaledToFill()
                     .frame(width: gridSize, height: gridSize)

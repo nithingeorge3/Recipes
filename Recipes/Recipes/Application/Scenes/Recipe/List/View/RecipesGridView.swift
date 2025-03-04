@@ -24,12 +24,12 @@ struct RecipesGridView: View {
         print("**** all.count: \(others.count + favorites.count)")
         return GeometryReader { geometry in
             let totalWidth = geometry.size.width
-            let spacing: CGFloat = Constants.recipeListSpacing
-            let minColumnWidth = Constants.recipeListItemSize
+            let spacing: CGFloat = Constants.Recipe.listSpacing
+            let minColumnWidth = Constants.Recipe.listItemSize
             let columns = calculateColumns(totalWidth: totalWidth, spacing: spacing, minColumnWidth: minColumnWidth)
             let coulmnsCount = max(columns.count, 1)
-            let padding = Constants.recipeListSpacing * CGFloat(coulmnsCount - 1) / 2.0 + 32.0
-            let gridSize = max((totalWidth - padding)/CGFloat(coulmnsCount), Constants.recipeListItemSize)
+            let padding = Constants.Recipe.listSpacing * CGFloat(coulmnsCount - 1) / 2.0 + 32.0
+            let gridSize = max((totalWidth - padding)/CGFloat(coulmnsCount), Constants.Recipe.listItemSize)
             
             ScrollView {
                 LazyVGrid(columns: columns) {

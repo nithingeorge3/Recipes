@@ -31,10 +31,14 @@ final class RecipeServiceImp: RecipeServiceType {
 
 //SwiftData
 extension RecipeServiceImp {
-    
     func updateFavouriteRecipe(_ recipeID: Int) async throws -> Bool {
         let isUpdated = try await recipeRepository.updateFavouriteRecipe(recipeID)
         favoritesDidChangeContinuation.yield(recipeID)
         return isUpdated
+    }
+    
+    func fetchRecipePagination(_ type: EntityType) async throws -> PaginationDomain {
+        let pagination = PaginationDomain(entityType: .recipe)
+        return try await recipeRepository.fetchRecipePagination(pagination)
     }
 }
