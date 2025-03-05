@@ -15,7 +15,6 @@ public enum SDError: Error {
     case modelObjNotFound
 }
 
-
 @MainActor
 public final class RecipeSDRepository: RecipeSDRepositoryType {
     private let context: ModelContext
@@ -69,73 +68,3 @@ public final class RecipeSDRepository: RecipeSDRepositoryType {
         return existingRecipe.isFavorite
     }
 }
-
-/*
- @Model
- final class Recipe {
-     @Attribute(.unique) let id: Int
-     var name: String
-     var countryCode: String  // Store raw value
-     
-     // Transient property for business logic (not persisted)
-     @Transient
-     var country: Country {
-         Country(code: countryCode)
-     }
-
-     init(id: Int, name: String, countryCode: String) {
-         self.id = id
-         self.name = name
-         self.countryCode = countryCode
-     }
- }
- 
- // Network DTO
- struct RecipeDTO: Codable {
-     let id: Int
-     let name: String
-     let country: String  // Raw API value
-     
-     func toPersistable() -> Recipe {
-         Recipe(
-             id: id,
-             name: name,
-             countryCode: country
-         )
-     }
- }
-
- // Country Type Handler
- struct Country {
-     let code: String
-     var knownCase: KnownCountry?
-     
-     enum KnownCountry: String, CaseIterable {
-         case us = "US"
-         case gb = "GB"
-         case ca = "CA"
-         // Add others
-     }
-     
-     init(code: String) {
-         self.code = code.uppercased()
-         self.knownCase = KnownCountry(rawValue: code.uppercased())
-     }
- }
- 
- // Fetching with type safety
- let usRecipes = try context.fetch(FetchDescriptor<Recipe>(
-     predicate: #Predicate { $0.countryCode == "US" }
- ))
-
- // Business logic handling
- func displayCountry(for recipe: Recipe) -> String {
-     switch recipe.country.knownCase {
-     case .us: return "United States"
-     case .gb: return "United Kingdom"
-     case .ca: return "Canada"
-     case nil: return "Other (\(recipe.countryCode))"
-     }
- }
- 
-*/
