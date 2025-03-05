@@ -24,28 +24,28 @@ public class PaginationRepository: PaginationRepositoryType {
         let descriptor = FetchDescriptor(predicate: predicate)
         
         if let existing = try? context.fetch(descriptor).first {
-            existing.currentPage += pagination.currentPage
-            try context.save()
             return PaginationDomain(from: existing)
         }
         
-        let newPagination = SDPagination(
-            type: pagination.entityType,
-            total: pagination.totalCount,
-            page: pagination.currentPage
-        )
-        context.insert(newPagination)
-        
-        try context.save()
-        
-        return PaginationDomain(from: newPagination)
+        return PaginationDomain(entityType: .recipe)
     }
     
     public func updateRecipePagination(_ pagination: PaginationDomain) async throws {
-        var container = try await fetchRecipePagination(pagination)
-        container.totalCount = pagination.totalCount
-        container.currentPage = pagination.currentPage
-        container.lastUpdated = pagination.lastUpdated
+        let type = pagination.entityType
+        let predicate = #Predicate<SDPagination> { $0.entityTypeRaw == type.rawValue }
+        let descriptor = FetchDescriptor(predicate: predicate)
+        
+        if let existing = try? context.fetch(descriptor).first {
+            existing.currentPage = pagination.currentPage
+            
+        } else {
+            let newPagination = SDPagination(
+                type: pagination.entityType,
+                total: pagination.totalCount,
+                page: pagination.currentPage
+            )
+            context.insert(newPagination)
+        }
         
         try context.save()
     }

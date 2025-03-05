@@ -52,6 +52,7 @@ class RecipeListViewModel: RecipeListViewModelType {
         self.paginationHandler = paginationHandler
         self.maxAllowedRecipesCount = maxAllowedRecipesCount
         listeningFavoritesChanges()
+        Task { try await fetchRecipePagination() }
     }
     
     private func listeningFavoritesChanges() {
@@ -101,12 +102,20 @@ class RecipeListViewModel: RecipeListViewModelType {
                 let newRecipes = recipeDomains.map { Recipe(from: $0) }
                 updateRecipes(with: newRecipes)
                 
-                let paginationDomain = try await service.fetchRecipePagination(.recipe)
-                updatePagination(Pagination(from: paginationDomain))
-                
-                
+                try await fetchRecipePagination()
             } catch {
                 state = .failed(error: error)
+            }
+        }
+    }
+    
+    private func fetchRecipePagination() async throws {
+        Task {
+            do {
+                let paginationDomain = try await service.fetchRecipePagination(.recipe)
+                updatePagination(Pagination(from: paginationDomain))
+            } catch {
+                print("\(error)")
             }
         }
     }

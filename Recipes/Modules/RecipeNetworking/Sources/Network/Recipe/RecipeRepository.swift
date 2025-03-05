@@ -46,12 +46,6 @@ final class RecipeRepository: RecipeRepositoryType {
                 response: response,
                 type: RecipeResponseDTO.self
             )
-
-            let paginationDomain = PaginationDomain(entityType: .recipe, totalCount: dtos.count, currentPage: dtos.results.count, lastUpdated: Date())
-            
-            print(paginationDomain)
-            
-            try await paginationSDRepo.updateRecipePagination(paginationDomain)
             
             let recipeDomains = dtos.results.map { RecipeDomain(from: $0) }
 
@@ -65,6 +59,12 @@ final class RecipeRepository: RecipeRepositoryType {
             //fetch batch recipes
             let savedRecipes = try await recipeSDRepo.fetchRecipes()
             print("saved recipe Count: \(savedRecipes.count)")
+            
+            let paginationDomain = PaginationDomain(entityType: .recipe, totalCount: dtos.count, currentPage: savedRecipes.count, lastUpdated: Date())
+            
+            print(paginationDomain)
+            
+            try await paginationSDRepo.updateRecipePagination(paginationDomain)
             
             return savedRecipes
         } catch {

@@ -23,6 +23,7 @@ public final class RecipeSDRepository: RecipeSDRepositoryType {
         self.context = context
     }
     
+    //later add batch fetch rather than bulk fetching
     public func fetchRecipes() async throws -> [RecipeDomain] {
         let descriptor = FetchDescriptor<SDRecipe>()
         let objs = try context.fetch(descriptor)
@@ -31,18 +32,10 @@ public final class RecipeSDRepository: RecipeSDRepositoryType {
     }
     
     public func saveRecipes(_ recipes: [RecipeDomain]) async throws {
-        let ids = recipes.map { $0.id }
-        
-        let predicate = #Predicate<SDRecipe> { ids.contains($0.id) }
-        let descriptor = FetchDescriptor<SDRecipe>(predicate: predicate)
-        let existingRecipes = try context.fetch(descriptor)
-        var existingDict: [Int: SDRecipe] = [:]
-        for recipe in existingRecipes {
-            existingDict[recipe.id] = recipe
-        }
+        let existingRecipesDic = try self.existingRecipes(ids: recipes.map(\.id), context: context)
         
         for domainRecipe in recipes {
-            if let existingRecipes = existingDict[domainRecipe.id] {
+            if let existingRecipes = existingRecipesDic[domainRecipe.id] {
                 existingRecipes.update(from: domainRecipe)
             } else {
                 let newRecipe = SDRecipe(from: domainRecipe)
@@ -66,5 +59,11 @@ public final class RecipeSDRepository: RecipeSDRepositoryType {
         try context.save()
         
         return existingRecipe.isFavorite
+    }
+        
+    private func existingRecipes(ids: [Int], context: ModelContext) throws -> [Int: SDRecipe] {
+        let predicate = #Predicate<SDRecipe> { ids.contains($0.id) }
+        let descriptor = FetchDescriptor<SDRecipe>(predicate: predicate)
+        return try context.fetch(descriptor).reduce(into: [:]) { $0[$1.id] = $1 }
     }
 }
