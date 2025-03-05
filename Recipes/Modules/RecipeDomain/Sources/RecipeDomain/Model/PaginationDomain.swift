@@ -12,13 +12,14 @@ public enum EntityType: Int, Codable, Sendable {
 }
 
 public struct PaginationDomain: Identifiable, @unchecked Sendable {
-    public let id: UUID = UUID()
+    public let id: UUID
     public var entityType: EntityType
     public var totalCount: Int
     public var currentPage: Int
     public var lastUpdated: Date
     
-    public init(entityType: EntityType = .recipe, totalCount: Int = 0, currentPage: Int = 0, lastUpdated: Date = Date()) {
+    public init(id: UUID = UUID(), entityType: EntityType = .recipe, totalCount: Int = 0, currentPage: Int = 0, lastUpdated: Date = Date()) {
+        self.id = id
         self.entityType = entityType
         self.totalCount = totalCount
         self.currentPage = currentPage
