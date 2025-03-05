@@ -8,30 +8,52 @@
 import Foundation
 import SwiftData
 
-public protocol DataStoreManagerType: Sendable {
-    static func makeSharedContainer(for containerName: String) -> ModelContainer
-}
-
 public enum DataStoreManagerFactory {
-    public static func makeSharedContainer(_ name: String) -> ModelContainer {
+    static var isTesting: Bool {
+        ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
+    }
+    
+    public static func makeSharedContainer(for name: String) -> ModelContainer {
+        if isTesting {
+            return makeTestContainer()
+        } else {
+            return makeProductionContainer(name: name)
+        }
+    }
+    
+    private static func makeProductionContainer(name: String) -> ModelContainer {
         do {
-            return try ModelContainer.buildShared(name)
+            let schema = Schema([
+                SDRecipe.self,
+                SDPagination.self
+            ])
+            
+            let config = ModelConfiguration(
+                url: .documentsDirectory.appendingPathComponent("\(name).sqlite"),
+                cloudKitDatabase: .none
+            )
+            
+            return try ModelContainer(for: schema, configurations: config)
         } catch {
-            print("Error creating container: \(error)")
-            return makeInMemoryContainer()
+            fatalError("Failed to create prod container: \(error)")
         }
     }
     
-    public static func makeInMemoryContainer() -> ModelContainer {
-        ModelContainer.makeInMemoryContext()
-    }
-    
-    @MainActor
-    public static func makeDataStoreManager(for containerName: String) -> DataStoreManager {
-        if ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil {
-            return DataStoreManager(container: makeInMemoryContainer())
-        }
+    private static func makeTestContainer() -> ModelContainer {
+        let schema = Schema([
+            SDRecipe.self,
+            SDPagination.self
+        ])
         
-        return DataStoreManager(container: makeSharedContainer(containerName))
+        let config = ModelConfiguration(
+            isStoredInMemoryOnly: true,
+            allowsSave: true
+        )
+        
+        do {
+            return try ModelContainer(for: schema, configurations: config)
+        } catch {
+            fatalError("Failed to create test container: \(error)")
+        }
     }
 }
