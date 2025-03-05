@@ -11,6 +11,7 @@ import RecipeDataStore
 import SwiftData
 import SwiftUI
 import RecipeDomain
+import RecipeDataStore
 
 enum RecipeListAction: Hashable {
     case refresh
@@ -37,18 +38,19 @@ final class RecipeListCoordinator: ObservableObject, Coordinator, TabItemProvide
         tabItem: TabItem,
         viewFactory: RecipeListViewFactoryType,
         modelFactory: RecipeListViewModelFactoryType,
+        paginationSDRepo: PaginationRepositoryType,
         recipeSDRepo: RecipeSDRepositoryType
     ) async {
         _tabItem = tabItem
         self.viewFactory = viewFactory
         self.modelFactory = modelFactory
-        self.service = RecipeServiceFactory.makeRecipeService(recipeSDRepo: recipeSDRepo)
+        self.service = RecipeServiceFactory.makeRecipeService(recipeSDRepo: recipeSDRepo, paginationSDRepo: paginationSDRepo)
         
-        let paginationState: PaginationStateType = PaginationState()
+        let paginationHandler: PaginationHandlerType = PaginationHandler()
         
         let vm = await modelFactory.makeRecipeListViewModel(
             service: service,
-            paginationState: paginationState
+            paginationHandler: paginationHandler
         )
 
         self.viewModel = vm

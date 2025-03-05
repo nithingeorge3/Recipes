@@ -15,7 +15,7 @@ public final class SDRecipe {
     public var id: Int
     public var name: String
     public var desc: String?
-    public var country: Country
+    public var country: Country // For filtering by country we need to use/save as transformable
     public var thumbnailURL: String?
     public var originalVideoURL: String?
     public var createdAt: Int?
@@ -24,11 +24,6 @@ public final class SDRecipe {
     public var isFavorite: Bool
     public var userRatings: UserRatingsDomain?
     
-//    @Transient
-//    var country: Country {
-//        Country(code: countryCode)
-//    }
-
     @Relationship(inverse: \SDUserRatings.recipe)
     public var rating: SDUserRatings?
     
@@ -127,7 +122,13 @@ extension RecipeDomain {
             createdAt: sdRecipe.createdAt,
             approvedAt: sdRecipe.approvedAt,
             yields: sdRecipe.yields,
+            isFavorite: sdRecipe.isFavorite,
             userRatings: ratings
         )
     }
 }
+
+//    @Transient
+//    var country: Country {
+//        Country(code: countryCode)
+//    }

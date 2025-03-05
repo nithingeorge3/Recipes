@@ -8,6 +8,7 @@
 import Foundation
 import SwiftData
 import RecipeDataStore
+import RecipeDataStore
 
 protocol RecipeListCoordinatorFactoryType {
     @MainActor func makeRecipeListCoordinator(context: ModelContext) async -> RecipeListCoordinator
@@ -19,11 +20,14 @@ final class RecipeListCoordinatorFactory: RecipeListCoordinatorFactoryType {
         let modelFactory = RecipeListViewModelFactory()
         let viewFactory = RecipeListViewFactory()
         
+        let paginationSDRepo = PaginationRepository(context: context)
         let recipeSDRepo = RecipeSDRepository(context: context)
+        
         return await RecipeListCoordinator(
             tabItem: tabItem,
             viewFactory: viewFactory,
             modelFactory: modelFactory,
+            paginationSDRepo: paginationSDRepo,
             recipeSDRepo: recipeSDRepo
         )
     }

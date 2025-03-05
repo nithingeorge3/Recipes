@@ -68,7 +68,7 @@ struct MediaThumbnailView: View {
                         .scaledToFill()
                 case .video(_):
                     //ToDo: we can use video image later. I just used placeholder image
-                    Image(Constants.placeHolderImage)
+                    Image(Constants.Recipe.placeholderImage)
                         .resizable()
                         .scaledToFill()
                 }

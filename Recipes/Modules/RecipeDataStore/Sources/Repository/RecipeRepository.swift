@@ -15,7 +15,6 @@ public enum SDError: Error {
     case modelObjNotFound
 }
 
-
 @MainActor
 public final class RecipeSDRepository: RecipeSDRepositoryType {
     private let context: ModelContext
@@ -24,7 +23,7 @@ public final class RecipeSDRepository: RecipeSDRepositoryType {
         self.context = context
     }
     
-#warning("fetch with page count, first 50")
+    //later add batch fetch rather than bulk fetching
     public func fetchRecipes() async throws -> [RecipeDomain] {
         let descriptor = FetchDescriptor<SDRecipe>()
         let objs = try context.fetch(descriptor)
@@ -33,18 +32,10 @@ public final class RecipeSDRepository: RecipeSDRepositoryType {
     }
     
     public func saveRecipes(_ recipes: [RecipeDomain]) async throws {
-        let ids = recipes.map { $0.id }
-        
-        let predicate = #Predicate<SDRecipe> { ids.contains($0.id) }
-        let descriptor = FetchDescriptor<SDRecipe>(predicate: predicate)
-        let existingRecipes = try context.fetch(descriptor)
-        var existingDict: [Int: SDRecipe] = [:]
-        for recipe in existingRecipes {
-            existingDict[recipe.id] = recipe
-        }
+        let existingRecipesDic = try self.existingRecipes(ids: recipes.map(\.id), context: context)
         
         for domainRecipe in recipes {
-            if let existingRecipes = existingDict[domainRecipe.id] {
+            if let existingRecipes = existingRecipesDic[domainRecipe.id] {
                 existingRecipes.update(from: domainRecipe)
             } else {
                 let newRecipe = SDRecipe(from: domainRecipe)
@@ -69,74 +60,10 @@ public final class RecipeSDRepository: RecipeSDRepositoryType {
         
         return existingRecipe.isFavorite
     }
+        
+    private func existingRecipes(ids: [Int], context: ModelContext) throws -> [Int: SDRecipe] {
+        let predicate = #Predicate<SDRecipe> { ids.contains($0.id) }
+        let descriptor = FetchDescriptor<SDRecipe>(predicate: predicate)
+        return try context.fetch(descriptor).reduce(into: [:]) { $0[$1.id] = $1 }
+    }
 }
-
-/*
- @Model
- final class Recipe {
-     @Attribute(.unique) let id: Int
-     var name: String
-     var countryCode: String  // Store raw value
-     
-     // Transient property for business logic (not persisted)
-     @Transient
-     var country: Country {
-         Country(code: countryCode)
-     }
-
-     init(id: Int, name: String, countryCode: String) {
-         self.id = id
-         self.name = name
-         self.countryCode = countryCode
-     }
- }
- 
- // Network DTO
- struct RecipeDTO: Codable {
-     let id: Int
-     let name: String
-     let country: String  // Raw API value
-     
-     func toPersistable() -> Recipe {
-         Recipe(
-             id: id,
-             name: name,
-             countryCode: country
-         )
-     }
- }
-
- // Country Type Handler
- struct Country {
-     let code: String
-     var knownCase: KnownCountry?
-     
-     enum KnownCountry: String, CaseIterable {
-         case us = "US"
-         case gb = "GB"
-         case ca = "CA"
-         // Add others
-     }
-     
-     init(code: String) {
-         self.code = code.uppercased()
-         self.knownCase = KnownCountry(rawValue: code.uppercased())
-     }
- }
- 
- // Fetching with type safety
- let usRecipes = try context.fetch(FetchDescriptor<Recipe>(
-     predicate: #Predicate { $0.countryCode == "US" }
- ))
-
- // Business logic handling
- func displayCountry(for recipe: Recipe) -> String {
-     switch recipe.country.knownCase {
-     case .us: return "United States"
-     case .gb: return "United Kingdom"
-     case .ca: return "Canada"
-     case nil: return "Other (\(recipe.countryCode))"
-     }
- }
- 
-*/

@@ -11,6 +11,7 @@ import RecipeDomain
 public protocol RecipeRepositoryType: Sendable {
     func getRecipes(endPoint: EndPoint) async throws -> [RecipeDomain]
     func updateFavouriteRecipe(_ recipeID: Int) async throws -> Bool
+    func fetchRecipePagination(_ pagination: PaginationDomain) async throws -> PaginationDomain
 }
 
 final class RecipeRepository: RecipeRepositoryType {
@@ -18,17 +19,20 @@ final class RecipeRepository: RecipeRepositoryType {
     private let requestBuilder: RequestBuilderType
     private let apiKeyProvider: APIKeyProviderType
     private let recipeSDRepo: RecipeSDRepositoryType
+    private let paginationSDRepo: PaginationRepositoryType
     
     init(
         parser: ServiceParserType,
         requestBuilder: RequestBuilderType,
         apiKeyProvider: APIKeyProviderType,
-        recipeSDRepo: RecipeSDRepositoryType
+        recipeSDRepo: RecipeSDRepositoryType,
+        paginationSDRepo: PaginationRepositoryType
     ) {
         self.parser = parser
         self.requestBuilder = requestBuilder
         self.apiKeyProvider = apiKeyProvider
         self.recipeSDRepo = recipeSDRepo
+        self.paginationSDRepo = paginationSDRepo
     }
     
     func getRecipes(endPoint: EndPoint) async throws -> [RecipeDomain] {
@@ -42,24 +46,30 @@ final class RecipeRepository: RecipeRepositoryType {
                 response: response,
                 type: RecipeResponseDTO.self
             )
-
-            let domains = dtos.results.map { RecipeDomain(from: $0) }
+            
+            let recipeDomains = dtos.results.map { RecipeDomain(from: $0) }
 
             //Reach the page end or no data
-            if domains.count == 0 {
-                return domains
+            if recipeDomains.count == 0 {
+                return recipeDomains
             }
             
-            try await recipeSDRepo.saveRecipes(domains)
+            try await recipeSDRepo.saveRecipes(recipeDomains)
             
             //fetch batch recipes
             let savedRecipes = try await recipeSDRepo.fetchRecipes()
-            print("***Saved recipe Count: \(savedRecipes.count)")
+            print("saved recipe Count: \(savedRecipes.count)")
             
-            return domains//savedRecipes
+            let paginationDomain = PaginationDomain(entityType: .recipe, totalCount: dtos.count, currentPage: savedRecipes.count, lastUpdated: Date())
+            
+            print(paginationDomain)
+            
+            try await paginationSDRepo.updateRecipePagination(paginationDomain)
+            
+            return savedRecipes
         } catch {
             let savedRecipes = try await recipeSDRepo.fetchRecipes()
-            print("***Saved recipes Count: \(savedRecipes.count)")
+            print("saved recipes Count: \(savedRecipes.count)")
             
             throw NetworkError.noNetworkAndNoCache(context: error)
             
@@ -74,5 +84,9 @@ final class RecipeRepository: RecipeRepositoryType {
 extension RecipeRepository {
     func updateFavouriteRecipe(_ recipeID: Int) async throws -> Bool {
         try await recipeSDRepo.updateFavouriteRecipe(recipeID)
+    }
+    
+    func fetchRecipePagination(_ pagination: PaginationDomain) async throws -> PaginationDomain {
+        try await paginationSDRepo.fetchRecipePagination(pagination)
     }
 }

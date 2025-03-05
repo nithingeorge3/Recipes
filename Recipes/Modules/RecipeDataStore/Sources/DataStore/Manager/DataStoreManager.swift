@@ -23,6 +23,7 @@ final class DataStoreManager {
                 print("error creating container: \(error)")
             }
         }
+        
         self.context = ModelContext(self.container)
     }
 }

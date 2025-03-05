@@ -13,7 +13,6 @@ protocol RequestBuilderType: Sendable {
 
 final class RequestBuilder: RequestBuilderType {
     func buildRequest(url: URL, apiKey: String? = nil) -> URLRequest {
-        print(url)
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.addValue("application/json",

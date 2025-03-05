@@ -31,10 +31,10 @@ struct RecipeListView<ViewModel: RecipeListViewModelType>: View {
                 if isEmpty {
                     EmptyStateView(message: "No recipes found. Please try again later.")
                 } else {
-                    RecipesGridView(favorites: viewModel.favoriteRecipes, others: viewModel.otherRecipes, hasMoreData: viewModel.paginationState.hasMoreData) { recipe in
+                    RecipesGridView(favorites: viewModel.favoriteRecipes, others: viewModel.otherRecipes, hasMoreData: viewModel.paginationHandler.hasMoreData) { recipe in
                         viewModel.send(.userSelectedRecipe(recipe))
                     } onReachBottom: {
-                        viewModel.send(.loadNextPage) // not added the functionality
+                        viewModel.send(.loadNextPage)
                     }
                 }
             }
@@ -67,16 +67,16 @@ struct RecipeListView<ViewModel: RecipeListViewModelType>: View {
     ))
 }
 
-private class PreviewRecipeListViewModel: RecipeListViewModelType {
+private class PreviewRecipeListViewModel: RecipeListViewModelType {    
     var recipes: [Recipe] = [
         Recipe(id: 1, name: "Kerala Chicken", isFavorite: true),
         Recipe(id: 2, name: "Kerala Dosha", isFavorite: false),
         Recipe(id: 3, name: "Kerala CB", isFavorite: true)
     ]
-    
+    var pagination: Pagination? = Pagination(entityType: .recipe)
     var favoriteRecipes: [Recipe] { recipes.filter { $0.isFavorite } }
     var otherRecipes: [Recipe] { recipes.filter { !$0.isFavorite } }
-    var paginationState: PaginationStateType = PreviewPaginationState()
+    var paginationHandler: PaginationHandlerType = PreviewPaginationHandler()
     var recipeListActionSubject = PassthroughSubject<RecipeListAction, Never>()
     var state: ResultState
     
@@ -88,18 +88,28 @@ private class PreviewRecipeListViewModel: RecipeListViewModelType {
     }
 }
 
-private class PreviewPaginationState: PaginationStateType {
+private class PreviewPaginationHandler: PaginationHandlerType {
     var currentPage: Int = 1
-    var isFetching: Bool = false
+    var totalItems: Int = 10
     var hasMoreData: Bool = true
-    var shouldFetch: Bool { hasMoreData && !isFetching }
+    var isLoading: Bool = false
+    var lastUpdated: Date = Date()
     
-    func beginFetch() {
-        isFetching = true
+    func reset() {
+        currentPage = 0
+        totalItems = 0
+        isLoading = false
+        lastUpdated = Date()
     }
     
-    func completeFetch(hasMoreData: Bool) {
-        self.hasMoreData = hasMoreData
+    func validateLoadMore(index: Int) -> Bool {
+        false
+    }
+    
+    func updateFromDomain(_ pagination: Pagination) {
+        totalItems = pagination.totalCount
+        currentPage = pagination.currentPage
+        lastUpdated = pagination.lastUpdated
     }
 }
 

@@ -16,7 +16,7 @@ protocol RecipeListViewModelType: AnyObject, Observable {
     var recipes: [Recipe] { get }
     var favoriteRecipes: [Recipe] { get }
     var otherRecipes: [Recipe] { get }
-    var paginationState: PaginationStateType { get }
+    var paginationHandler: PaginationHandlerType { get }
     var recipeListActionSubject: PassthroughSubject<RecipeListAction, Never> { get  set }
     var state: ResultState { get }
     
@@ -28,7 +28,7 @@ class RecipeListViewModel: RecipeListViewModelType {
     var state: ResultState = .loading
     var recipes: [Recipe] = []
     let service: RecipeServiceType
-    var paginationState: PaginationStateType
+    var paginationHandler: PaginationHandlerType
     var recipeListActionSubject = PassthroughSubject<RecipeListAction, Never>()
 
     private var maxAllowedRecipesCount: Int
@@ -45,13 +45,14 @@ class RecipeListViewModel: RecipeListViewModelType {
     
     init(
         service: RecipeServiceType,
-        paginationState: PaginationStateType,
+        paginationHandler: PaginationHandlerType,
         maxAllowedRecipesCount: Int = 10
     ) {
         self.service = service
-        self.paginationState = paginationState
+        self.paginationHandler = paginationHandler
         self.maxAllowedRecipesCount = maxAllowedRecipesCount
         listeningFavoritesChanges()
+        Task { try await fetchRecipePagination() }
     }
     
     private func listeningFavoritesChanges() {
@@ -73,31 +74,50 @@ class RecipeListViewModel: RecipeListViewModelType {
     func send(_ action: RecipeListAction) {
         switch action {
         case .refresh:
-            Task { try await fetchRecipes() }
-        case .loadNextPage: break
-//            Task { try await loadNextPage() }
+            Task { try await loadRecipes() }
+        case .loadNextPage:
+            guard paginationHandler.hasMoreData else { return }
+            Task { try await loadRecipes() }
         case .userSelectedRecipe( let recipe):
             recipeListActionSubject.send(RecipeListAction.userSelectedRecipe(recipe))
         }
     }
     
-    private func fetchRecipes() async throws {
-        guard recipes.count == 0 else { return }
-        do {            
-            let recipeDomains = try await service.fetchRecipes(
-                endPoint: .recipes(page: paginationState.currentPage, limit: Constants.recipesFetchLimit)
-            )
-            
-            let newRecipes = recipeDomains.map { Recipe(from: $0) }
-            
-            updateRecipes(with: newRecipes)
-        } catch let error {
-            state = .failed(error: error)
+    private func loadRecipes() async throws {
+        guard !paginationHandler.isLoading else {
+            return
+        }
+
+        paginationHandler.isLoading = true
+        
+        Task {
+            do {
+                let recipeDomains = try await service.fetchRecipes(
+                    endPoint: .recipes(
+                        page: paginationHandler.currentPage,
+                        limit: Constants.Recipe.fetchLimit
+                    )
+                )
+                
+                let newRecipes = recipeDomains.map { Recipe(from: $0) }
+                updateRecipes(with: newRecipes)
+                
+                try await fetchRecipePagination()
+            } catch {
+                state = .failed(error: error)
+            }
         }
     }
     
-    private func loadNextPage() async throws {
-        //toDo
+    private func fetchRecipePagination() async throws {
+        Task {
+            do {
+                let paginationDomain = try await service.fetchRecipePagination(.recipe)
+                updatePagination(Pagination(from: paginationDomain))
+            } catch {
+                print("\(error)")
+            }
+        }
     }
     
     private func updateRecipes(with fetchedRecipes: [Recipe]) {
@@ -106,8 +126,10 @@ class RecipeListViewModel: RecipeListViewModelType {
         }
 
         state = .success
-        
-        let isCompleted = recipes.count >= maxAllowedRecipesCount || fetchedRecipes.isEmpty
-        paginationState.completeFetch(hasMoreData: !isCompleted)
+    }
+    
+    private func updatePagination(_ pagination: Pagination) {
+        print("******pagination: \(pagination)")
+        paginationHandler.updateFromDomain(pagination)
     }
 }

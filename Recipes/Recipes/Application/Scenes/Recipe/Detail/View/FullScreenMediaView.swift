@@ -9,8 +9,10 @@ import AVKit
 import SwiftUI
 import Kingfisher
 
+#warning("need to check if there any memory issue. just now i am playing on viewappear")
 struct FullScreenMediaView: View {
     let media: PresentedMedia
+    @State private var player: AVPlayer?
     
     var body: some View {
         Group {
@@ -22,8 +24,19 @@ struct FullScreenMediaView: View {
                     .background(Color.black.ignoresSafeArea())
                 
             case .video(let url):
-                VideoPlayer(player: AVPlayer(url: url))
+                VideoPlayer(player: player)
                     .edgesIgnoringSafeArea(.all)
+                    .onAppear {
+                        if player == nil {
+                            player = AVPlayer(url: url)
+                        }
+                        player?.play()
+                    }
+                    .onDisappear {
+                        player?.pause()
+                        player?.replaceCurrentItem(with: nil)
+                        player = nil
+                    }
             }
         }
     }
