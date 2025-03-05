@@ -84,7 +84,7 @@ final class RecipeRepository: RecipeRepositoryType {
 
 extension RecipeRepository {
     func fetchRecipes(page: Int, pageSize: Int) async throws -> [RecipeDomain] {
-        try await recipeSDRepo.fetchRecipes()
+        try await recipeSDRepo.fetchRecipes(page: page, pageSize: pageSize)
     }
     
     func updateFavouriteRecipe(_ recipeID: Int) async throws -> Bool {

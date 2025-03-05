@@ -27,7 +27,6 @@ public final class RecipeSDRepository: RecipeSDRepositoryType {
         DataStoreManager(container: self.container)
     }
     
-#warning("need to chec we need map(RecipeDomain.init) with old branch or commit")
     public func fetchRecipes() async throws -> [RecipeDomain] {
         try await dataStore.performBackgroundTask { context in
             let descriptor = FetchDescriptor<SDRecipe>()
