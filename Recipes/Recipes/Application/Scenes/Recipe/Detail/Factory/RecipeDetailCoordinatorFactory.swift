@@ -9,11 +9,11 @@ import Foundation
 import RecipeNetworking
 
 protocol RecipeDetailCoordinatorFactoryType {
-    @MainActor func makeRecipeDetailCoordinator(recipe: Recipe, service: RecipeServiceType) -> RecipeDetailCoordinator
+    @MainActor func makeRecipeDetailCoordinator(recipe: Recipe, service: RecipeSDServiceType) -> RecipeDetailCoordinator
 }
 
 final class RecipeDetailCoordinatorFactory: RecipeDetailCoordinatorFactoryType {
-    func makeRecipeDetailCoordinator(recipe: Recipe, service: RecipeServiceType) -> RecipeDetailCoordinator {
+    func makeRecipeDetailCoordinator(recipe: Recipe, service: RecipeSDServiceType) -> RecipeDetailCoordinator {
         let viewModelFactory: RecipeDetailViewModelFactoryType = RecipeDetailViewModelFactory()
         let viewFactory: RecipeDetailViewFactoryType = RecipeDetailViewFactory()
         return RecipeDetailCoordinator(

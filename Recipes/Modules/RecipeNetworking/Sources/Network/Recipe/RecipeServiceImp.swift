@@ -8,12 +8,10 @@
 import Foundation
 import RecipeDomain
 
-final class RecipeServiceImp: RecipeServiceType {
+final class RecipeServiceImp: RecipeServiceType, RecipeSDServiceType {
     private let recipeRepository: RecipeRepositoryType
     private let (favoritesDidChangeStream, favoritesDidChangeContinuation) = AsyncStream.makeStream(of: Int.self)
-        
-    var favoritesDidChange: AsyncStream<Int> { favoritesDidChangeStream }
-    
+            
     init(recipeRepository: RecipeRepositoryType) {
         self.recipeRepository = recipeRepository
     }
@@ -21,7 +19,7 @@ final class RecipeServiceImp: RecipeServiceType {
     //ToDo: eliminate the need for runtime type checks/casting. use throws (NewsNetworkError)in all place
     func fetchRecipes(endPoint: EndPoint) async throws(NetworkError) -> [RecipeDomain] {
         do {
-            return try await recipeRepository.getRecipes(endPoint: endPoint)
+            return try await recipeRepository.fetchRecipes(endPoint: endPoint)
             //add business logic
         } catch {
             throw NetworkError.failedToDecode
@@ -30,7 +28,13 @@ final class RecipeServiceImp: RecipeServiceType {
 }
 
 //SwiftData
-extension RecipeServiceImp {
+extension RecipeServiceImp {        
+    var favoritesDidChange: AsyncStream<Int> { favoritesDidChangeStream }
+    
+    func fetchRecipes(page: Int = 0, pageSize: Int = 40) async throws -> [RecipeDomain] {
+        try await recipeRepository.fetchRecipes(page: page, pageSize: pageSize)
+    }
+    
     func updateFavouriteRecipe(_ recipeID: Int) async throws -> Bool {
         let isUpdated = try await recipeRepository.updateFavouriteRecipe(recipeID)
         favoritesDidChangeContinuation.yield(recipeID)

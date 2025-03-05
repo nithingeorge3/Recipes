@@ -20,13 +20,13 @@ final class RecipeDetailCoordinator: Coordinator {
     private let viewFactory: RecipeDetailViewFactoryType
     private var viewModel: RecipeDetailViewModel
     private let recipe: Recipe
-    private let service: RecipeServiceType
+    private let service: RecipeSDServiceType
     
     init(
         viewModelFactory: RecipeDetailViewModelFactoryType,
         viewFactory: RecipeDetailViewFactoryType,
         recipe: Recipe,
-        service: RecipeServiceType
+        service: RecipeSDServiceType
     ) {
         self.viewModelFactory = viewModelFactory
         self.viewFactory = viewFactory

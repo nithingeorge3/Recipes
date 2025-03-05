@@ -27,7 +27,7 @@ protocol RecipeListViewModelType: AnyObject, Observable {
 class RecipeListViewModel: RecipeListViewModelType {
     var state: ResultState = .loading
     var recipes: [Recipe] = []
-    let service: RecipeServiceType
+    let service: RecipeDataType
     var paginationHandler: PaginationHandlerType
     var recipeListActionSubject = PassthroughSubject<RecipeListAction, Never>()
 
@@ -44,7 +44,7 @@ class RecipeListViewModel: RecipeListViewModelType {
     }
     
     init(
-        service: RecipeServiceType,
+        service: RecipeDataType,
         paginationHandler: PaginationHandlerType,
         maxAllowedRecipesCount: Int = 10
     ) {
@@ -52,6 +52,7 @@ class RecipeListViewModel: RecipeListViewModelType {
         self.paginationHandler = paginationHandler
         self.maxAllowedRecipesCount = maxAllowedRecipesCount
         listeningFavoritesChanges()
+        Task { try await fetchRecipes() }
         Task { try await fetchRecipePagination() }
     }
     
@@ -98,7 +99,7 @@ class RecipeListViewModel: RecipeListViewModelType {
                         limit: Constants.Recipe.fetchLimit
                     )
                 )
-                
+                print("********** APIRecipes \(recipeDomains.count)")
                 let newRecipes = recipeDomains.map { Recipe(from: $0) }
                 updateRecipes(with: newRecipes)
                 
@@ -120,6 +121,23 @@ class RecipeListViewModel: RecipeListViewModelType {
         }
     }
     
+    private func fetchRecipes() async throws {
+        Task {
+            do {
+                let recipeDomains = try await service.fetchRecipes(
+                        page: 0,
+                        pageSize: Constants.Recipe.fetchLimit
+                    )
+                
+                let storedRecipes = recipeDomains.map { Recipe(from: $0) }
+                print("********** storedRecipes \(storedRecipes.count)")
+                updateRecipes(with: storedRecipes)
+            } catch {
+                state = .failed(error: error)
+            }
+        }
+    }
+    
     private func updateRecipes(with fetchedRecipes: [Recipe]) {
         if fetchedRecipes.count > 0 {
             recipes = fetchedRecipes
@@ -129,7 +147,7 @@ class RecipeListViewModel: RecipeListViewModelType {
     }
     
     private func updatePagination(_ pagination: Pagination) {
-        print("******pagination: \(pagination)")
+        print("**pagination: \(pagination)")
         paginationHandler.updateFromDomain(pagination)
     }
 }

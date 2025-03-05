@@ -27,9 +27,25 @@ public final class RecipeSDRepository: RecipeSDRepositoryType {
         DataStoreManager(container: self.container)
     }
     
+#warning("need to chec we need map(RecipeDomain.init) with old branch or commit")
     public func fetchRecipes() async throws -> [RecipeDomain] {
         try await dataStore.performBackgroundTask { context in
             let descriptor = FetchDescriptor<SDRecipe>()
+            return try context.fetch(descriptor).map(RecipeDomain.init)
+        }
+    }
+    
+    public func fetchRecipes(page: Int = 0, pageSize: Int = 40) async throws -> [RecipeDomain] {
+        try await dataStore.performBackgroundTask { context in
+            let offset = page * pageSize
+            
+            var descriptor = FetchDescriptor<SDRecipe>(
+                predicate: nil,
+                sortBy: [SortDescriptor(\.createdAt, order: .reverse)]
+            )
+            descriptor.fetchLimit = pageSize
+            descriptor.fetchOffset = offset
+
             return try context.fetch(descriptor).map(RecipeDomain.init)
         }
     }

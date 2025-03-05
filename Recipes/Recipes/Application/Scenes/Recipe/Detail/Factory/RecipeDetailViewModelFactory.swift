@@ -8,11 +8,11 @@
 import RecipeNetworking
 
 protocol RecipeDetailViewModelFactoryType {
-    @MainActor func makeRecipeDetailViewModel(recipe: Recipe, service: RecipeServiceType) -> RecipeDetailViewModel
+    @MainActor func makeRecipeDetailViewModel(recipe: Recipe, service: RecipeSDServiceType) -> RecipeDetailViewModel
 }
 
 final class RecipeDetailViewModelFactory: RecipeDetailViewModelFactoryType {
-    @MainActor func makeRecipeDetailViewModel(recipe: Recipe, service: RecipeServiceType) -> RecipeDetailViewModel {
+    @MainActor func makeRecipeDetailViewModel(recipe: Recipe, service: RecipeSDServiceType) -> RecipeDetailViewModel {
         RecipeDetailViewModel(recipe: recipe, service: service)
     }
 }

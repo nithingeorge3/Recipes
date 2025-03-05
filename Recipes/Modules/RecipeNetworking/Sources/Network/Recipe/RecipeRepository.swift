@@ -9,7 +9,8 @@ import Foundation
 import RecipeDomain
 
 public protocol RecipeRepositoryType: Sendable {
-    func getRecipes(endPoint: EndPoint) async throws -> [RecipeDomain]
+    func fetchRecipes(endPoint: EndPoint) async throws -> [RecipeDomain]
+    func fetchRecipes(page: Int, pageSize: Int) async throws -> [RecipeDomain]
     func updateFavouriteRecipe(_ recipeID: Int) async throws -> Bool
     func fetchRecipePagination(_ pagination: PaginationDomain) async throws -> PaginationDomain
 }
@@ -35,7 +36,7 @@ final class RecipeRepository: RecipeRepositoryType {
         self.paginationSDRepo = paginationSDRepo
     }
     
-    func getRecipes(endPoint: EndPoint) async throws -> [RecipeDomain] {
+    func fetchRecipes(endPoint: EndPoint) async throws -> [RecipeDomain] {
         do {
             let apiKey = try await apiKeyProvider.getRecipeAPIKey()
             
@@ -82,6 +83,10 @@ final class RecipeRepository: RecipeRepositoryType {
 }
 
 extension RecipeRepository {
+    func fetchRecipes(page: Int, pageSize: Int) async throws -> [RecipeDomain] {
+        try await recipeSDRepo.fetchRecipes()
+    }
+    
     func updateFavouriteRecipe(_ recipeID: Int) async throws -> Bool {
         try await recipeSDRepo.updateFavouriteRecipe(recipeID)
     }

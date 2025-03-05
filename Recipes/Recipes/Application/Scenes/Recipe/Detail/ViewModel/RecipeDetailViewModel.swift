@@ -45,10 +45,9 @@ class RecipeDetailViewModel: RecipeDetailViewModelType {
         return result
     }
     
-    private let service: RecipeServiceType
+    private let service: RecipeSDServiceType
     
-    // I have injected service here in case we need to fetch more images or any backend API update (update toggleFavorite to backend). In this case we don't need but i have added for future functionality
-    init(recipe: Recipe, service: RecipeServiceType) {
+    init(recipe: Recipe, service: RecipeSDServiceType) {
         self.recipe = recipe
         self.service = service
     }
