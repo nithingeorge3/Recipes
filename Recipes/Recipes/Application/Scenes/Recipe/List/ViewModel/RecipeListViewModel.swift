@@ -51,9 +51,94 @@ class RecipeListViewModel: RecipeListViewModelType {
         self.service = service
         self.paginationHandler = paginationHandler
         self.maxAllowedRecipesCount = maxAllowedRecipesCount
-        listeningFavoritesChanges()
-        Task { try await fetchRecipes() }
         Task { try await fetchRecipePagination() }
+        Task { try await fetchLocalRecipes() }
+        listeningFavoritesChanges()
+    }
+    
+    func send(_ action: RecipeListAction) {
+        switch action {
+        case .refresh:
+            Task { try await fetchRecipes() }
+        case .loadNextPage:
+            guard paginationHandler.hasMoreData else { return }
+            Task { try await fetchRecipes() }
+        case .userSelectedRecipe( let recipe):
+            recipeListActionSubject.send(RecipeListAction.userSelectedRecipe(recipe))
+        }
+    }
+    
+    private func fetchRecipePagination() async throws {
+        Task {
+            do {
+                let paginationDomain = try await service.fetchRecipePagination(.recipe)
+                updatePagination(Pagination(from: paginationDomain))
+            } catch {
+                print("\(error)")
+            }
+        }
+    }
+    
+    private func fetchLocalRecipes() async throws {
+        Task {
+            do {
+                let recipeDomains = try await service.fetchRecipes(
+                        page: 0,
+                        pageSize: Constants.Recipe.fetchLimit
+                    )
+                
+                let storedRecipes = recipeDomains.map { Recipe(from: $0) }
+                
+                if storedRecipes.count > 0 {
+                    recipes = storedRecipes
+                    state = .success
+                }
+            } catch {
+                state = .failed(error: error)
+            }
+        }
+    }
+    
+    private func fetchRecipes() async throws {
+        guard !paginationHandler.isLoading else {
+            return
+        }
+        paginationHandler.isLoading = true
+        Task {
+            do {
+                let recipeDomains = try await service.fetchRecipes(
+                    endPoint: .recipes(
+                        page: paginationHandler.currentPage,
+                        limit: Constants.Recipe.fetchLimit
+                    )
+                )
+                let newRecipes = recipeDomains.map { Recipe(from: $0) }
+                updateRecipes(with: newRecipes)
+                try await fetchRecipePagination()
+            } catch {
+                state = .failed(error: error)
+            }
+        }
+    }
+    
+    private func updateRecipes(with fetchedRecipes: [Recipe]) {
+        if fetchedRecipes.count > 0 {
+            recipes.append(contentsOf: fetchedRecipes)
+        }
+
+        //Not a production code.Need to revisit
+        let set = Set(recipes)
+        if set.count < recipes.count {
+            print("***************************Duplicates found************************************")
+        } else {
+            print("***************************No Duplicates found*********************************")
+        }
+        
+        state = .success
+    }
+    
+    private func updatePagination(_ pagination: Pagination) {
+        paginationHandler.updateFromDomain(pagination)
     }
     
     private func listeningFavoritesChanges() {
@@ -70,84 +155,5 @@ class RecipeListViewModel: RecipeListViewModelType {
         if recipes.count > index - 1 {
             recipes[index].isFavorite.toggle()
         }
-    }
-    
-    func send(_ action: RecipeListAction) {
-        switch action {
-        case .refresh:
-            Task { try await loadRecipes() }
-        case .loadNextPage:
-            guard paginationHandler.hasMoreData else { return }
-            Task { try await loadRecipes() }
-        case .userSelectedRecipe( let recipe):
-            recipeListActionSubject.send(RecipeListAction.userSelectedRecipe(recipe))
-        }
-    }
-    
-    private func loadRecipes() async throws {
-        guard !paginationHandler.isLoading else {
-            return
-        }
-
-        paginationHandler.isLoading = true
-        
-        Task {
-            do {
-                let recipeDomains = try await service.fetchRecipes(
-                    endPoint: .recipes(
-                        page: paginationHandler.currentPage,
-                        limit: Constants.Recipe.fetchLimit
-                    )
-                )
-                print("********** APIRecipes \(recipeDomains.count)")
-                let newRecipes = recipeDomains.map { Recipe(from: $0) }
-                updateRecipes(with: newRecipes)
-                
-                try await fetchRecipePagination()
-            } catch {
-                state = .failed(error: error)
-            }
-        }
-    }
-    
-    private func fetchRecipePagination() async throws {
-        Task {
-            do {
-                let paginationDomain = try await service.fetchRecipePagination(.recipe)
-                updatePagination(Pagination(from: paginationDomain))
-            } catch {
-                print("\(error)")
-            }
-        }
-    }
-    
-    private func fetchRecipes() async throws {
-        Task {
-            do {
-                let recipeDomains = try await service.fetchRecipes(
-                        page: 0,
-                        pageSize: Constants.Recipe.fetchLimit
-                    )
-                
-                let storedRecipes = recipeDomains.map { Recipe(from: $0) }
-                print("********** storedRecipes \(storedRecipes.count)")
-                updateRecipes(with: storedRecipes)
-            } catch {
-                state = .failed(error: error)
-            }
-        }
-    }
-    
-    private func updateRecipes(with fetchedRecipes: [Recipe]) {
-        if fetchedRecipes.count > 0 {
-            recipes = fetchedRecipes
-        }
-
-        state = .success
-    }
-    
-    private func updatePagination(_ pagination: Pagination) {
-        print("**pagination: \(pagination)")
-        paginationHandler.updateFromDomain(pagination)
     }
 }
