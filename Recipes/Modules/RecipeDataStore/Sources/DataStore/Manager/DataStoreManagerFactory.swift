@@ -9,24 +9,29 @@ import Foundation
 import SwiftData
 
 public protocol DataStoreManagerType: Sendable {
-    static func makeNewsDataContext(for containerName: String) -> ModelContext
+    static func makeSharedContainer(for containerName: String) -> ModelContainer
 }
 
-public final class DataStoreManagerFactory: DataStoreManagerType {
-    public static func makeNewsDataContext(for containerName: String) -> ModelContext {
-        //temp code for testing
-        if ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil {
-            return makeInMemoryContext()
-        }
-        
+public enum DataStoreManagerFactory {
+    public static func makeSharedContainer(_ name: String) -> ModelContainer {
         do {
-            return try DataStoreManager(containerName: containerName).context
+            return try ModelContainer.buildShared(name)
         } catch {
-            return makeInMemoryContext()
+            print("Error creating container: \(error)")
+            return makeInMemoryContainer()
         }
     }
     
-    private static func makeInMemoryContext() -> ModelContext {
-        ModelContext(ModelContainer.makeInMemoryContext())
+    public static func makeInMemoryContainer() -> ModelContainer {
+        ModelContainer.makeInMemoryContext()
+    }
+    
+    @MainActor
+    public static func makeDataStoreManager(for containerName: String) -> DataStoreManager {
+        if ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil {
+            return DataStoreManager(container: makeInMemoryContainer())
+        }
+        
+        return DataStoreManager(container: makeSharedContainer(containerName))
     }
 }
