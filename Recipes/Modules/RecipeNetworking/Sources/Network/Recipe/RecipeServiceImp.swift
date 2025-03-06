@@ -16,7 +16,6 @@ final class RecipeServiceImp: RecipeServiceProvider {
         self.recipeRepository = recipeRepository
     }
 
-    //ToDo: eliminate the need for runtime type checks/casting. use throws (NewsNetworkError)in all place
     func fetchRecipes(endPoint: EndPoint) async throws(NetworkError) -> [RecipeDomain] {
         do {
             return try await recipeRepository.fetchRecipes(endPoint: endPoint)
