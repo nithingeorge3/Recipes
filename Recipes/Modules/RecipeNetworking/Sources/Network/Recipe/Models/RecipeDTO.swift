@@ -23,6 +23,7 @@ struct RecipeDTO: Codable {
     let createdAt, approvedAt: Int?
     let yields: String?
     let userRatings: UserRatingsDTO? // I am not using this data(UI pending). In production I will never decode unwanted keys.
+//    let sections: [SectionDTO] // pending
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -35,6 +36,7 @@ struct RecipeDTO: Codable {
         case approvedAt = "approved_at"
         case yields
         case userRatings = "user_ratings"
+//        case sections
     }
 }
 
@@ -49,6 +51,25 @@ enum CountryDTO: String, Codable {
         let container = try decoder.singleValueContainer()
         let rawValue = try container.decode(String.self)
         self = CountryDTO(rawValue: rawValue) ?? .unknown
+    }
+}
+
+/*
+struct SectionDTO: Codable {
+    let position: Int
+    let components: [ComponentDTO]
+    let name: String?
+}
+
+struct ComponentDTO: Codable {
+    let rawText, extraComment: String
+    let ingredient: IngredientDTO
+    let id, position: Int
+
+    enum CodingKeys: String, CodingKey {
+        case rawText = "raw_text"
+        case extraComment = "extra_comment"
+        case ingredient, id, position
     }
 }
 
@@ -69,6 +90,7 @@ struct IngredientDTO: Codable {
         case createdAt = "created_at"
     }
 }
+*/
 
 struct UserRatingsDTO: Codable {
     let countNegative, countPositive: Int?
