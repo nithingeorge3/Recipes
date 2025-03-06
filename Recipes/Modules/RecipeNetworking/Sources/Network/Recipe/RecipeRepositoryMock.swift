@@ -42,8 +42,7 @@ final class RecipeRepositoryMock: RecipeRepositoryType, @unchecked Sendable {
             recipe = recipeDomains.first
             pagination.totalCount = dtos.count
             pagination.currentPage = dtos.results.count
-            
-//            pagination = PaginationDomain(id: UUID(uuidString: "11111111-1111-1111-1111-111111111111")!, entityType: .recipe, totalCount: dtos.count, currentPage: dtos.results.count, lastUpdated: Date(timeIntervalSince1970: 0))
+
             return recipeDomains
         }
         catch {
@@ -67,7 +66,7 @@ final class RecipeRepositoryMock: RecipeRepositoryType, @unchecked Sendable {
         return recipe.isFavorite
     }
     
-    func fetchRecipePagination(_ pagination: PaginationDomain) async throws -> PaginationDomain {
+    func fetchRecipePagination(_ entityType: EntityType) async throws -> PaginationDomain {
         pagination
     }
 }

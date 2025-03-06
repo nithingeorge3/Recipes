@@ -96,20 +96,22 @@ class RecipeServiceImplTests: XCTestCase {
         }
     }
     
-//    func testRecipePagination() async throws {
-//        recipeRepository = RecipeRepositoryMock(fileName: "recipe_success", parser: ServiceParser())
-//        recipeServiceImpl = RecipeServiceImp(recipeRepository: recipeRepository)
-//        
-//        let expectation = XCTestExpectation(description: "Recipe should be fetched successfully with one recipe")
-//        
-//        do {
-//            _ = try await recipeRepository.fetchRecipes(endPoint: .recipes(page: 0, limit: 40))
-//            let savedDto = try await recipeRepository.fetchRecipes(page: 0, pageSize: 40)
-//            XCTAssertEqual(savedDto.first?.name, "Low-Carb Avocado Chicken Salad")
-//            XCTAssertEqual(savedDto.count, 1)
-//            expectation.fulfill()
-//        } catch {
-//            XCTFail("Unexpected error happened: \(error)")
-//        }
-//    }
+    func testRecipePagination() async throws {
+        recipeRepository = RecipeRepositoryMock(fileName: "recipe_success", parser: ServiceParser())
+        recipeServiceImpl = RecipeServiceImp(recipeRepository: recipeRepository)
+        
+        let expectation = XCTestExpectation(description: "Recipe pagination data should be fetched successfully with expected values")
+        
+        do {
+            _ = try await recipeRepository.fetchRecipes(endPoint: .recipes(page: 0, limit: 40))
+            let pagination = try await recipeRepository.fetchRecipePagination(.recipe)
+            XCTAssertEqual(pagination.totalCount, 10)
+            XCTAssertEqual(pagination.currentPage, 1)
+            XCTAssertEqual(pagination.id, UUID(uuidString: "11111111-1111-1111-1111-111111111111")!)
+            XCTAssertEqual(pagination.lastUpdated, Date(timeIntervalSince1970: 0))
+            expectation.fulfill()
+        } catch {
+            XCTFail("Unexpected error happened: \(error)")
+        }
+    }
 }

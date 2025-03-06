@@ -40,8 +40,7 @@ extension RecipeServiceImp {
         return isUpdated
     }
     
-    func fetchRecipePagination(_ type: EntityType) async throws -> PaginationDomain {
-        let pagination = PaginationDomain(entityType: .recipe)
-        return try await recipeRepository.fetchRecipePagination(pagination)
+    func fetchRecipePagination(_ entityType: EntityType) async throws -> PaginationDomain {
+        return try await recipeRepository.fetchRecipePagination(entityType)
     }
 }
