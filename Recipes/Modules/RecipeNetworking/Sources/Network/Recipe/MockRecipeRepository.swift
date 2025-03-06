@@ -1,5 +1,5 @@
 //
-//  RecipeRepositoryMock.swift
+//  MockRecipeRepository.swift
 //  RecipeNetworking
 //
 //  Created by Nitin George on 06/03/2025.
@@ -8,7 +8,7 @@
 import Foundation
 import RecipeDomain
 
-final class RecipeRepositoryMock: RecipeRepositoryType, @unchecked Sendable {
+final class MockRecipeRepository: RecipeRepositoryType, @unchecked Sendable {
     private let fileName: String
     private let parser: ServiceParserType
     private var recipe: RecipeDomain?
