@@ -48,7 +48,6 @@ class RecipeListViewModel: RecipeListViewModelType {
         paginationHandler: PaginationHandlerType,
         maxAllowedRecipesCount: Int = 10
     ) {
-        print("******** \(service)")
         self.service = service
         self.paginationHandler = paginationHandler
         self.maxAllowedRecipesCount = maxAllowedRecipesCount
@@ -60,11 +59,10 @@ class RecipeListViewModel: RecipeListViewModelType {
     func send(_ action: RecipeListAction) {
         switch action {
         case .refresh:
-            print("******** \(service)")
-            Task { try await fetchRecipes() }
+            Task { try await fetchRemoteRecipes() }
         case .loadNextPage:
             guard paginationHandler.hasMoreData else { return }
-            Task { try await fetchRecipes() }
+            Task { try await fetchRemoteRecipes() }
         case .userSelectedRecipe( let recipe):
             recipeListActionSubject.send(RecipeListAction.userSelectedRecipe(recipe))
         }
@@ -101,7 +99,7 @@ class RecipeListViewModel: RecipeListViewModelType {
         }
     }
     
-    private func fetchRecipes() async throws {
+    private func fetchRemoteRecipes() async throws {
         guard !paginationHandler.isLoading else {
             return
         }
@@ -118,7 +116,9 @@ class RecipeListViewModel: RecipeListViewModelType {
                 updateRecipes(with: newRecipes)
                 try await fetchRecipePagination()
             } catch {
-                state = .failed(error: error)
+                if recipes.count == 0 {
+                    state = .failed(error: error)
+                }
             }
         }
     }
@@ -126,14 +126,6 @@ class RecipeListViewModel: RecipeListViewModelType {
     private func updateRecipes(with fetchedRecipes: [Recipe]) {
         if fetchedRecipes.count > 0 {
             recipes.append(contentsOf: fetchedRecipes)
-        }
-
-        //Not a production code.Need to revisit
-        let set = Set(recipes)
-        if set.count < recipes.count {
-            print("***************************Duplicates found************************************")
-        } else {
-            print("***************************No Duplicates found*********************************")
         }
         
         state = .success

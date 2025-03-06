@@ -68,7 +68,7 @@ struct RecipesGridView: View {
     @ViewBuilder
     private func recipeGrid(for recipes: [Recipe], size: CGFloat) -> some View {
         ForEach(recipes) { recipe in
-            RecipeView(recipe: recipe, gridSize: size)
+            RecipeGridImageView(recipe: recipe, gridSize: size)
                 .onTapGesture {
                     onRecipeTap(recipe)
                 }

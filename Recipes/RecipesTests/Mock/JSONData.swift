@@ -6,8 +6,7 @@
 //
 
 struct JSONData {
-    
-    static let recipeJSON = """
+    static let recipeValidJSON = """
 {
     "count": 4,
     "results": [
@@ -34,6 +33,29 @@ struct JSONData {
         {
             "id": 4,
             "name": "Beef",
+            "country": "US",
+            "thumbnail_url": "https://img.buzzfeed.com/thumbnailer-prod-us-east-1/video-api/assets/281005.jpg",
+            "created_at": 1672531200
+        }
+    ]
+}
+"""
+    
+    static let recipeEmptyJSON = """
+{
+    "count": 4,
+    "results": [
+    ]
+}
+"""
+    
+    static let recipeInvalidJSON = """
+{
+    "count": 4,
+    "results": [
+        {
+            "id": 1,
+            "name": Pasta,
             "country": "US",
             "thumbnail_url": "https://img.buzzfeed.com/thumbnailer-prod-us-east-1/video-api/assets/281005.jpg",
             "created_at": 1672531200

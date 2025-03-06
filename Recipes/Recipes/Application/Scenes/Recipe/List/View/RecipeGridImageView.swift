@@ -8,7 +8,7 @@
 import SwiftUI
 import AVKit
 
-struct RecipeView: View {
+struct RecipeGridImageView: View {
     let recipe: Recipe
     let gridSize: CGFloat
 

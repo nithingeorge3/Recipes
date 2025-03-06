@@ -29,6 +29,8 @@ class RecipeServiceImplTests: XCTestCase {
         } catch {
             XCTFail("Unexpected error happened: \(error)")
         }
+        
+        await fulfillment(of: [expectation], timeout: 1.0)
     }
     
     func testFetchRecipes__SuccessResponse_ReturnEmptyRecipe() async throws {
@@ -44,6 +46,8 @@ class RecipeServiceImplTests: XCTestCase {
         } catch {
             XCTFail("Unexpected error happened: \(error)")
         }
+        
+        await fulfillment(of: [expectation], timeout: 1.0)
     }
 
     func testFetchRecipes_FailureResponse_ReturnError() async throws {
@@ -59,6 +63,8 @@ class RecipeServiceImplTests: XCTestCase {
             XCTAssertFalse(false, "expected error happened \(error)")
             expectation.fulfill()
         }
+        
+        await fulfillment(of: [expectation], timeout: 1.0)
     }
     
     func testUpdateFavouriteRecipe() async throws {
@@ -77,6 +83,8 @@ class RecipeServiceImplTests: XCTestCase {
         } catch {
             XCTFail("Unexpected error happened: \(error)")
         }
+        
+        await fulfillment(of: [expectation], timeout: 1.0)
     }
     
     func testFetchRecipe() async throws {
@@ -94,6 +102,8 @@ class RecipeServiceImplTests: XCTestCase {
         } catch {
             XCTFail("Unexpected error happened: \(error)")
         }
+        
+        await fulfillment(of: [expectation], timeout: 1.0)
     }
     
     func testRecipePagination() async throws {
@@ -113,5 +123,7 @@ class RecipeServiceImplTests: XCTestCase {
         } catch {
             XCTFail("Unexpected error happened: \(error)")
         }
+        
+        await fulfillment(of: [expectation], timeout: 1.0)
     }
 }

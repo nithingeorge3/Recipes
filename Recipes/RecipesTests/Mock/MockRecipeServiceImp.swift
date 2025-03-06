@@ -14,6 +14,8 @@ import RecipeDomain
 @testable import Recipes
 
 final class MockRecipeServiceImp: RecipeServiceProvider, @unchecked Sendable {
+    var resultsJSON: String
+    
     var stubbedRecipes: [RecipeDomain] = []
     
     var shouldThrowError: Bool = false
@@ -21,6 +23,10 @@ final class MockRecipeServiceImp: RecipeServiceProvider, @unchecked Sendable {
     private var isFavorite: Bool = false
     
     private let (stream, continuation) = AsyncStream.makeStream(of: Int.self)
+    
+    init(mockJSON: String = JSONData.recipeValidJSON) {
+        self.resultsJSON = mockJSON
+    }
     
     func triggerFavoriteChange(recipeID: Int) {
         //code
@@ -42,7 +48,7 @@ final class MockRecipeServiceImp: RecipeServiceProvider, @unchecked Sendable {
     
     func fetchRecipes(endPoint: EndPoint = .recipes(page: 0, limit: 40)) async throws -> [RecipeDomain] {
         do {
-            if let data = JSONData.recipeJSON.data(using: .utf8) {
+            if let data = resultsJSON.data(using: .utf8) {
                 let decoder = JSONDecoder()
                 let dtos = try decoder.decode(MockRecipeResponseDTO.self, from: data)
                 

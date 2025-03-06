@@ -83,10 +83,8 @@ struct MenuView: View {
         switch item.title {
         case "Profile":
             ProfileView()
-        case "MarshGradiant":
-            MeshGradientView()
-        case "Transitions":
-            Transitions()
+        case "Recipe List":
+            EmptyView()
         default:
             EmptyView()
         }
