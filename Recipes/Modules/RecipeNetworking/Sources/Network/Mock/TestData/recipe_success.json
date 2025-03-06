@@ -37,6 +37,7 @@
             "created_at": 1546890315,
             "description": "This chicken salad is a lunchtime delight! Packed with creamy avocado, tender chicken, and crunchy veggies, it's a healthy and satisfying meal that won't weigh you down. Tossed in a tangy yogurt dressing with a hint of spice, it's a flavor explosion that's perfect for a light meal.",
             "id": 4704,
+            "name":"Low-Carb Avocado Chicken Salad",
             "original_video_url": "https://s3.amazonaws.com/video-api-prod/assets/a0e1b07dc71c4ac6b378f24493ae2d85/FixedFBFinal.mp4",
             "price": {
                 "consumption_portion": 200,

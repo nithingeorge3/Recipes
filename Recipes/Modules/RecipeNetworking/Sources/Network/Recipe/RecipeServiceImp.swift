@@ -16,7 +16,6 @@ final class RecipeServiceImp: RecipeServiceProvider {
         self.recipeRepository = recipeRepository
     }
 
-    //ToDo: eliminate the need for runtime type checks/casting. use throws (NewsNetworkError)in all place
     func fetchRecipes(endPoint: EndPoint) async throws(NetworkError) -> [RecipeDomain] {
         do {
             return try await recipeRepository.fetchRecipes(endPoint: endPoint)
@@ -41,8 +40,7 @@ extension RecipeServiceImp {
         return isUpdated
     }
     
-    func fetchRecipePagination(_ type: EntityType) async throws -> PaginationDomain {
-        let pagination = PaginationDomain(entityType: .recipe)
-        return try await recipeRepository.fetchRecipePagination(pagination)
+    func fetchRecipePagination(_ entityType: EntityType) async throws -> PaginationDomain {
+        return try await recipeRepository.fetchRecipePagination(entityType)
     }
 }

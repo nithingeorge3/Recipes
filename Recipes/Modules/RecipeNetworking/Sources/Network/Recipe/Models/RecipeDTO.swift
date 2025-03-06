@@ -22,10 +22,8 @@ struct RecipeDTO: Codable {
     let originalVideoURL: String?
     let createdAt, approvedAt: Int?
     let yields: String?
-//    let tags: [TagDTO]
-    let userRatings: UserRatingsDTO?
-//    let instructions: [InstructionDTO]
-//    let language: Language
+    let userRatings: UserRatingsDTO? // I am not using this data(UI pending). In production I will never decode unwanted keys.
+//    let sections: [SectionDTO] // pending
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -37,10 +35,8 @@ struct RecipeDTO: Codable {
         case createdAt = "created_at"
         case approvedAt = "approved_at"
         case yields
-//        case tags
         case userRatings = "user_ratings"
-//        case instructions
-//        case language
+//        case sections
     }
 }
 
@@ -58,20 +54,22 @@ enum CountryDTO: String, Codable {
     }
 }
 
-struct InstructionDTO: Codable {
-    let startTime: Int
-    let appliance: String?
-    let endTime: Int
-    let temperature: Int?
+/*
+struct SectionDTO: Codable {
+    let position: Int
+    let components: [ComponentDTO]
+    let name: String?
+}
+
+struct ComponentDTO: Codable {
+    let rawText, extraComment: String
+    let ingredient: IngredientDTO
     let id, position: Int
-    let displayText: String
 
     enum CodingKeys: String, CodingKey {
-        case startTime = "start_time"
-        case appliance
-        case endTime = "end_time"
-        case temperature, id, position
-        case displayText = "display_text"
+        case rawText = "raw_text"
+        case extraComment = "extra_comment"
+        case ingredient, id, position
     }
 }
 
@@ -92,34 +90,7 @@ struct IngredientDTO: Codable {
         case createdAt = "created_at"
     }
 }
-
-struct TagDTO: Codable {
-    let name: String
-    let id: Int
-    let displayName: String
-    let type: TagTypeDTO
-
-    enum CodingKeys: String, CodingKey {
-        case name, id
-        case displayName = "display_name"
-        case type
-    }
-}
-
-enum TagTypeDTO: String, Codable {
-    case appliance = "appliance"
-    case cuisine = "cuisine"
-    case dietary = "dietary"
-    case difficulty = "difficulty"
-    case dishStyle = "dish_style"
-    case equipment = "equipment"
-    case featurePage = "feature_page"
-    case holiday = "holiday"
-    case meal = "meal"
-    case method = "method"
-    case occasion = "occasion"
-    case seasonal = "seasonal"
-}
+*/
 
 struct UserRatingsDTO: Codable {
     let countNegative, countPositive: Int?

@@ -20,7 +20,7 @@ final class RecipeListCoordinatorFactory: RecipeListCoordinatorFactoryType {
         let modelFactory = RecipeListViewModelFactory()
         let viewFactory = RecipeListViewFactory()
         
-        let paginationSDRepo = PaginationRepository(container: container)
+        let paginationSDRepo = PaginationSDRepository(container: container)
         let recipeSDRepo = RecipeSDRepository(container: container)
         
         return await RecipeListCoordinator(

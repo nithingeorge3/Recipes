@@ -15,14 +15,14 @@ public final class SDRecipe {
     public var id: Int
     public var name: String
     public var desc: String?
-    public var country: Country // For filtering by country we need to use/save as transformable
+    public var country: Country // For filtering by country we need to use/save as transformable. or use row and string value(same as SDPagination entityTypeRaw)
     public var thumbnailURL: String?
     public var originalVideoURL: String?
     public var createdAt: Int?
     public var approvedAt: Int?
     public var yields: String?
     public var isFavorite: Bool
-    public var userRatings: UserRatingsDomain?
+    public var userRatings: SDUserRatings?
     
     @Relationship(inverse: \SDUserRatings.recipe)
     public var rating: SDUserRatings?
@@ -41,6 +41,13 @@ public final class SDRecipe {
         userRatings: UserRatingsDomain? = nil,
         rating: SDUserRatings? = nil
     ) {
+        let rating = SDUserRatings(
+            id: rating?.id,
+            countNegative: rating?.countNegative,
+            countPositive: rating?.countPositive,
+            score: rating?.score
+        )
+        
         self.id = id
         self.name = name
         self.desc = desc
@@ -51,7 +58,7 @@ public final class SDRecipe {
         self.approvedAt = approvedAt
         self.yields = yields
         self.isFavorite = isFavorite
-        self.userRatings = userRatings
+        self.userRatings = rating
         self.rating = rating
     }
 }
@@ -87,7 +94,7 @@ extension SDRecipe {
         self.createdAt = domain.createdAt
         self.approvedAt = domain.approvedAt
         self.yields = domain.yields
-        self.userRatings = domain.userRatings
+        self.userRatings = SDUserRatings(from: domain.userRatings)
         
         self.rating = {
             guard let domainRatings = domain.userRatings else { return nil }
@@ -110,7 +117,6 @@ extension SDRecipe {
 
 extension RecipeDomain {
     init(from sdRecipe: SDRecipe) {
-#warning("check sdRecipe.userRatings?.id ?? 0. do we need optional here")
         let ratings = UserRatingsDomain(id: sdRecipe.userRatings?.id ?? 0, countNegative: sdRecipe.userRatings?.countNegative, countPositive: sdRecipe.userRatings?.countPositive, score: sdRecipe.userRatings?.score)
         
         self.init(
@@ -128,8 +134,3 @@ extension RecipeDomain {
         )
     }
 }
-
-//    @Transient
-//    var country: Country {
-//        Country(code: countryCode)
-//    }

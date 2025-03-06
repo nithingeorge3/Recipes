@@ -12,7 +12,7 @@ public protocol RecipeRepositoryType: Sendable {
     func fetchRecipes(endPoint: EndPoint) async throws -> [RecipeDomain]
     func fetchRecipes(page: Int, pageSize: Int) async throws -> [RecipeDomain]
     func updateFavouriteRecipe(_ recipeID: Int) async throws -> Bool
-    func fetchRecipePagination(_ pagination: PaginationDomain) async throws -> PaginationDomain
+    func fetchRecipePagination(_ entityType: EntityType) async throws -> PaginationDomain
 }
 
 final class RecipeRepository: RecipeRepositoryType {
@@ -20,14 +20,14 @@ final class RecipeRepository: RecipeRepositoryType {
     private let requestBuilder: RequestBuilderType
     private let apiKeyProvider: APIKeyProviderType
     private let recipeSDRepo: RecipeSDRepositoryType
-    private let paginationSDRepo: PaginationRepositoryType
+    private let paginationSDRepo: PaginationSDRepositoryType
     
     init(
         parser: ServiceParserType,
         requestBuilder: RequestBuilderType,
         apiKeyProvider: APIKeyProviderType,
         recipeSDRepo: RecipeSDRepositoryType,
-        paginationSDRepo: PaginationRepositoryType
+        paginationSDRepo: PaginationSDRepositoryType
     ) {
         self.parser = parser
         self.requestBuilder = requestBuilder
@@ -87,7 +87,7 @@ extension RecipeRepository {
         try await recipeSDRepo.updateFavouriteRecipe(recipeID)
     }
     
-    func fetchRecipePagination(_ pagination: PaginationDomain) async throws -> PaginationDomain {
-        try await paginationSDRepo.fetchRecipePagination(pagination)
+    func fetchRecipePagination(_ entityType: EntityType) async throws -> PaginationDomain {
+        try await paginationSDRepo.fetchRecipePagination(entityType)
     }
 }

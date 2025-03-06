@@ -1,5 +1,5 @@
 //
-//  PaginationRepository.swift
+//  PaginationSDRepository.swift
 //  RecipeDataStore
 //
 //  Created by Nitin George on 04/03/2025.
@@ -9,9 +9,8 @@ import Foundation
 import RecipeDomain
 import SwiftData
 
-
 @MainActor
-public class PaginationRepository: PaginationRepositoryType {
+public class PaginationSDRepository: PaginationSDRepositoryType {
     private let container: ModelContainer
     
     public init(container: ModelContainer) {
@@ -23,11 +22,9 @@ public class PaginationRepository: PaginationRepositoryType {
         DataStoreManager(container: self.container)
     }
     
-    public func fetchRecipePagination(_ pagination: PaginationDomain) async throws -> PaginationDomain {
-        try await dataStore.performBackgroundTask { context in
-            let type = pagination.entityType
-            
-            let predicate = #Predicate<SDPagination> { $0.entityTypeRaw == type.rawValue }
+    public func fetchRecipePagination(_ entityType: EntityType) async throws -> PaginationDomain {
+        try await dataStore.performBackgroundTask { context in            
+            let predicate = #Predicate<SDPagination> { $0.entityTypeRaw == entityType.rawValue }
             let descriptor = FetchDescriptor(predicate: predicate)
             
             if let existing = try? context.fetch(descriptor).first {

@@ -13,7 +13,7 @@ public protocol RecipeKeyServiceFactoryType {
 }
 
 public protocol RecipeServiceFactoryType {
-    static func makeRecipeService(recipeSDRepo: RecipeSDRepositoryType, paginationSDRepo: PaginationRepositoryType) -> RecipeServiceProvider
+    static func makeRecipeService(recipeSDRepo: RecipeSDRepositoryType, paginationSDRepo: PaginationSDRepositoryType) -> RecipeServiceProvider
 }
 
 public final class RecipeServiceFactory: RecipeServiceFactoryType, RecipeKeyServiceFactoryType, @unchecked Sendable {
@@ -21,7 +21,7 @@ public final class RecipeServiceFactory: RecipeServiceFactoryType, RecipeKeyServ
     private static let serviceParser: ServiceParserType = ServiceParser()
     private static let requestBuilder: RequestBuilderType = RequestBuilder()
     
-    public static func makeRecipeService(recipeSDRepo: RecipeSDRepositoryType, paginationSDRepo: PaginationRepositoryType) -> RecipeServiceProvider {
+    public static func makeRecipeService(recipeSDRepo: RecipeSDRepositoryType, paginationSDRepo: PaginationSDRepositoryType) -> RecipeServiceProvider {
         let recipeRepository: RecipeRepositoryType = RecipeRepository(
             parser: serviceParser,
             requestBuilder: requestBuilder,
@@ -33,7 +33,7 @@ public final class RecipeServiceFactory: RecipeServiceFactoryType, RecipeKeyServ
     }
     
     public static func makeRecipeKeyService() -> any RecipeKeyServiceType {
-        //ToDo: later create it from Factory
-        RecipeKeyService()
+        let recipeKeyRepo: RecipeKeyRepositoryType = RecipeKeyRepository(keyChainManager: KeyChainManager.shared)
+        return RecipeKeyService(recipeKeyRepo: recipeKeyRepo)
     }
 }
