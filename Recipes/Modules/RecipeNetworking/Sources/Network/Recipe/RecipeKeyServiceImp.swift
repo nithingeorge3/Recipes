@@ -7,10 +7,11 @@
 
 import Foundation
 
+//Later all API key service to here and keep generic name for class
 final class RecipeKeyService: RecipeKeyServiceType {
     private let recipeKeyRepo: RecipeKeyRepositoryType
-    //ToDo: inject later
-    init(recipeKeyRepo: RecipeKeyRepositoryType = RecipeKeyRepository(keyChainManager: KeyChainManager.shared)) {
+
+    init(recipeKeyRepo: RecipeKeyRepositoryType) {
         self.recipeKeyRepo = recipeKeyRepo
     }
     

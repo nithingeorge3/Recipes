@@ -33,7 +33,7 @@ public final class RecipeServiceFactory: RecipeServiceFactoryType, RecipeKeyServ
     }
     
     public static func makeRecipeKeyService() -> any RecipeKeyServiceType {
-        //ToDo: later create it from Factory
-        RecipeKeyService()
+        let recipeKeyRepo: RecipeKeyRepositoryType = RecipeKeyRepository(keyChainManager: KeyChainManager.shared)
+        return RecipeKeyService(recipeKeyRepo: recipeKeyRepo)
     }
 }
