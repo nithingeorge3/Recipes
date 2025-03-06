@@ -8,14 +8,16 @@
 import Foundation
 import RecipeDomain
 
-final class RecipeRepositoryMock: RecipeRepositoryType {
-    
+final class RecipeRepositoryMock: RecipeRepositoryType, @unchecked Sendable {
     private let fileName: String
     private let parser: ServiceParserType
+    private var recipe: RecipeDomain?
+    private var pagination: PaginationDomain
     
     init(fileName: String, parser: ServiceParserType = ServiceParser()) {
         self.fileName = fileName
         self.parser = parser
+        self.pagination = PaginationDomain(id: UUID(uuidString: "11111111-1111-1111-1111-111111111111")!, entityType: .recipe, totalCount: 0, currentPage: 0, lastUpdated: Date(timeIntervalSince1970: 0))
     }
     
     func fetchRecipes(endPoint: EndPoint) async throws -> [RecipeDomain] {
@@ -37,7 +39,11 @@ final class RecipeRepositoryMock: RecipeRepositoryType {
             
             let dtos = try await parser.parse(data: data, response: mockResponse, type: RecipeResponseDTO.self)
             let recipeDomains = dtos.results.map { RecipeDomain(from: $0) }
+            recipe = recipeDomains.first
+            pagination.totalCount = dtos.count
+            pagination.currentPage = dtos.results.count
             
+//            pagination = PaginationDomain(id: UUID(uuidString: "11111111-1111-1111-1111-111111111111")!, entityType: .recipe, totalCount: dtos.count, currentPage: dtos.results.count, lastUpdated: Date(timeIntervalSince1970: 0))
             return recipeDomains
         }
         catch {
@@ -46,14 +52,22 @@ final class RecipeRepositoryMock: RecipeRepositoryType {
     }
     
     func fetchRecipes(page: Int, pageSize: Int) async throws -> [RecipeDomain] {
-        []
+        if let recipe = recipe {
+            return [recipe]
+        }
+        return []
     }
     
     func updateFavouriteRecipe(_ recipeID: Int) async throws -> Bool {
-        true
+        guard var recipe = recipe, recipe.id == recipeID else {
+            return false
+        }
+        recipe.isFavorite.toggle()
+        self.recipe = recipe
+        return recipe.isFavorite
     }
     
     func fetchRecipePagination(_ pagination: PaginationDomain) async throws -> PaginationDomain {
-        PaginationDomain(entityType: .recipe)
+        pagination
     }
 }

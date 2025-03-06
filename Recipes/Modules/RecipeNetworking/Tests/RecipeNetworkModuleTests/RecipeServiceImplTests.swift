@@ -19,7 +19,7 @@ class RecipeServiceImplTests: XCTestCase {
         recipeRepository = RecipeRepositoryMock(fileName: "recipe_success", parser: ServiceParser())
         recipeServiceImpl = RecipeServiceImp(recipeRepository: recipeRepository)
         
-        let expectation = XCTestExpectation(description: "Recipe should be fetched successfully with one recipe.")
+        let expectation = XCTestExpectation(description: "Recipe should be fetched successfully with one recipe")
         
         do {
             let dtos = try await recipeRepository.fetchRecipes(endPoint: .recipes(page: 0, limit: 40))
@@ -35,7 +35,7 @@ class RecipeServiceImplTests: XCTestCase {
         recipeRepository = RecipeRepositoryMock(fileName: "recipe_empty", parser: ServiceParser())
         recipeServiceImpl = RecipeServiceImp(recipeRepository: recipeRepository)
         
-        let expectation = XCTestExpectation(description: "Recipe fetch should return an empty list when no recipes are available.")
+        let expectation = XCTestExpectation(description: "Recipe fetch should return an empty list when no recipes are available")
         
         do {
             let dtos = try await recipeRepository.fetchRecipes(endPoint: .recipes(page: 0, limit: 40))
@@ -60,4 +60,56 @@ class RecipeServiceImplTests: XCTestCase {
             expectation.fulfill()
         }
     }
+    
+    func testUpdateFavouriteRecipe() async throws {
+        recipeRepository = RecipeRepositoryMock(fileName: "recipe_success", parser: ServiceParser())
+        recipeServiceImpl = RecipeServiceImp(recipeRepository: recipeRepository)
+        
+        let expectation = XCTestExpectation(description: "Recipe's isFavorite status should update successfully")
+        
+        do {
+            let dtos = try await recipeRepository.fetchRecipes(endPoint: .recipes(page: 0, limit: 40))
+            let firstToggle = try await recipeRepository.updateFavouriteRecipe(dtos.first?.id ?? 0)
+            XCTAssertTrue(firstToggle, "updated should be true")
+            let secondToggle = try await recipeRepository.updateFavouriteRecipe(dtos.first?.id ?? 0)
+            XCTAssertFalse(secondToggle, "updated should be false")
+            expectation.fulfill()
+        } catch {
+            XCTFail("Unexpected error happened: \(error)")
+        }
+    }
+    
+    func testFetchRecipe() async throws {
+        recipeRepository = RecipeRepositoryMock(fileName: "recipe_success", parser: ServiceParser())
+        recipeServiceImpl = RecipeServiceImp(recipeRepository: recipeRepository)
+        
+        let expectation = XCTestExpectation(description: "Recipe should be fetched successfully with one recipe")
+        
+        do {
+            _ = try await recipeRepository.fetchRecipes(endPoint: .recipes(page: 0, limit: 40))
+            let savedDto = try await recipeRepository.fetchRecipes(page: 0, pageSize: 40)
+            XCTAssertEqual(savedDto.first?.name, "Low-Carb Avocado Chicken Salad")
+            XCTAssertEqual(savedDto.count, 1)
+            expectation.fulfill()
+        } catch {
+            XCTFail("Unexpected error happened: \(error)")
+        }
+    }
+    
+//    func testRecipePagination() async throws {
+//        recipeRepository = RecipeRepositoryMock(fileName: "recipe_success", parser: ServiceParser())
+//        recipeServiceImpl = RecipeServiceImp(recipeRepository: recipeRepository)
+//        
+//        let expectation = XCTestExpectation(description: "Recipe should be fetched successfully with one recipe")
+//        
+//        do {
+//            _ = try await recipeRepository.fetchRecipes(endPoint: .recipes(page: 0, limit: 40))
+//            let savedDto = try await recipeRepository.fetchRecipes(page: 0, pageSize: 40)
+//            XCTAssertEqual(savedDto.first?.name, "Low-Carb Avocado Chicken Salad")
+//            XCTAssertEqual(savedDto.count, 1)
+//            expectation.fulfill()
+//        } catch {
+//            XCTFail("Unexpected error happened: \(error)")
+//        }
+//    }
 }
