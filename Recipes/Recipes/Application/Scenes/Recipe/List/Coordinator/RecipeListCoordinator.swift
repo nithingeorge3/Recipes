@@ -25,7 +25,7 @@ final class RecipeListCoordinator: ObservableObject, Coordinator, TabItemProvide
     private let modelFactory: RecipeListViewModelFactoryType
     var viewModel: RecipeListViewModel
     private let _tabItem: TabItem
-    private let service: RecipeServiceType
+    private let service: RecipeServiceProvider
     private var cancellables: [AnyCancellable] = []
     
     @Published var navigationPath = NavigationPath()

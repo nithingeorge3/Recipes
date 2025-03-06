@@ -9,7 +9,8 @@ import Foundation
 import RecipeDomain
 
 public protocol RecipeRepositoryType: Sendable {
-    func getRecipes(endPoint: EndPoint) async throws -> [RecipeDomain]
+    func fetchRecipes(endPoint: EndPoint) async throws -> [RecipeDomain]
+    func fetchRecipes(page: Int, pageSize: Int) async throws -> [RecipeDomain]
     func updateFavouriteRecipe(_ recipeID: Int) async throws -> Bool
     func fetchRecipePagination(_ pagination: PaginationDomain) async throws -> PaginationDomain
 }
@@ -35,7 +36,7 @@ final class RecipeRepository: RecipeRepositoryType {
         self.paginationSDRepo = paginationSDRepo
     }
     
-    func getRecipes(endPoint: EndPoint) async throws -> [RecipeDomain] {
+    func fetchRecipes(endPoint: EndPoint) async throws -> [RecipeDomain] {
         do {
             let apiKey = try await apiKeyProvider.getRecipeAPIKey()
             
@@ -56,32 +57,32 @@ final class RecipeRepository: RecipeRepositoryType {
             
             try await recipeSDRepo.saveRecipes(recipeDomains)
             
-            //fetch batch recipes
+            //total saved count for updating Pagination
             let savedRecipes = try await recipeSDRepo.fetchRecipes()
-            print("saved recipe Count: \(savedRecipes.count)")
             
             let paginationDomain = PaginationDomain(entityType: .recipe, totalCount: dtos.count, currentPage: savedRecipes.count, lastUpdated: Date())
             
-            print(paginationDomain)
-            
+            //updating Pagination
             try await paginationSDRepo.updateRecipePagination(paginationDomain)
             
-            return savedRecipes
+            //need to revisit
+            let pageSize = endPoint.recipeFetchInfo.1
+            let page = endPoint.recipeFetchInfo.0 / pageSize
+
+            let batchRecipes = try await fetchRecipes(page: page, pageSize: pageSize)
+            
+            return batchRecipes
         } catch {
-            let savedRecipes = try await recipeSDRepo.fetchRecipes()
-            print("saved recipes Count: \(savedRecipes.count)")
-            
             throw NetworkError.noNetworkAndNoCache(context: error)
-            
-            guard !savedRecipes.isEmpty else {
-                throw NetworkError.noNetworkAndNoCache(context: error)
-            }
-            return savedRecipes
         }
     }
 }
 
 extension RecipeRepository {
+    func fetchRecipes(page: Int, pageSize: Int) async throws -> [RecipeDomain] {
+        try await recipeSDRepo.fetchRecipes(page: page, pageSize: pageSize)
+    }
+    
     func updateFavouriteRecipe(_ recipeID: Int) async throws -> Bool {
         try await recipeSDRepo.updateFavouriteRecipe(recipeID)
     }

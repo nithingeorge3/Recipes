@@ -8,22 +8,32 @@
 import Foundation
 import SwiftData
 
-final class DataStoreManager {
-    let context: ModelContext
+@MainActor
+public final class DataStoreManager {
     private let container: ModelContainer
     
-    init(containerName: String, container: ModelContainer? = nil) throws {
-        if let container = container {
-            self.container = container
-        } else {
-            do {
-                self.container = try ModelContainer.buildShared(containerName)
-            } catch {
-                self.container = try ModelContainer.fallBack()
-                print("error creating container: \(error)")
-            }
-        }
-        
-        self.context = ModelContext(self.container)
+    init(container: ModelContainer) {
+        self.container = container
+    }
+    
+    @MainActor
+    var mainContext: ModelContext {
+        container.mainContext
+    }
+    
+    @MainActor
+    func fetchOnMain<T: PersistentModel>(_ type: T.Type) throws -> [T] {
+        try mainContext.fetch(FetchDescriptor<T>())
+    }
+    
+    nonisolated func performBackgroundTask<T: Sendable>(
+        _ operation: @Sendable @escaping (ModelContext) throws -> T
+    ) async throws -> T {
+        try await Task.detached(priority: .userInitiated) {
+            let backgroundContext = ModelContext(self.container)
+            let result = try operation(backgroundContext)
+            try backgroundContext.save()
+            return result
+        }.value
     }
 }

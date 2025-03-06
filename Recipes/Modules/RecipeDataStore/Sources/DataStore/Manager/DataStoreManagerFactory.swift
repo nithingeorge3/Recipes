@@ -8,25 +8,52 @@
 import Foundation
 import SwiftData
 
-public protocol DataStoreManagerType: Sendable {
-    static func makeNewsDataContext(for containerName: String) -> ModelContext
-}
-
-public final class DataStoreManagerFactory: DataStoreManagerType {
-    public static func makeNewsDataContext(for containerName: String) -> ModelContext {
-        //temp code for testing
-        if ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil {
-            return makeInMemoryContext()
-        }
-        
-        do {
-            return try DataStoreManager(containerName: containerName).context
-        } catch {
-            return makeInMemoryContext()
+public enum DataStoreManagerFactory {
+    static var isTesting: Bool {
+        ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
+    }
+    
+    public static func makeSharedContainer(for name: String) -> ModelContainer {
+        if isTesting {
+            return makeTestContainer()
+        } else {
+            return makeProductionContainer(name: name)
         }
     }
     
-    private static func makeInMemoryContext() -> ModelContext {
-        ModelContext(ModelContainer.makeInMemoryContext())
+    private static func makeProductionContainer(name: String) -> ModelContainer {
+        do {
+            let schema = Schema([
+                SDRecipe.self,
+                SDPagination.self
+            ])
+            
+            let config = ModelConfiguration(
+                url: .documentsDirectory.appendingPathComponent("\(name).sqlite"),
+                cloudKitDatabase: .none
+            )
+            
+            return try ModelContainer(for: schema, configurations: config)
+        } catch {
+            fatalError("Failed to create prod container: \(error)")
+        }
+    }
+    
+    private static func makeTestContainer() -> ModelContainer {
+        let schema = Schema([
+            SDRecipe.self,
+            SDPagination.self
+        ])
+        
+        let config = ModelConfiguration(
+            isStoredInMemoryOnly: true,
+            allowsSave: true
+        )
+        
+        do {
+            return try ModelContainer(for: schema, configurations: config)
+        } catch {
+            fatalError("Failed to create test container: \(error)")
+        }
     }
 }

@@ -55,3 +55,11 @@ extension EndPoint: URLBuilder {
         }
     }
 }
+
+extension EndPoint {
+    var recipeFetchInfo: (Int, Int) {
+        guard case let .recipes(page, limit) = self else { return (0, 40) }
+        return (page, limit)
+        }
+}
+

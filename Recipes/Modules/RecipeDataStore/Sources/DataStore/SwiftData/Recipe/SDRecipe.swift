@@ -117,6 +117,7 @@ extension RecipeDomain {
             id: sdRecipe.id,
             name: sdRecipe.name,
             description: sdRecipe.desc,
+            country: sdRecipe.country,
             thumbnailURL: sdRecipe.thumbnailURL,
             originalVideoURL: sdRecipe.originalVideoURL,
             createdAt: sdRecipe.createdAt,

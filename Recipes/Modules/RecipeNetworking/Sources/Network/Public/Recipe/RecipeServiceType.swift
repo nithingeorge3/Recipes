@@ -13,11 +13,15 @@ public protocol RecipeKeyServiceType {
     func deleteRecipeAPIkey() -> Bool
 }
 
+public typealias RecipeServiceProvider = RecipeServiceType & RecipeSDServiceType
+
 public protocol RecipeServiceType: Sendable {
-    var favoritesDidChange: AsyncStream<Int> { get }
-    
     func fetchRecipes(endPoint: EndPoint) async throws -> [RecipeDomain]
+}
+
+public protocol RecipeSDServiceType: Sendable {
+    var favoritesDidChange: AsyncStream<Int> { get }
+    func fetchRecipes(page: Int, pageSize: Int) async throws -> [RecipeDomain]
     func updateFavouriteRecipe(_ recipeID: Int) async throws -> Bool
-    
     func fetchRecipePagination(_ type: EntityType) async throws -> PaginationDomain
 }

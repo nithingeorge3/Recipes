@@ -11,17 +11,17 @@ import RecipeDataStore
 import RecipeDataStore
 
 protocol RecipeListCoordinatorFactoryType {
-    @MainActor func makeRecipeListCoordinator(context: ModelContext) async -> RecipeListCoordinator
+    @MainActor func makeRecipeListCoordinator(container: ModelContainer) async -> RecipeListCoordinator
 }
 
 final class RecipeListCoordinatorFactory: RecipeListCoordinatorFactoryType {
-    func makeRecipeListCoordinator(context: ModelContext) async -> RecipeListCoordinator {
+    func makeRecipeListCoordinator(container: ModelContainer) async -> RecipeListCoordinator {
         let tabItem = TabItem(title: "Recipe", icon: "house.fill", badgeCount: 0, color: .black)
         let modelFactory = RecipeListViewModelFactory()
         let viewFactory = RecipeListViewFactory()
         
-        let paginationSDRepo = PaginationRepository(context: context)
-        let recipeSDRepo = RecipeSDRepository(context: context)
+        let paginationSDRepo = PaginationRepository(container: container)
+        let recipeSDRepo = RecipeSDRepository(container: container)
         
         return await RecipeListCoordinator(
             tabItem: tabItem,
