@@ -22,10 +22,7 @@ struct RecipeDTO: Codable {
     let originalVideoURL: String?
     let createdAt, approvedAt: Int?
     let yields: String?
-//    let tags: [TagDTO]
-    let userRatings: UserRatingsDTO?
-//    let instructions: [InstructionDTO]
-//    let language: Language
+    let userRatings: UserRatingsDTO? // I am not using this data(UI pending). In production I will not decode unwanted data.
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -37,10 +34,7 @@ struct RecipeDTO: Codable {
         case createdAt = "created_at"
         case approvedAt = "approved_at"
         case yields
-//        case tags
         case userRatings = "user_ratings"
-//        case instructions
-//        case language
     }
 }
 
@@ -55,23 +49,6 @@ enum CountryDTO: String, Codable {
         let container = try decoder.singleValueContainer()
         let rawValue = try container.decode(String.self)
         self = CountryDTO(rawValue: rawValue) ?? .unknown
-    }
-}
-
-struct InstructionDTO: Codable {
-    let startTime: Int
-    let appliance: String?
-    let endTime: Int
-    let temperature: Int?
-    let id, position: Int
-    let displayText: String
-
-    enum CodingKeys: String, CodingKey {
-        case startTime = "start_time"
-        case appliance
-        case endTime = "end_time"
-        case temperature, id, position
-        case displayText = "display_text"
     }
 }
 
@@ -91,34 +68,6 @@ struct IngredientDTO: Codable {
         case name
         case createdAt = "created_at"
     }
-}
-
-struct TagDTO: Codable {
-    let name: String
-    let id: Int
-    let displayName: String
-    let type: TagTypeDTO
-
-    enum CodingKeys: String, CodingKey {
-        case name, id
-        case displayName = "display_name"
-        case type
-    }
-}
-
-enum TagTypeDTO: String, Codable {
-    case appliance = "appliance"
-    case cuisine = "cuisine"
-    case dietary = "dietary"
-    case difficulty = "difficulty"
-    case dishStyle = "dish_style"
-    case equipment = "equipment"
-    case featurePage = "feature_page"
-    case holiday = "holiday"
-    case meal = "meal"
-    case method = "method"
-    case occasion = "occasion"
-    case seasonal = "seasonal"
 }
 
 struct UserRatingsDTO: Codable {

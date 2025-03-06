@@ -110,7 +110,6 @@ extension SDRecipe {
 
 extension RecipeDomain {
     init(from sdRecipe: SDRecipe) {
-#warning("check sdRecipe.userRatings?.id ?? 0. do we need optional here")
         let ratings = UserRatingsDomain(id: sdRecipe.userRatings?.id ?? 0, countNegative: sdRecipe.userRatings?.countNegative, countPositive: sdRecipe.userRatings?.countPositive, score: sdRecipe.userRatings?.score)
         
         self.init(
