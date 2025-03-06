@@ -8,7 +8,7 @@
 import Foundation
 import RecipeDomain
 
-final class RecipeServiceImp: RecipeServiceType, RecipeSDServiceType {
+final class RecipeServiceImp: RecipeServiceProvider {
     private let recipeRepository: RecipeRepositoryType
     private let (favoritesDidChangeStream, favoritesDidChangeContinuation) = AsyncStream.makeStream(of: Int.self)
             

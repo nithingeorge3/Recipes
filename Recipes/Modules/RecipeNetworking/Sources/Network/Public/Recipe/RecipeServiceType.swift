@@ -13,7 +13,7 @@ public protocol RecipeKeyServiceType {
     func deleteRecipeAPIkey() -> Bool
 }
 
-public typealias RecipeDataType = RecipeServiceType & RecipeSDServiceType
+public typealias RecipeServiceProvider = RecipeServiceType & RecipeSDServiceType
 
 public protocol RecipeServiceType: Sendable {
     func fetchRecipes(endPoint: EndPoint) async throws -> [RecipeDomain]

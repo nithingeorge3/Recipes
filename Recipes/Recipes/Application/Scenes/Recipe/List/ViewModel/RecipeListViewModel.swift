@@ -27,7 +27,7 @@ protocol RecipeListViewModelType: AnyObject, Observable {
 class RecipeListViewModel: RecipeListViewModelType {
     var state: ResultState = .loading
     var recipes: [Recipe] = []
-    let service: RecipeDataType
+    let service: RecipeServiceProvider
     var paginationHandler: PaginationHandlerType
     var recipeListActionSubject = PassthroughSubject<RecipeListAction, Never>()
 
@@ -44,10 +44,11 @@ class RecipeListViewModel: RecipeListViewModelType {
     }
     
     init(
-        service: RecipeDataType,
+        service: RecipeServiceProvider,
         paginationHandler: PaginationHandlerType,
         maxAllowedRecipesCount: Int = 10
     ) {
+        print("******** \(service)")
         self.service = service
         self.paginationHandler = paginationHandler
         self.maxAllowedRecipesCount = maxAllowedRecipesCount
@@ -59,6 +60,7 @@ class RecipeListViewModel: RecipeListViewModelType {
     func send(_ action: RecipeListAction) {
         switch action {
         case .refresh:
+            print("******** \(service)")
             Task { try await fetchRecipes() }
         case .loadNextPage:
             guard paginationHandler.hasMoreData else { return }
