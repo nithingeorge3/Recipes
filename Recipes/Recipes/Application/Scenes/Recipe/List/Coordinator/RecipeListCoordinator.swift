@@ -38,7 +38,7 @@ final class RecipeListCoordinator: ObservableObject, Coordinator, TabItemProvide
         tabItem: TabItem,
         viewFactory: RecipeListViewFactoryType,
         modelFactory: RecipeListViewModelFactoryType,
-        paginationSDRepo: PaginationRepositoryType,
+        paginationSDRepo: PaginationSDRepositoryType,
         recipeSDRepo: RecipeSDRepositoryType
     ) async {
         _tabItem = tabItem

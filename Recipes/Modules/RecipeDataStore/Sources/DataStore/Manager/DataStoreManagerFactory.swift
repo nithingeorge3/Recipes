@@ -17,11 +17,11 @@ public enum DataStoreManagerFactory {
         if isTesting {
             return makeTestContainer()
         } else {
-            return makeProductionContainer(name: name)
+            return makeContainer(name: name)
         }
     }
     
-    private static func makeProductionContainer(name: String) -> ModelContainer {
+    private static func makeContainer(name: String) -> ModelContainer {
         do {
             let schema = Schema([
                 SDRecipe.self,

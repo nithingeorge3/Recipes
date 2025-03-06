@@ -20,14 +20,14 @@ final class RecipeRepository: RecipeRepositoryType {
     private let requestBuilder: RequestBuilderType
     private let apiKeyProvider: APIKeyProviderType
     private let recipeSDRepo: RecipeSDRepositoryType
-    private let paginationSDRepo: PaginationRepositoryType
+    private let paginationSDRepo: PaginationSDRepositoryType
     
     init(
         parser: ServiceParserType,
         requestBuilder: RequestBuilderType,
         apiKeyProvider: APIKeyProviderType,
         recipeSDRepo: RecipeSDRepositoryType,
-        paginationSDRepo: PaginationRepositoryType
+        paginationSDRepo: PaginationSDRepositoryType
     ) {
         self.parser = parser
         self.requestBuilder = requestBuilder

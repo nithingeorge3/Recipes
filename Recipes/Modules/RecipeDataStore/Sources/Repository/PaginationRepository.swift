@@ -1,5 +1,5 @@
 //
-//  PaginationRepository.swift
+//  PaginationSDRepository.swift
 //  RecipeDataStore
 //
 //  Created by Nitin George on 04/03/2025.
@@ -9,9 +9,8 @@ import Foundation
 import RecipeDomain
 import SwiftData
 
-
 @MainActor
-public class PaginationRepository: PaginationRepositoryType {
+public class PaginationSDRepository: PaginationSDRepositoryType {
     private let container: ModelContainer
     
     public init(container: ModelContainer) {

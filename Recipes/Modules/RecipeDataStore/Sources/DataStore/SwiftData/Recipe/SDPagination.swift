@@ -9,6 +9,7 @@ import Foundation
 import SwiftData
 import RecipeDomain
 
+#warning("please remove unwaned codes")
 @Model
 public class SDPagination {
     @Attribute(.unique)

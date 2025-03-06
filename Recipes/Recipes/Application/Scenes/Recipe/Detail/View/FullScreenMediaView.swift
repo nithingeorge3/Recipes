@@ -9,7 +9,6 @@ import AVKit
 import SwiftUI
 import Kingfisher
 
-#warning("need to check if there any memory issue. just now i am playing on viewappear")
 struct FullScreenMediaView: View {
     let media: PresentedMedia
     @State private var player: AVPlayer?
