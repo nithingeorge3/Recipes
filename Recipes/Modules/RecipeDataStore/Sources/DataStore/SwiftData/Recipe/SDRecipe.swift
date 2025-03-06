@@ -15,7 +15,7 @@ public final class SDRecipe {
     public var id: Int
     public var name: String
     public var desc: String?
-    public var country: Country // For filtering by country we need to use/save as transformable
+    public var country: Country // For filtering by country we need to use/save as transformable. or use row and string value(same as SDPagination entityTypeRaw)
     public var thumbnailURL: String?
     public var originalVideoURL: String?
     public var createdAt: Int?
@@ -134,8 +134,3 @@ extension RecipeDomain {
         )
     }
 }
-
-//    @Transient
-//    var country: Country {
-//        Country(code: countryCode)
-//    }
