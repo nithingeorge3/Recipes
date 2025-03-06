@@ -22,7 +22,7 @@ public final class SDRecipe {
     public var approvedAt: Int?
     public var yields: String?
     public var isFavorite: Bool
-    public var userRatings: UserRatingsDomain?
+    public var userRatings: SDUserRatings?
     
     @Relationship(inverse: \SDUserRatings.recipe)
     public var rating: SDUserRatings?
@@ -41,6 +41,13 @@ public final class SDRecipe {
         userRatings: UserRatingsDomain? = nil,
         rating: SDUserRatings? = nil
     ) {
+        let rating = SDUserRatings(
+            id: rating?.id,
+            countNegative: rating?.countNegative,
+            countPositive: rating?.countPositive,
+            score: rating?.score
+        )
+        
         self.id = id
         self.name = name
         self.desc = desc
@@ -51,7 +58,7 @@ public final class SDRecipe {
         self.approvedAt = approvedAt
         self.yields = yields
         self.isFavorite = isFavorite
-        self.userRatings = userRatings
+        self.userRatings = rating
         self.rating = rating
     }
 }
@@ -87,7 +94,7 @@ extension SDRecipe {
         self.createdAt = domain.createdAt
         self.approvedAt = domain.approvedAt
         self.yields = domain.yields
-        self.userRatings = domain.userRatings
+        self.userRatings = SDUserRatings(from: domain.userRatings)
         
         self.rating = {
             guard let domainRatings = domain.userRatings else { return nil }
