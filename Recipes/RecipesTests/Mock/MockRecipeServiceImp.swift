@@ -13,7 +13,7 @@ import RecipeDomain
 
 @testable import Recipes
 
-public final class MockRecipeServiceImp: RecipeServiceProvider, @unchecked Sendable {
+final class MockRecipeServiceImp: RecipeServiceProvider, @unchecked Sendable {
     var stubbedRecipes: [RecipeDomain] = []
     
     var shouldThrowError: Bool = false
