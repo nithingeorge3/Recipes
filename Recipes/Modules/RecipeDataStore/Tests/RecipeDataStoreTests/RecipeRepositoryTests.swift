@@ -36,15 +36,25 @@ final class RecipeRepositoryTests: XCTestCase {
 }
 
 extension RecipeRepositoryTests {
-    func testSaveAndFetchRecipes() async throws {
+    func testSaveAndFetchRecipesWithPagination() async throws {
         let recipe = RecipeDomain(id: 1, name: "Kerala Chicken Curry")
         
         try await repository.saveRecipes([recipe])
-        let fetchedRecipes = try await repository.fetchRecipes()
+        let fetchedRecipes = try await repository.fetchRecipes(page: 0, pageSize: 1)
         
         XCTAssertEqual(fetchedRecipes.count, 1)
         XCTAssertEqual(fetchedRecipes.first?.id, 1)
         XCTAssertEqual(fetchedRecipes.first?.name, "Kerala Chicken Curry")
+    }
+    
+    func testSaveAndFetchRecipes() async throws {
+        let recipe = RecipeDomain(id: 1, name: "Kerala Chicken Curry")
+        
+        try await repository.saveRecipes([recipe])
+        let fetchedRecipe = try await repository.fetchRecipe(for: recipe.id)
+        
+        XCTAssertEqual(fetchedRecipe.id, 1)
+        XCTAssertEqual(fetchedRecipe.name, "Kerala Chicken Curry")
     }
     
     func testFetchRecipesPagination() async throws {

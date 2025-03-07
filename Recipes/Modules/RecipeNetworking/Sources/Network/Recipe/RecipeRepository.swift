@@ -66,16 +66,6 @@ final class RecipeRepository: RecipeRepositoryType {
             pagination.currentPage += 1
             pagination.lastUpdated = Date()
             
-            /* added for debugging
-            let savedRecipes = try await recipeSDRepo.fetchRecipes()
-            print("*** API called")
-            print("*** Fetched Recipes count: \(dtos.results.count)")
-            print("*** Saved Recipes count: \(savedRecipes.count)")
-            print("*** Next: pagination.currentPage: \(pagination.currentPage)")
-            print("*** endPoint current page: \(endPoint.recipeFetchInfo.0)")
-            print("*** endPoint fetch limit: \(endPoint.recipeFetchInfo.1)")
-            */
-            
             //updating Pagination
             try await paginationSDRepo.updateRecipePagination(pagination)
             
@@ -83,9 +73,7 @@ final class RecipeRepository: RecipeRepositoryType {
             let page = endPoint.recipeFetchInfo.0
 
             let batchRecipes = try await fetchRecipes(page: page, pageSize: pageSize)
-            
-//            print("*** Returned Recipes count: \(batchRecipes.count)")
-            
+                        
             return batchRecipes
         } catch {
             throw NetworkError.noNetworkAndNoCache(context: error)
