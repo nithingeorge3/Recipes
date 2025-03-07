@@ -12,7 +12,7 @@ struct RecipeListCoordinatorView: View {
     
     var body: some View {
         NavigationStack(path: $coordinator.navigationPath) {
-                coordinator.viewFactory.makeRecipeListView(viewModel: coordinator.viewModel)
+                coordinator.viewFactory.makeRecipesGridView(viewModel: coordinator.viewModel)
                 .navigationDestination(for: RecipeListAction.self) { action in
                     switch action {
                     case .userSelectedRecipe(let recipe):

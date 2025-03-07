@@ -6,29 +6,34 @@
 //
 
 import XCTest
+import RecipeNetworking
+import Combine
 
+@testable import Recipes
+
+@MainActor
 final class RecipeListViewModelTests: XCTestCase {
-
+    private var viewModel: RecipesListViewModelType!
+    private var service: RecipeServiceProvider!
+    private var paginationHandler: PaginationHandlerType!
+    
     override func setUp() {
         super.setUp()
-
+        service = MockRecipeServiceImp()
+        paginationHandler = MockPaginationHandler()
+        
+        viewModel = RecipeListViewModel(service: service, paginationHandler: paginationHandler)
     }
     
     override func tearDown() {
         super.tearDown()
-
-    }
-    
-    func testInitialState() async {
-        XCTAssertTrue(true) // :) 
+        viewModel = nil
+        service = nil
+        paginationHandler = nil
     }
 
-//    func testEmptyState() async {
-//        let coordinator = AppCoordinator(containerName: "TestRecipes")
-//        await coordinator.initialize()
-//        
-//        // Verify empty state
-//        let viewModel = coordinator.recipeListViewModel
-//        XCTAssertEqual(viewModel.recipes.count, 0)
-//    }
+    func testInitialStateIsLoading() {
+        XCTAssertEqual(viewModel.state, .loading, "Initial state should be .loading")
+        XCTAssertTrue(viewModel.recipes.isEmpty, "Initially, recipes should be empty")
+    }
 }

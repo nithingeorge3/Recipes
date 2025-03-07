@@ -37,3 +37,38 @@ public final class RecipeServiceFactory: RecipeServiceFactoryType, RecipeKeyServ
         return RecipeKeyService(recipeKeyRepo: recipeKeyRepo)
     }
 }
+
+//just added for showing combine. In production I will only use Async/await or combine based on the decision
+public protocol RecipeServiceListFactoryType {
+    static func makeRecipeListService() -> RecipeListServiceType
+}
+
+public final class RecipeListServiceFactory: RecipeServiceListFactoryType {
+    //Need to inject same as above function RecipeServiceFactory.makeRecipeService
+    private static let serviceParser: ServiceParserType = ServiceParser()
+    private static let requestBuilder: RequestBuilderType = RequestBuilder()
+    
+    public static func makeRecipeListService() -> RecipeListServiceType {
+        let recipeRepository: RecipeListRepositoryType = RecipeListRepository(
+            parser: serviceParser,
+            requestBuilder: requestBuilder
+        )
+        return RecipeListServiceImp(recipeRepository: recipeRepository)
+    }
+}
+
+public final class MockRecipeServiceFactory: RecipeServiceFactoryType, RecipeKeyServiceFactoryType, @unchecked Sendable {
+    public static func makeRecipeService(recipeSDRepo: RecipeSDRepositoryType, paginationSDRepo: PaginationSDRepositoryType) -> RecipeServiceProvider {
+        
+        let pagination: PaginationDomain = PaginationDomain(id: UUID(), entityType: .recipe, totalCount: 10, currentPage: 10, lastUpdated: Date(timeIntervalSince1970: 0))
+                                                        
+        let recipeRepository: RecipeRepositoryType = MockRecipeRepository(fileName: "recipe_success", parser: ServiceParser(), pagination: pagination)
+        
+        return RecipeServiceImp(recipeRepository: recipeRepository)
+    }
+    
+    public static func makeRecipeKeyService() -> any RecipeKeyServiceType {
+        let recipeKeyRepo: RecipeKeyRepositoryType = RecipeKeyRepository(keyChainManager: KeyChainManager.shared)
+        return RecipeKeyService(recipeKeyRepo: recipeKeyRepo)
+    }
+}

@@ -19,9 +19,6 @@ struct RecipesGridView: View {
     @State private var showProgress: Bool = false
     
     var body: some View {
-        print("**** favorites.count: \(favorites.count)")
-        print("**** others.count: \(others.count)")
-        print("**** all.count: \(others.count + favorites.count)")
         return GeometryReader { geometry in
             let totalWidth = geometry.size.width
             let spacing: CGFloat = Constants.Recipe.listSpacing
@@ -68,7 +65,7 @@ struct RecipesGridView: View {
     @ViewBuilder
     private func recipeGrid(for recipes: [Recipe], size: CGFloat) -> some View {
         ForEach(recipes) { recipe in
-            RecipeView(recipe: recipe, gridSize: size)
+            RecipeGridImageView(recipe: recipe, gridSize: size)
                 .onTapGesture {
                     onRecipeTap(recipe)
                 }

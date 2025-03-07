@@ -39,7 +39,7 @@ final class APIKeyProvider: APIKeyProviderType {
     private func fetchKeyFromBackend() async throws -> String {
         try await Task.sleep(nanoseconds: 1_000_000_000)
         
-        let backendKey = "9223d79224msh6ad0e4f4ebb5b93p1d6f48jsn553047584145"
+        let backendKey = "c36446da42msh685aa9134d41e0ep10f9cdjsnaa15ec2198b5"
 
         return backendKey
     }

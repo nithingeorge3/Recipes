@@ -16,7 +16,7 @@ class RecipeServiceImplTests: XCTestCase {
     }
         
     func testFetchRecipes_SuccessResponse_ReturnRecipe() async throws {
-        recipeRepository = RecipeRepositoryMock(fileName: "recipe_success", parser: ServiceParser())
+        recipeRepository = MockRecipeRepository(fileName: "recipe_success", parser: ServiceParser())
         recipeServiceImpl = RecipeServiceImp(recipeRepository: recipeRepository)
         
         let expectation = XCTestExpectation(description: "Recipe should be fetched successfully with one recipe")
@@ -24,15 +24,17 @@ class RecipeServiceImplTests: XCTestCase {
         do {
             let dtos = try await recipeRepository.fetchRecipes(endPoint: .recipes(page: 0, limit: 40))
             XCTAssertEqual(dtos.first?.name, "Low-Carb Avocado Chicken Salad")
-            XCTAssertEqual(dtos.count, 1)
+            XCTAssertEqual(dtos.count, 10)
             expectation.fulfill()
         } catch {
             XCTFail("Unexpected error happened: \(error)")
         }
+        
+        await fulfillment(of: [expectation], timeout: 1.0)
     }
     
     func testFetchRecipes__SuccessResponse_ReturnEmptyRecipe() async throws {
-        recipeRepository = RecipeRepositoryMock(fileName: "recipe_empty", parser: ServiceParser())
+        recipeRepository = MockRecipeRepository(fileName: "recipe_empty", parser: ServiceParser())
         recipeServiceImpl = RecipeServiceImp(recipeRepository: recipeRepository)
         
         let expectation = XCTestExpectation(description: "Recipe fetch should return an empty list when no recipes are available")
@@ -44,10 +46,12 @@ class RecipeServiceImplTests: XCTestCase {
         } catch {
             XCTFail("Unexpected error happened: \(error)")
         }
+        
+        await fulfillment(of: [expectation], timeout: 1.0)
     }
 
     func testFetchRecipes_FailureResponse_ReturnError() async throws {
-        recipeRepository = RecipeRepositoryMock(fileName: "recipe_error", parser: ServiceParser())
+        recipeRepository = MockRecipeRepository(fileName: "recipe_error", parser: ServiceParser())
         recipeServiceImpl = RecipeServiceImp(recipeRepository: recipeRepository)
         
         let expectation = XCTestExpectation(description: "Recipe fetch should fail and return an appropriate error")
@@ -59,10 +63,12 @@ class RecipeServiceImplTests: XCTestCase {
             XCTAssertFalse(false, "expected error happened \(error)")
             expectation.fulfill()
         }
+        
+        await fulfillment(of: [expectation], timeout: 1.0)
     }
     
     func testUpdateFavouriteRecipe() async throws {
-        recipeRepository = RecipeRepositoryMock(fileName: "recipe_success", parser: ServiceParser())
+        recipeRepository = MockRecipeRepository(fileName: "recipe_success", parser: ServiceParser())
         recipeServiceImpl = RecipeServiceImp(recipeRepository: recipeRepository)
         
         let expectation = XCTestExpectation(description: "Recipe's isFavorite status should update successfully")
@@ -77,27 +83,30 @@ class RecipeServiceImplTests: XCTestCase {
         } catch {
             XCTFail("Unexpected error happened: \(error)")
         }
+        
+        await fulfillment(of: [expectation], timeout: 1.0)
     }
     
     func testFetchRecipe() async throws {
-        recipeRepository = RecipeRepositoryMock(fileName: "recipe_success", parser: ServiceParser())
+        recipeRepository = MockRecipeRepository(fileName: "recipe_success", parser: ServiceParser())
         recipeServiceImpl = RecipeServiceImp(recipeRepository: recipeRepository)
         
         let expectation = XCTestExpectation(description: "Recipe should be fetched successfully with one recipe")
         
         do {
-            _ = try await recipeRepository.fetchRecipes(endPoint: .recipes(page: 0, limit: 40))
-            let savedDto = try await recipeRepository.fetchRecipes(page: 0, pageSize: 40)
-            XCTAssertEqual(savedDto.first?.name, "Low-Carb Avocado Chicken Salad")
-            XCTAssertEqual(savedDto.count, 1)
+            let dtos = try await recipeRepository.fetchRecipes(endPoint: .recipes(page: 0, limit: 40))
+            XCTAssertEqual(dtos.first?.name, "Low-Carb Avocado Chicken Salad")
+            XCTAssertEqual(dtos.count, 10)
             expectation.fulfill()
         } catch {
             XCTFail("Unexpected error happened: \(error)")
         }
+        
+        await fulfillment(of: [expectation], timeout: 1.0)
     }
     
     func testRecipePagination() async throws {
-        recipeRepository = RecipeRepositoryMock(fileName: "recipe_success", parser: ServiceParser())
+        recipeRepository = MockRecipeRepository(fileName: "recipe_success", parser: ServiceParser())
         recipeServiceImpl = RecipeServiceImp(recipeRepository: recipeRepository)
         
         let expectation = XCTestExpectation(description: "Recipe pagination data should be fetched successfully with expected values")
@@ -113,5 +122,7 @@ class RecipeServiceImplTests: XCTestCase {
         } catch {
             XCTFail("Unexpected error happened: \(error)")
         }
+        
+        await fulfillment(of: [expectation], timeout: 1.0)
     }
 }

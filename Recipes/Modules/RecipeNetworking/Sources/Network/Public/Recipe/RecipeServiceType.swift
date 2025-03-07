@@ -7,6 +7,7 @@
 
 import Foundation
 import RecipeDomain
+import Combine
 
 public protocol RecipeKeyServiceType {
     @discardableResult
@@ -24,4 +25,9 @@ public protocol RecipeSDServiceType: Sendable {
     func fetchRecipes(page: Int, pageSize: Int) async throws -> [RecipeDomain]
     func updateFavouriteRecipe(_ recipeID: Int) async throws -> Bool
     func fetchRecipePagination(_ type: EntityType) async throws -> PaginationDomain
+}
+
+//just added for showing combine
+public protocol RecipeListServiceType {
+    func fetchRecipes(endPoint: EndPoint) -> Future<[RecipeDomain], Error>
 }

@@ -1,5 +1,5 @@
 //
-//  RecipeRepositoryMock.swift
+//  MockRecipeRepository.swift
 //  RecipeNetworking
 //
 //  Created by Nitin George on 06/03/2025.
@@ -8,16 +8,20 @@
 import Foundation
 import RecipeDomain
 
-final class RecipeRepositoryMock: RecipeRepositoryType, @unchecked Sendable {
+final class MockRecipeRepository: RecipeRepositoryType, @unchecked Sendable {
     private let fileName: String
     private let parser: ServiceParserType
     private var recipe: RecipeDomain?
     private var pagination: PaginationDomain
     
-    init(fileName: String, parser: ServiceParserType = ServiceParser()) {
+    init(
+        fileName: String,
+        parser: ServiceParserType = ServiceParser(),
+        pagination: PaginationDomain = PaginationDomain(id: UUID(uuidString: "11111111-1111-1111-1111-111111111111")!, entityType: .recipe, totalCount: 0, currentPage: 0, lastUpdated: Date(timeIntervalSince1970: 0))
+    ) {
         self.fileName = fileName
         self.parser = parser
-        self.pagination = PaginationDomain(id: UUID(uuidString: "11111111-1111-1111-1111-111111111111")!, entityType: .recipe, totalCount: 0, currentPage: 0, lastUpdated: Date(timeIntervalSince1970: 0))
+        self.pagination = pagination
     }
     
     func fetchRecipes(endPoint: EndPoint) async throws -> [RecipeDomain] {
@@ -41,7 +45,7 @@ final class RecipeRepositoryMock: RecipeRepositoryType, @unchecked Sendable {
             let recipeDomains = dtos.results.map { RecipeDomain(from: $0) }
             recipe = recipeDomains.first
             pagination.totalCount = dtos.count
-            pagination.currentPage = dtos.results.count
+            pagination.currentPage = 1
 
             return recipeDomains
         }
@@ -51,9 +55,6 @@ final class RecipeRepositoryMock: RecipeRepositoryType, @unchecked Sendable {
     }
     
     func fetchRecipes(page: Int, pageSize: Int) async throws -> [RecipeDomain] {
-        if let recipe = recipe {
-            return [recipe]
-        }
         return []
     }
     

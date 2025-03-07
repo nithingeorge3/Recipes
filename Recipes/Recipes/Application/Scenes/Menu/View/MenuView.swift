@@ -83,13 +83,17 @@ struct MenuView: View {
         switch item.title {
         case "Profile":
             ProfileView()
-        case "MarshGradiant":
-            MeshGradientView()
-        case "Transitions":
-            Transitions()
+        case "Recipe List":
+            recipesListView()
         default:
             EmptyView()
         }
+    }
+    
+    private func recipesListView() -> some View {
+        let service = RecipeListServiceFactory.makeRecipeListService()
+        let viewModel = RecipesViewModel(service: service)
+        return RecipesViewFactory().makeRecipesListView(viewModel: viewModel)
     }
 }
 

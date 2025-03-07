@@ -14,11 +14,9 @@ protocol MenuViewModelFactoryType {
 final class MenuViewModelFactory: MenuViewModelFactoryType {
     
     func makeMenuViewModel(service: RecipeKeyServiceType) -> MenuViewModel {
-        //ToDo: inject later
         let items = [
             SidebarItem(title: "Profile", type: .navigation),
-            SidebarItem(title: "MarshGradiant", type: .navigation),
-            SidebarItem(title: "Transitions", type: .navigation),
+            SidebarItem(title: "Recipe List", type: .navigation),
             SidebarItem(title: "Logout", type: .action)
         ]
         return MenuViewModel(service: service, items: items)

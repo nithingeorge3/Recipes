@@ -21,8 +21,8 @@ enum RecipeListAction: Hashable {
 
 @MainActor
 final class RecipeListCoordinator: ObservableObject, Coordinator, TabItemProviderType {
-    let viewFactory: RecipeListViewFactoryType
-    private let modelFactory: RecipeListViewModelFactoryType
+    let viewFactory: RecipesViewFactoryType
+    private let modelFactory: RecipesViewModelFactoryType
     var viewModel: RecipeListViewModel
     private let _tabItem: TabItem
     private let service: RecipeServiceProvider
@@ -36,8 +36,8 @@ final class RecipeListCoordinator: ObservableObject, Coordinator, TabItemProvide
     
     init(
         tabItem: TabItem,
-        viewFactory: RecipeListViewFactoryType,
-        modelFactory: RecipeListViewModelFactoryType,
+        viewFactory: RecipesViewFactoryType,
+        modelFactory: RecipesViewModelFactoryType,
         paginationSDRepo: PaginationSDRepositoryType,
         recipeSDRepo: RecipeSDRepositoryType
     ) async {
@@ -45,6 +45,9 @@ final class RecipeListCoordinator: ObservableObject, Coordinator, TabItemProvide
         self.viewFactory = viewFactory
         self.modelFactory = modelFactory
         self.service = RecipeServiceFactory.makeRecipeService(recipeSDRepo: recipeSDRepo, paginationSDRepo: paginationSDRepo)
+        
+#warning("If you are facing issues with API(API down, reach limit), mock the response")
+//        self.service = MockRecipeServiceFactory.makeRecipeService(recipeSDRepo: recipeSDRepo, paginationSDRepo: paginationSDRepo)
         
         let paginationHandler: PaginationHandlerType = PaginationHandler()
         
