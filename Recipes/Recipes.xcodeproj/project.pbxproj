@@ -55,11 +55,6 @@
 			path = RecipesUITests;
 			sourceTree = "<group>";
 		};
-		2890E9A72D7A448900A5DA15 /* SnapshotTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = SnapshotTests;
-			sourceTree = "<group>";
-		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,7 +93,6 @@
 				282279AD2D73DE5500583E2C /* Recipes */,
 				282279BE2D73DE5700583E2C /* RecipesTests */,
 				282279C82D73DE5700583E2C /* RecipesUITests */,
-				2890E9A72D7A448900A5DA15 /* SnapshotTests */,
 				28227A492D73E8E200583E2C /* Frameworks */,
 				282279AC2D73DE5500583E2C /* Products */,
 			);
@@ -148,7 +142,6 @@
 			);
 			fileSystemSynchronizedGroups = (
 				282279AD2D73DE5500583E2C /* Recipes */,
-				2890E9A72D7A448900A5DA15 /* SnapshotTests */,
 			);
 			name = Recipes;
 			packageProductDependencies = (
