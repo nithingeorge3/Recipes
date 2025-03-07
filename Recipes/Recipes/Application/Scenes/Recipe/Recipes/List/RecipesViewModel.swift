@@ -20,6 +20,7 @@ protocol RecipesViewModelType: AnyObject, Observable {
     func send(_ action: RecipeListAction)
 }
 
+//Actually we need only one viewmodel, as i am just showing listing with combine i used seperate viewmodel
 @Observable
 class RecipesViewModel: RecipesViewModelType {
     var state: ResultState = .loading
