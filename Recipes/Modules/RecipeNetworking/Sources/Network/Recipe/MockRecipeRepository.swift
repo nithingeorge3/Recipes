@@ -14,10 +14,14 @@ final class MockRecipeRepository: RecipeRepositoryType, @unchecked Sendable {
     private var recipe: RecipeDomain?
     private var pagination: PaginationDomain
     
-    init(fileName: String, parser: ServiceParserType = ServiceParser()) {
+    init(
+        fileName: String,
+        parser: ServiceParserType = ServiceParser(),
+        pagination: PaginationDomain = PaginationDomain(id: UUID(uuidString: "11111111-1111-1111-1111-111111111111")!, entityType: .recipe, totalCount: 0, currentPage: 0, lastUpdated: Date(timeIntervalSince1970: 0))
+    ) {
         self.fileName = fileName
         self.parser = parser
-        self.pagination = PaginationDomain(id: UUID(uuidString: "11111111-1111-1111-1111-111111111111")!, entityType: .recipe, totalCount: 0, currentPage: 0, lastUpdated: Date(timeIntervalSince1970: 0))
+        self.pagination = pagination
     }
     
     func fetchRecipes(endPoint: EndPoint) async throws -> [RecipeDomain] {
