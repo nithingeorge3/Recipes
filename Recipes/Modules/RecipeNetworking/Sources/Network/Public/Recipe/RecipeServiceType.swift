@@ -7,6 +7,7 @@
 
 import Foundation
 import RecipeDomain
+import Combine
 
 public protocol RecipeKeyServiceType {
     @discardableResult
@@ -17,6 +18,11 @@ public typealias RecipeServiceProvider = RecipeServiceType & RecipeSDServiceType
 
 public protocol RecipeServiceType: Sendable {
     func fetchRecipes(endPoint: EndPoint) async throws -> [RecipeDomain]
+}
+
+//just added for showing combine
+public protocol RecipeListServiceType {
+    func fetchRecipes(endPoint: EndPoint) -> Future<[RecipeDomain], Error>
 }
 
 public protocol RecipeSDServiceType: Sendable {

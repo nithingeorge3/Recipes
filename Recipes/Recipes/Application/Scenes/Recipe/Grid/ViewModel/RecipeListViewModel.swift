@@ -30,8 +30,6 @@ class RecipeListViewModel: RecipeListViewModelType {
     let service: RecipeServiceProvider
     var paginationHandler: PaginationHandlerType
     var recipeListActionSubject = PassthroughSubject<RecipeListAction, Never>()
-
-    private var maxAllowedRecipesCount: Int
     
     private var updateTask: Task<Void, Never>?
     
@@ -45,12 +43,10 @@ class RecipeListViewModel: RecipeListViewModelType {
     
     init(
         service: RecipeServiceProvider,
-        paginationHandler: PaginationHandlerType,
-        maxAllowedRecipesCount: Int = 10
+        paginationHandler: PaginationHandlerType
     ) {
         self.service = service
         self.paginationHandler = paginationHandler
-        self.maxAllowedRecipesCount = maxAllowedRecipesCount
         Task { try await fetchRecipePagination() }
         Task { try await fetchLocalRecipes() }
         listeningFavoritesChanges()
