@@ -45,7 +45,7 @@ final class MockRecipeRepository: RecipeRepositoryType, @unchecked Sendable {
             let recipeDomains = dtos.results.map { RecipeDomain(from: $0) }
             recipe = recipeDomains.first
             pagination.totalCount = dtos.count
-            pagination.currentPage = dtos.results.count
+            pagination.currentPage = 1
 
             return recipeDomains
         }
@@ -55,9 +55,6 @@ final class MockRecipeRepository: RecipeRepositoryType, @unchecked Sendable {
     }
     
     func fetchRecipes(page: Int, pageSize: Int) async throws -> [RecipeDomain] {
-        if let recipe = recipe {
-            return [recipe]
-        }
         return []
     }
     

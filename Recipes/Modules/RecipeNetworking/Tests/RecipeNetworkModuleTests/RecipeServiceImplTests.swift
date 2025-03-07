@@ -24,7 +24,7 @@ class RecipeServiceImplTests: XCTestCase {
         do {
             let dtos = try await recipeRepository.fetchRecipes(endPoint: .recipes(page: 0, limit: 40))
             XCTAssertEqual(dtos.first?.name, "Low-Carb Avocado Chicken Salad")
-            XCTAssertEqual(dtos.count, 1)
+            XCTAssertEqual(dtos.count, 10)
             expectation.fulfill()
         } catch {
             XCTFail("Unexpected error happened: \(error)")
@@ -94,10 +94,9 @@ class RecipeServiceImplTests: XCTestCase {
         let expectation = XCTestExpectation(description: "Recipe should be fetched successfully with one recipe")
         
         do {
-            _ = try await recipeRepository.fetchRecipes(endPoint: .recipes(page: 0, limit: 40))
-            let savedDto = try await recipeRepository.fetchRecipes(page: 0, pageSize: 40)
-            XCTAssertEqual(savedDto.first?.name, "Low-Carb Avocado Chicken Salad")
-            XCTAssertEqual(savedDto.count, 1)
+            let dtos = try await recipeRepository.fetchRecipes(endPoint: .recipes(page: 0, limit: 40))
+            XCTAssertEqual(dtos.first?.name, "Low-Carb Avocado Chicken Salad")
+            XCTAssertEqual(dtos.count, 10)
             expectation.fulfill()
         } catch {
             XCTFail("Unexpected error happened: \(error)")

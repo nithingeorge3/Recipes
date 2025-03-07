@@ -22,7 +22,7 @@ struct RecipeDTO: Codable {
     let originalVideoURL: String?
     let createdAt, approvedAt: Int?
     let yields: String?
-    let userRatings: UserRatingsDTO? // I am not using this data(UI pending). In production I will never decode unwanted keys.
+    let userRatings: UserRatingsDTO? // I am not using this data(UI pending). In production I will not decode unwanted keys.
 //    let sections: [SectionDTO] // pending
 
     enum CodingKeys: String, CodingKey {
