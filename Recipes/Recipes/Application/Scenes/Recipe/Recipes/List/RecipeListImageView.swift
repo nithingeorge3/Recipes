@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+//just added for listing with combine.
 struct RecipeListImageView: View {
     let recipe: Recipe
     let gridSize: CGFloat

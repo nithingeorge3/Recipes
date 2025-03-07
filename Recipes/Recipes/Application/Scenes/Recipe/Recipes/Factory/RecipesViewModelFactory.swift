@@ -7,11 +7,11 @@
 
 import RecipeNetworking
 
-protocol RecipeListViewModelFactoryType {
+protocol RecipesViewModelFactoryType {
     @MainActor func makeRecipeListViewModel(service: RecipeServiceProvider, paginationHandler: PaginationHandlerType) async -> RecipeListViewModel
 }
 
-final class RecipeListViewModelFactory: RecipeListViewModelFactoryType {
+final class RecipesViewModelFactory: RecipesViewModelFactoryType {
     func makeRecipeListViewModel(service: RecipeServiceProvider, paginationHandler: PaginationHandlerType) async -> RecipeListViewModel {
         RecipeListViewModel(service: service, paginationHandler: paginationHandler)
     }

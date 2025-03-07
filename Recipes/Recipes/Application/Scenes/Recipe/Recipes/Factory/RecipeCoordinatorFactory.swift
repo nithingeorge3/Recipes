@@ -17,8 +17,8 @@ protocol RecipeListCoordinatorFactoryType {
 final class RecipeListCoordinatorFactory: RecipeListCoordinatorFactoryType {
     func makeRecipeListCoordinator(container: ModelContainer) async -> RecipeListCoordinator {
         let tabItem = TabItem(title: "Recipe", icon: "house.fill", badgeCount: 0, color: .black)
-        let modelFactory = RecipeListViewModelFactory()
-        let viewFactory = RecipeListViewFactory()
+        let modelFactory = RecipesViewModelFactory()
+        let viewFactory = RecipesViewFactory()
         
         let paginationSDRepo = PaginationSDRepository(container: container)
         let recipeSDRepo = RecipeSDRepository(container: container)
