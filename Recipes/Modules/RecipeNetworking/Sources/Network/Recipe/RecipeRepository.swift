@@ -58,19 +58,30 @@ final class RecipeRepository: RecipeRepositoryType {
             
             try await recipeSDRepo.saveRecipes(recipeDomains)
             
-            //total saved count for updating Pagination
-            let savedRecipes = try await recipeSDRepo.fetchRecipes()
+            //added for testing
+//            let savedRecipes = try await recipeSDRepo.fetchRecipes()
             
-            let paginationDomain = PaginationDomain(entityType: .recipe, totalCount: dtos.count, currentPage: savedRecipes.count, lastUpdated: Date())
+            var pagination = try await paginationSDRepo.fetchRecipePagination(.recipe)
+            pagination.totalCount = dtos.count
+            pagination.currentPage += 1
+            pagination.lastUpdated = Date()
             
+//            print("*** API called")
+//            print("*** Fetched Recipes count: \(dtos.results.count)")
+//            print("*** Saved Recipes count: \(savedRecipes.count)")
+//            print("*** Next: pagination.currentPage: \(pagination.currentPage)")
+//            print("*** endPoint current page: \(endPoint.recipeFetchInfo.0)")
+//            print("*** endPoint fetch limit: \(endPoint.recipeFetchInfo.1)")
+                        
             //updating Pagination
-            try await paginationSDRepo.updateRecipePagination(paginationDomain)
+            try await paginationSDRepo.updateRecipePagination(pagination)
             
-            //need to revisit
             let pageSize = endPoint.recipeFetchInfo.1
-            let page = endPoint.recipeFetchInfo.0 / pageSize
+            let page = endPoint.recipeFetchInfo.0
 
             let batchRecipes = try await fetchRecipes(page: page, pageSize: pageSize)
+            
+//            print("*** Returned Recipes count: \(batchRecipes.count)")
             
             return batchRecipes
         } catch {
@@ -94,7 +105,7 @@ extension RecipeRepository {
 }
 
 
-//RecipeListRepository added for combine based operation
+//RecipeListRepository added for combine based operation. We can add combine with RecipeRepositoryType.
 public protocol RecipeListRepositoryType {
     func fetchRecipes(endPoint: EndPoint) -> Future<[RecipeDomain], Error>
 }

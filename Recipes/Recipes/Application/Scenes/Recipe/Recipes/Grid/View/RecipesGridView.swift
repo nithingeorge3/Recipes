@@ -19,9 +19,6 @@ struct RecipesGridView: View {
     @State private var showProgress: Bool = false
     
     var body: some View {
-        print("**** favorites.count: \(favorites.count)")
-        print("**** others.count: \(others.count)")
-        print("**** all.count: \(others.count + favorites.count)")
         return GeometryReader { geometry in
             let totalWidth = geometry.size.width
             let spacing: CGFloat = Constants.Recipe.listSpacing

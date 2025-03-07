@@ -23,11 +23,8 @@ final class RequestBuilder: RequestBuilderType {
             request.addValue(apiKey,
                              forHTTPHeaderField: "x-rapidapi-key")
         }
-        print(request)
+        print("****request: \(request)")
         return request
     }
 }
-//https://tasty.p.rapidapi.com/recipes/list?from=0&size=20&tags=under_30_minutes
-//request.httpMethod = "GET"
-//request.allHTTPHeaderFields = ["x-rapidapi-key": "9223d79224msh6ad0e4f4ebb5b93p1d6f48jsn553047584145", "x-rapidapi-host": "tasty.p.rapidapi.com"]
 
