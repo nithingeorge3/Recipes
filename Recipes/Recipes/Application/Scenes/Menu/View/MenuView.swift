@@ -84,14 +84,14 @@ struct MenuView: View {
         case "Profile":
             ProfileView()
         case "Recipe List":
-            recipeListView()
+            recipesListView()
         default:
             EmptyView()
         }
     }
     
     //We nee dto create view and model from factory(e.g. RecipeListViewModelFactory). this is for showcasing combine
-    private func recipeListView() -> some View {
+    private func recipesListView() -> some View {
         let service = RecipeListServiceFactory.makeRecipeListService()
         let viewModel = RecipesViewModel(service: service)
         let recipeView = RecipesView(viewModel: viewModel)

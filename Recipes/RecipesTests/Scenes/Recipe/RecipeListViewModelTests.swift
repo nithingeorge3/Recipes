@@ -13,7 +13,7 @@ import Combine
 
 @MainActor
 final class RecipeListViewModelTests: XCTestCase {
-    private var viewModel: RecipeListViewModelType!
+    private var viewModel: RecipesListViewModelType!
     private var service: RecipeServiceProvider!
     private var paginationHandler: PaginationHandlerType!
     

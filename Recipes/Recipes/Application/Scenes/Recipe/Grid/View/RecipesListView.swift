@@ -1,5 +1,5 @@
 //
-//  RecipeListView.swift
+//  RecipesListView.swift
 //  Recipes
 //
 //  Created by Nitin George on 01/03/2025.
@@ -8,7 +8,7 @@
 import SwiftUI
 import Combine
 
-struct RecipeListView<ViewModel: RecipeListViewModelType>: View {
+struct RecipesListView<ViewModel: RecipesListViewModelType>: View {
     @Bindable var viewModel: ViewModel
    
     private var isEmpty: Bool {
@@ -47,26 +47,26 @@ struct RecipeListView<ViewModel: RecipeListViewModelType>: View {
 // MARK: - Previews
 #if DEBUG
 #Preview("Loading State") {
-    RecipeListView(viewModel: PreviewRecipeListViewModel(state: .loading))
+    RecipesListView(viewModel: PreviewRecipeListViewModel(state: .loading))
 }
 
 #Preview("Success State with Recipes") {
-    RecipeListView(viewModel: PreviewRecipeListViewModel(state: .success))
+    RecipesListView(viewModel: PreviewRecipeListViewModel(state: .success))
 }
 
 #Preview("Empty State") {
     let vm = PreviewRecipeListViewModel(state: .success)
     vm.recipes = []
-    return RecipeListView(viewModel: vm)
+    return RecipesListView(viewModel: vm)
 }
 
 #Preview("Error State") {
-    RecipeListView(viewModel: PreviewRecipeListViewModel(
+    RecipesListView(viewModel: PreviewRecipeListViewModel(
         state: .failed(error: NSError(domain: "Error", code: -1))
     ))
 }
 
-private class PreviewRecipeListViewModel: RecipeListViewModelType {    
+private class PreviewRecipeListViewModel: RecipesListViewModelType {    
     var recipes: [Recipe] = [
         Recipe(id: 1, name: "Kerala Chicken", thumbnailURL: "https://img.buzzfeed.com/thumbnailer-prod-us-east-1/45b4efeb5d2c4d29970344ae165615ab/FixedFBFinal.jpg" ,isFavorite: true),
         Recipe(id: 2, name: "Kerala Dosha", thumbnailURL: "https://img.buzzfeed.com/thumbnailer-prod-us-east-1/video-api/assets/314886.jpg", isFavorite: false),

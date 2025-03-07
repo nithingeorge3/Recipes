@@ -8,15 +8,15 @@
 import Foundation
 
 protocol RecipeListViewFactoryType {
-    @MainActor func makeRecipeListView<ViewModel: RecipeListViewModelType>(
+    @MainActor func makeRecipeListView<ViewModel: RecipesListViewModelType>(
         viewModel: ViewModel
-    ) -> RecipeListView<ViewModel>
+    ) -> RecipesListView<ViewModel>
 }
 
 final class RecipeListViewFactory: RecipeListViewFactoryType {
-    @MainActor func makeRecipeListView<ViewModel: RecipeListViewModelType>(
+    @MainActor func makeRecipeListView<ViewModel: RecipesListViewModelType>(
         viewModel: ViewModel
-    ) -> RecipeListView<ViewModel> {
-        RecipeListView(viewModel: viewModel)
+    ) -> RecipesListView<ViewModel> {
+        RecipesListView(viewModel: viewModel)
     }
 }

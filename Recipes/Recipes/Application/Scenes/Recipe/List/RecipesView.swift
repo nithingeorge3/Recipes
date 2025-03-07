@@ -19,13 +19,12 @@ struct RecipesView<ViewModel: RecipesViewModelType>: View {
             switch viewModel.state {
             case .loading:
                 ProgressView()
-                    .frame(maxWidth: .infinity)
-                
+                    .progressViewStyle(.circular)
+                    .scaleEffect(1.5)
             case .failed(let error):
                 ErrorView(error: error) {
                     viewModel.send(.refresh)
                 }
-                
             case .success:
                 if isEmpty {
                     EmptyStateView(message: "No recipes found. Please try again later.")

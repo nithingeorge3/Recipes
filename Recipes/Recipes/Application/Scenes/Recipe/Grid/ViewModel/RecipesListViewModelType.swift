@@ -12,7 +12,7 @@ import RecipeNetworking
 import RecipeDomain
 
 @MainActor
-protocol RecipeListViewModelType: AnyObject, Observable {
+protocol RecipesListViewModelType: AnyObject, Observable {
     var recipes: [Recipe] { get }
     var favoriteRecipes: [Recipe] { get }
     var otherRecipes: [Recipe] { get }
@@ -24,7 +24,7 @@ protocol RecipeListViewModelType: AnyObject, Observable {
 }
 
 @Observable
-class RecipeListViewModel: RecipeListViewModelType {
+class RecipeListViewModel: RecipesListViewModelType {
     var state: ResultState = .loading
     var recipes: [Recipe] = []
     let service: RecipeServiceProvider
