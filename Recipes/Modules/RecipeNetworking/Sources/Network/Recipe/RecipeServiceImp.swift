@@ -31,7 +31,6 @@ final class RecipeServiceImp: RecipeServiceProvider {
 extension RecipeServiceImp {        
     var favoritesDidChange: AsyncStream<Int> { favoritesDidChangeStream }
     
-#warning("add test case and remove all fetch swiftdata code")
     func fetchRecipe(for recipeID: Int) async throws -> RecipeDomain {
         try await recipeRepository.fetchRecipe(for: recipeID)
     }

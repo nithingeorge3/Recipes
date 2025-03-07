@@ -9,8 +9,7 @@ import Combine
 import Foundation
 import RecipeDomain
 
-#warning("")
-//need to split protocol. backend and SwiftData fetch
+//we can split protocol. backend and SwiftData fetch
 public protocol RecipeRepositoryType: Sendable {
     func fetchRecipes(endPoint: EndPoint) async throws -> [RecipeDomain]
     func fetchRecipe(for recipeID: Int) async throws -> RecipeDomain
