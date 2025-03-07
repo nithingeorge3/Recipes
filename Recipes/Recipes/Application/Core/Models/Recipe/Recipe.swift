@@ -9,7 +9,7 @@ import Foundation
 import RecipeDomain
 
 struct Recipe: Identifiable, Hashable {
-    let id: Int?
+    let id: Int
     let name: String
     let country: Country
     let description: String?
@@ -44,19 +44,19 @@ struct Recipe: Identifiable, Hashable {
 }
 
 extension Recipe {
-    init(from recipeDomain: RecipeDomain?) {
-        let userRatings = UserRatings(from: recipeDomain?.userRatings)
+    init(from recipeDomain: RecipeDomain) {
+        let userRatings = UserRatings(from: recipeDomain.userRatings)
         
-        self.id = recipeDomain?.id
-        self.name = recipeDomain?.name ?? "Unknown"
-        self.description = recipeDomain?.description
-        self.country = recipeDomain?.country ?? .unknown
-        self.thumbnailURL = recipeDomain?.thumbnailURL
-        self.originalVideoURL = recipeDomain?.originalVideoURL
-        self.createdAt = recipeDomain?.createdAt
-        self.approvedAt = recipeDomain?.approvedAt
-        self.yields = recipeDomain?.yields
-        self.isFavorite = recipeDomain?.isFavorite ?? false
+        self.id = recipeDomain.id
+        self.name = recipeDomain.name
+        self.description = recipeDomain.description
+        self.country = recipeDomain.country
+        self.thumbnailURL = recipeDomain.thumbnailURL
+        self.originalVideoURL = recipeDomain.originalVideoURL
+        self.createdAt = recipeDomain.createdAt
+        self.approvedAt = recipeDomain.approvedAt
+        self.yields = recipeDomain.yields
+        self.isFavorite = recipeDomain.isFavorite
         self.userRatings = userRatings
     }
 }

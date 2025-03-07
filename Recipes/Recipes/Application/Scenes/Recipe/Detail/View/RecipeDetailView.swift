@@ -140,7 +140,7 @@ private class PreviewDetailViewModel: RecipeDetailViewModelType {
         switch action {
         case .toggleFavorite:
             recipe.isFavorite.toggle()
-            Task { try? await service.updateFavouriteRecipe(recipe.id ?? 0) }
+            Task { try? await service.updateFavouriteRecipe(recipe.id) }
         }
     }
 }

@@ -58,9 +58,7 @@ class RecipeDetailViewModel: RecipeDetailViewModelType {
             recipe.isFavorite.toggle()
             Task {
                 do {
-                    if let id = recipe.id {
-                        recipe.isFavorite = try await service.updateFavouriteRecipe(id)
-                    } else { return }
+                    recipe.isFavorite = try await service.updateFavouriteRecipe(recipe.id)
                 } catch {
                     print("failed to upadte SwiftData: errro \(error)")
                 }
