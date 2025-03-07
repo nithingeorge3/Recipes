@@ -13,26 +13,27 @@ import RecipeDomain
 
 enum RecipeDetailActions {
     case toggleFavorite
+    case load
 }
 
 final class RecipeDetailCoordinator: Coordinator {
     private let viewModelFactory: RecipeDetailViewModelFactoryType
     private let viewFactory: RecipeDetailViewFactoryType
     private var viewModel: RecipeDetailViewModel
-    private let recipe: Recipe
+    private let recipeID: Recipe.ID
     private let service: RecipeSDServiceType
     
     init(
         viewModelFactory: RecipeDetailViewModelFactoryType,
         viewFactory: RecipeDetailViewFactoryType,
-        recipe: Recipe,
+        recipeID: Recipe.ID,
         service: RecipeSDServiceType
     ) {
         self.viewModelFactory = viewModelFactory
         self.viewFactory = viewFactory
-        self.recipe = recipe
+        self.recipeID = recipeID
         self.service = service
-        self.viewModel = viewModelFactory.makeRecipeDetailViewModel(recipe: recipe, service: service)
+        self.viewModel = viewModelFactory.makeRecipeDetailViewModel(recipeID: recipeID, service: service)
     }
     
     func start() -> some View {

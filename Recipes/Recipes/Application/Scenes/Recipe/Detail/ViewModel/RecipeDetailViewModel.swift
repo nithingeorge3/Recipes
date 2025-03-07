@@ -23,7 +23,7 @@ enum PresentedMedia: Identifiable {
 
 @MainActor
 protocol RecipeDetailViewModelType: AnyObject, Observable {
-    var recipe: Recipe { get set }
+    var recipe: Recipe? { get set }
     var mediaItems: [PresentedMedia] { get }
     
     func send(_ action: RecipeDetailActions)
@@ -31,14 +31,17 @@ protocol RecipeDetailViewModelType: AnyObject, Observable {
 
 @Observable
 class RecipeDetailViewModel: RecipeDetailViewModelType {    
-    var recipe: Recipe
+    var recipe: Recipe?
+    private let recipeID: Recipe.ID
     
     var mediaItems: [PresentedMedia] {
         var result: [PresentedMedia] = []
-        if let imageURL = recipe.thumbnailURL.validatedURL {
+        
+        if let imageURL = recipe?.thumbnailURL.validatedURL {
             result.append(.image(imageURL))
         }
-        if let videoURL = recipe.originalVideoURL.validatedURL {
+        
+        if let videoURL = recipe?.originalVideoURL.validatedURL {
             result.append(.video(videoURL))
         }
         
@@ -47,22 +50,34 @@ class RecipeDetailViewModel: RecipeDetailViewModelType {
     
     private let service: RecipeSDServiceType
     
-    init(recipe: Recipe, service: RecipeSDServiceType) {
-        self.recipe = recipe
+    init(recipeID: Recipe.ID, service: RecipeSDServiceType) {
         self.service = service
+        self.recipeID = recipeID
+        Task { await fetchRecipe() }
     }
     
     func send(_ action: RecipeDetailActions) {
         switch action {
         case .toggleFavorite:
-            recipe.isFavorite.toggle()
+            recipe?.isFavorite.toggle()
             Task {
                 do {
-                    recipe.isFavorite = try await service.updateFavouriteRecipe(recipe.id)
+                    recipe?.isFavorite = try await service.updateFavouriteRecipe(recipeID)
                 } catch {
                     print("failed to upadte SwiftData: errro \(error)")
                 }
             }
+        case .load:
+            Task { await fetchRecipe() }
+        }
+    }
+    
+    private func fetchRecipe() async {
+        do {
+            let recipeDomain = try await service.fetchRecipe(for: recipeID)
+            self.recipe = Recipe(from: recipeDomain)
+        } catch {
+            print("Error: \(error)")
         }
     }
 }

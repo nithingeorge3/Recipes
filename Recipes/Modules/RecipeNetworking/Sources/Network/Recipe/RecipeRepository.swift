@@ -9,8 +9,11 @@ import Combine
 import Foundation
 import RecipeDomain
 
+#warning("")
+//need to split protocol. backend and SwiftData fetch
 public protocol RecipeRepositoryType: Sendable {
     func fetchRecipes(endPoint: EndPoint) async throws -> [RecipeDomain]
+    func fetchRecipe(for recipeID: Int) async throws -> RecipeDomain
     func fetchRecipes(page: Int, pageSize: Int) async throws -> [RecipeDomain]
     func updateFavouriteRecipe(_ recipeID: Int) async throws -> Bool
     func fetchRecipePagination(_ entityType: EntityType) async throws -> PaginationDomain
@@ -91,6 +94,10 @@ final class RecipeRepository: RecipeRepositoryType {
 }
 
 extension RecipeRepository {
+    func fetchRecipe(for recipeID: Int) async throws -> RecipeDomain {
+        try await recipeSDRepo.fetchRecipe(for: recipeID)
+    }
+    
     func fetchRecipes(page: Int, pageSize: Int) async throws -> [RecipeDomain] {
         try await recipeSDRepo.fetchRecipes(page: page, pageSize: pageSize)
     }

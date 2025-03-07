@@ -16,7 +16,7 @@ import RecipeDataStore
 enum RecipeListAction: Hashable {
     case refresh
     case loadNextPage
-    case userSelectedRecipe(Recipe)
+    case userSelectedRecipe(Recipe.ID)
 }
 
 @MainActor
@@ -46,7 +46,7 @@ final class RecipeListCoordinator: ObservableObject, Coordinator, TabItemProvide
         self.modelFactory = modelFactory
         self.service = RecipeServiceFactory.makeRecipeService(recipeSDRepo: recipeSDRepo, paginationSDRepo: paginationSDRepo)
         
-        //If you are facing issues with API(API down, reach limit), mock the response")
+        //Testing purpose/API down/reach limit, mocking the response but recipes are not saving to switdata")
 //        self.service = MockRecipeServiceFactory.makeRecipeService(recipeSDRepo: recipeSDRepo, paginationSDRepo: paginationSDRepo)
         
         let paginationHandler: PaginationHandlerType = PaginationHandler()
@@ -80,9 +80,8 @@ final class RecipeListCoordinator: ObservableObject, Coordinator, TabItemProvide
 }
 
 extension RecipeListCoordinator {
-    func navigateToRecipeDetail(for recipe: Recipe) -> some View {
-        print(recipe.name)
-        let detailedCoordinator = RecipeDetailCoordinatorFactory().makeRecipeDetailCoordinator(recipe: recipe, service: service)
+    func navigateToRecipeDetail(for recipeID: Recipe.ID) -> some View {
+        let detailedCoordinator = RecipeDetailCoordinatorFactory().makeRecipeDetailCoordinator(recipeID: recipeID, service: service)
         return detailedCoordinator.start()
     }
 }
