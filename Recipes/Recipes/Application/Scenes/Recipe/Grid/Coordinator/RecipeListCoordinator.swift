@@ -46,6 +46,9 @@ final class RecipeListCoordinator: ObservableObject, Coordinator, TabItemProvide
         self.modelFactory = modelFactory
         self.service = RecipeServiceFactory.makeRecipeService(recipeSDRepo: recipeSDRepo, paginationSDRepo: paginationSDRepo)
         
+//#warning("If you are facing issues with API response error or API down, mock the response.  but you will see duplication on scroll becaus e i was returning a same array each time")
+        //        self.service = MockRecipeServiceFactory.makeRecipeService(recipeSDRepo: recipeSDRepo, paginationSDRepo: paginationSDRepo)
+        
         let paginationHandler: PaginationHandlerType = PaginationHandler()
         
         let vm = await modelFactory.makeRecipeListViewModel(

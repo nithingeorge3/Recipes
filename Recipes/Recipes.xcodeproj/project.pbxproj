@@ -39,9 +39,22 @@
 		28227A472D73E8C900583E2C /* RecipeNetworking */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = RecipeNetworking; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		2890EB0A2D7A6EFC00A5DA15 /* Exceptions for "Recipes" folder in "Recipes" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Application/Scenes/Recipe/List/RecipesViewModel.swift,
+			);
+			target = 282279AA2D73DE5500583E2C /* Recipes */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		282279AD2D73DE5500583E2C /* Recipes */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				2890EB0A2D7A6EFC00A5DA15 /* Exceptions for "Recipes" folder in "Recipes" target */,
+			);
 			path = Recipes;
 			sourceTree = "<group>";
 		};
