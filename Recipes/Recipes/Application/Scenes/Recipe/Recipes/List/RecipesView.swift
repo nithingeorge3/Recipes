@@ -41,9 +41,6 @@ struct RecipesView<ViewModel: RecipesViewModelType>: View {
                         }
                     }
                     .listStyle(.plain)
-                    .refreshable {
-                        viewModel.send(.refresh)
-                    }
                 }
             }
         }

@@ -31,6 +31,10 @@ final class RecipeServiceImp: RecipeServiceProvider {
 extension RecipeServiceImp {        
     var favoritesDidChange: AsyncStream<Int> { favoritesDidChangeStream }
     
+    func fetchRecipe(for recipeID: Int) async throws -> RecipeDomain {
+        try await recipeRepository.fetchRecipe(for: recipeID)
+    }
+    
     func fetchRecipes(page: Int = 0, pageSize: Int = 40) async throws -> [RecipeDomain] {
         try await recipeRepository.fetchRecipes(page: page, pageSize: pageSize)
     }

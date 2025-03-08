@@ -31,7 +31,7 @@ struct RecipesListView<ViewModel: RecipesListViewModelType>: View {
                     EmptyStateView(message: "No recipes found. Please try again later.")
                 } else {
                     RecipesGridView(favorites: viewModel.favoriteRecipes, others: viewModel.otherRecipes, hasMoreData: viewModel.paginationHandler.hasMoreData) { recipe in
-                        viewModel.send(.userSelectedRecipe(recipe))
+                        viewModel.send(.userSelectedRecipe(recipe.id))
                     } onReachBottom: {
                         viewModel.send(.loadNextPage)
                     }

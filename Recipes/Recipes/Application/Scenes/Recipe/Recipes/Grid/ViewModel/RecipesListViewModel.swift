@@ -59,8 +59,8 @@ class RecipeListViewModel: RecipesListViewModelType {
         case .loadNextPage:
             guard paginationHandler.hasMoreData else { return }
             Task { try await fetchRemoteRecipes() }
-        case .userSelectedRecipe( let recipe):
-            recipeListActionSubject.send(RecipeListAction.userSelectedRecipe(recipe))
+        case .userSelectedRecipe( let recipeID):
+            recipeListActionSubject.send(RecipeListAction.userSelectedRecipe(recipeID))
         }
     }
     

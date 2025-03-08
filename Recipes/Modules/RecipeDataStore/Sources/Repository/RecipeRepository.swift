@@ -27,10 +27,15 @@ public final class RecipeSDRepository: RecipeSDRepositoryType {
         DataStoreManager(container: self.container)
     }
     
-    public func fetchRecipes() async throws -> [RecipeDomain] {
+    public func fetchRecipe(for recipeID: Int) async throws -> RecipeDomain {
         try await dataStore.performBackgroundTask { context in
-            let descriptor = FetchDescriptor<SDRecipe>()
-            return try context.fetch(descriptor).map(RecipeDomain.init)
+            let predicate = #Predicate<SDRecipe> { $0.id == recipeID }
+            let descriptor = FetchDescriptor<SDRecipe>(predicate: predicate)
+
+            guard let recipe = try context.fetch(descriptor).first else {
+                throw SDError.modelObjNotFound
+            }
+            return RecipeDomain(from: recipe)
         }
     }
     

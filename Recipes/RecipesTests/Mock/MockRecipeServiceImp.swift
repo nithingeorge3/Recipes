@@ -29,10 +29,16 @@ final class MockRecipeServiceImp: RecipeServiceProvider, @unchecked Sendable {
     }
     
     func triggerFavoriteChange(recipeID: Int) {
-        //code
     }
     
     var favoritesDidChange: AsyncStream<Int> { stream }
+    
+    func fetchRecipe(for recipeID: Int) async throws -> RecipeDomain {
+        guard let recipe = stubbedRecipes.first else {
+            throw RecipeError.notFound(recipeID: recipeID)
+        }
+        return recipe
+    }
     
     func fetchRecipes(page: Int, pageSize: Int) async throws -> [RecipeDomain] {
         return stubbedRecipes

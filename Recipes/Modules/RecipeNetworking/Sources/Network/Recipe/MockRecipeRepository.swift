@@ -54,6 +54,13 @@ final class MockRecipeRepository: RecipeRepositoryType, @unchecked Sendable {
         }
     }
     
+    func fetchRecipe(for recipeID: Int) async throws -> RecipeDomain {
+        guard let recipe = recipe else {
+            throw RecipeError.notFound(recipeID: recipeID)
+        }
+        return recipe
+    }
+    
     func fetchRecipes(page: Int, pageSize: Int) async throws -> [RecipeDomain] {
         return []
     }
