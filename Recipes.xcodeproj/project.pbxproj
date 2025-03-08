@@ -114,9 +114,9 @@
 			children = (
 				28227A482D73E8C900583E2C /* Modules */,
 				282279AD2D73DE5500583E2C /* Recipes */,
-				281E0A132D7C47D900217DE5 /* SnapshotTests */,
 				282279BE2D73DE5700583E2C /* RecipesTests */,
 				282279C82D73DE5700583E2C /* RecipesUITests */,
+				281E0A132D7C47D900217DE5 /* SnapshotTests */,
 				28227A492D73E8E200583E2C /* Frameworks */,
 				282279AC2D73DE5500583E2C /* Products */,
 			);
