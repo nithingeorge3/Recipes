@@ -23,7 +23,7 @@ SwiftUI-based application designed using the MVVM-C (Model-View-ViewModel-Coordi
 3. Pending: Unit test cases and testing.
 4. SwiftData migration has not been implemented.
 5. UI test cases are not covered, but I have included UI testing using Previews.
-6. Accessibility and snapshot testing are not included.
+6. Accessibility features are not included.
 7. Bugs
     
 
