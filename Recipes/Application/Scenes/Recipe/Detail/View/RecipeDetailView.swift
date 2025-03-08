@@ -167,7 +167,7 @@ struct SubTitleView: View {
 }
 
 // MARK: - Preview ViewModel
-private class PreviewDetailViewModel: RecipeDetailViewModelType {
+public class PreviewDetailViewModel: RecipeDetailViewModelType {
     var recipe: Recipe?
     private let recipeID: Recipe.ID
     private let service: RecipeSDServiceType
