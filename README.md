@@ -33,7 +33,10 @@ SwiftUI-based application designed using the MVVM-C (Model-View-ViewModel-Coordi
 3. SDUserRatings → Not yet integrated with the UI.
     
 ## Screenshots
-<img src="./Images/Phone/recipeGrid1.png"  width="25%" height="25%">|<img src="./Images/Phone/recipeGrid2.png"  width="25%" height="25%">|<img src="./Images/Phone/recipeGrid3.png"  width="25%" height="25%">|<img src="./Images/Phone/recipeGrid4.png"  width="25%" height="25%">|<img src="./Images/Phone/recipeDetail1.png"  width="25%" height="25%">|<img src="./Images/Phone/recipeDetail2.png"  width="25%" height="25%">|<img src="./Images/Phone/recipeDetail3.png"  width="25%" height="25%">|<img src="./Images/Phone/more1.png"  width="25%" height="25%">|<img src="./Images/Phone/more2.png"  width="25%" height="25%">|<img src="./Images/Phone/recipeList1.png"  width="25%" height="25%">|<img src="./Images/Pad/recipeGrid1.png"  width="25%" height="25%">|<img src="./Images/Pad/recipeGrid2.png"  width="25%" height="25%">|<img src="./Images/Pad/recipeDetail2.png"  width="25%" height="25%">|<img src="./Images/Pad/recipeDetail3.png"  width="25%" height="25%">
+### iPhone Screens
+<img src="./Images/Phone/recipeGrid1.png"  width="25%" height="25%">|<img src="./Images/Phone/recipeGrid2.png"  width="25%" height="25%">|<img src="./Images/Phone/recipeGrid3.png"  width="25%" height="25%">|<img src="./Images/Phone/recipeGrid4.png"  width="25%" height="25%">|<img src="./Images/Phone/recipeDetail1.png"  width="25%" height="25%">|<img src="./Images/Phone/recipeDetail2.png"  width="25%" height="25%">|<img src="./Images/Phone/recipeDetail3.png"  width="25%" height="25%">|<img src="./Images/Phone/more1.png"  width="25%" height="25%">|<img src="./Images/Phone/more2.png"  width="25%" height="25%">|<img src="./Images/Phone/recipeList1.png"  width="25%" height="25%">
+### iPad Screens
+<img src="./Images/Pad/recipeGrid1.png"  width="25%" height="25%">|<img src="./Images/Pad/recipeGrid2.png"  width="25%" height="25%">|<img src="./Images/Pad/recipeDetail2.png"  width="25%" height="25%">|<img src="./Images/Pad/recipeDetail3.png"  width="25%" height="25%">
 
 ## Modules
 1. RecipeNetworking: Provides a simple, reusable API wrapper around the network back end, facilitating data retrieval. It abstracts the complexity of networking and parsing, offering a clean interface for developers to interact with API endpoints.
