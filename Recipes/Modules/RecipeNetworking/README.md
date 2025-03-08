@@ -22,11 +22,63 @@ The **`RecipeNetworking`** provides a simple, reusable API wrapper around the ne
 
 To interact with the network or mock data, use the `RecipeServiceFactory` to create an instance of `RecipeService`:
 
+Using Aync/await
+
 ```swift
 import RecipeNetworking
 
 let recipeService = RecipeServiceFactory.createRecipeService()
+
+// Safe handling with proper error handling
+Task {
+    do {
+        let recipeDomains = try await service.fetchRecipes(
+            endPoint: .recipes(
+                page: ,
+                limit: 
+            )
+        )
+    } catch {
+    
+    }
+}
+
+// Dangerous - silently ignores errors
+let recipeDomains = try? await service.fetchRecipes(
+    endPoint: .recipes(
+        page: ,
+        limit: 
+    )
+)
+
+//Crash Risk - will terminate on errors
+let recipeDomains = try! await service.fetchRecipes(
+    endPoint: .recipes(
+        page: ,
+        limit: 
+    )
+)
 ```
+
+Using service with combine
+
+```swift
+var cancellables: Set<AnyCancellable> = []
+    
+service.fetchRecipes(endPoint: .recipes(page: , limit: ))
+    .sink { [weak self] completion in
+        guard let self = self else { return }
+        switch completion {
+        case .finished:
+        case .failure(let error):
+        }
+    }
+receiveValue: { [weak self] response in
+}
+.store(in: &cancellables)
+```
+
+---
 
 ---
 
@@ -61,8 +113,6 @@ default:
 }
 ```
 ---
-
-## **Architecture**
 
 ### **Main Components**
 
