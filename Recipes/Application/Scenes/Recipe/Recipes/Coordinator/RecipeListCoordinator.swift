@@ -11,12 +11,11 @@ import RecipeDataStore
 import SwiftData
 import SwiftUI
 import RecipeDomain
-import RecipeDataStore
 
 enum RecipeListAction: Hashable {
     case refresh
-    case loadNextPage
-    case userSelectedRecipe(Recipe.ID)
+    case loadMore
+    case selectRecipe(Recipe.ID)
 }
 
 @MainActor
@@ -46,9 +45,6 @@ final class RecipeListCoordinator: ObservableObject, Coordinator, TabItemProvide
         self.modelFactory = modelFactory
         self.service = RecipeServiceFactory.makeRecipeService(recipeSDRepo: recipeSDRepo, paginationSDRepo: paginationSDRepo)
         
-        //Testing purpose/API down/reach limit, mocking the response but recipes are not saving to switdata")
-//        self.service = MockRecipeServiceFactory.makeRecipeService(recipeSDRepo: recipeSDRepo, paginationSDRepo: paginationSDRepo)
-        
         let paginationHandler: PaginationHandlerType = PaginationHandler()
         
         let vm = await modelFactory.makeRecipeListViewModel(
@@ -69,8 +65,8 @@ final class RecipeListCoordinator: ObservableObject, Coordinator, TabItemProvide
             .sink { [weak self] action in
                 guard let self = self else { return }
                 switch action {
-                case .userSelectedRecipe(let recipe):
-                    self.navigationPath.append(RecipeListAction.userSelectedRecipe(recipe))
+                case .selectRecipe(let recipeID):
+                    self.navigationPath.append(RecipeListAction.selectRecipe(recipeID))
                 default:
                     break
                 }

@@ -56,11 +56,11 @@ class RecipeListViewModel: RecipesListViewModelType {
         switch action {
         case .refresh:
             Task { try await fetchRemoteRecipes() }
-        case .loadNextPage:
+        case .loadMore:
             guard paginationHandler.hasMoreData else { return }
             Task { try await fetchRemoteRecipes() }
-        case .userSelectedRecipe( let recipeID):
-            recipeListActionSubject.send(RecipeListAction.userSelectedRecipe(recipeID))
+        case .selectRecipe( let recipeID):
+            recipeListActionSubject.send(RecipeListAction.selectRecipe(recipeID))
         }
     }
     
@@ -99,7 +99,9 @@ class RecipeListViewModel: RecipesListViewModelType {
         guard !paginationHandler.isLoading else {
             return
         }
+        
         paginationHandler.isLoading = true
+        
         Task {
             do {
                 let recipeDomains = try await service.fetchRecipes(
@@ -108,8 +110,10 @@ class RecipeListViewModel: RecipesListViewModelType {
                         limit: Constants.Recipe.fetchLimit
                     )
                 )
+                
                 let newRecipes = recipeDomains.map { Recipe(from: $0) }
                 updateRecipes(with: newRecipes)
+                
                 try await fetchRecipePagination()
             } catch {
                 if recipes.count == 0 {
@@ -134,6 +138,7 @@ class RecipeListViewModel: RecipesListViewModelType {
     private func listeningFavoritesChanges() {
         updateTask = Task { [weak self] in
             guard let self = self else { return }
+            
             for await recipeID in self.service.favoritesDidChange {
                 self.updateRecipeFavoritesStatus(recipeID: recipeID)
             }
@@ -142,6 +147,7 @@ class RecipeListViewModel: RecipesListViewModelType {
     
     private func updateRecipeFavoritesStatus(recipeID: Int) {
         guard let index = recipes.firstIndex(where: { $0.id == recipeID }) else { return }
+        
         if recipes.count > index - 1 {
             recipes[index].isFavorite.toggle()
         }

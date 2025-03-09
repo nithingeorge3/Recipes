@@ -90,7 +90,7 @@ Once you have an `RecipeService` instance, call its `fetchRecipes` method to fet
 
 ## **Error Handling**
 
-The `NewsNetworking` provides a `NetworkError` enum to classify and handle errors:
+The `RecipeNetworking` provides a `NetworkError` enum to classify and handle errors:
 
 - **`invalidURL`**: Indicates an invalid or malformed URL.
 - **`responseError`**: Indicates a non-200 HTTP response.

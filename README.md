@@ -17,7 +17,7 @@ SwiftUI-based application designed using the MVVM-C (Model-View-ViewModel-Coordi
 - View-Specific Model: Used in the view layer for rendering UI.
 5. Coordinator for Navigation: Coordinator pattern is used for managing navigation flow.
 
-## limitations
+## limitations/issues
 1. I have used the same image for both the thumbnail and detail views. In a real scenario, I would resize the image for the thumbnail and save it separately, making it more efficient to decode and render.
 2. Due to time constraints, I used simple Git commit messages. However, in a real work environment, I follow proper commit conventions, use feature branches, and submit pull requests (PRs). I prefer maintaining develop and master branches, but for this project, I committed directly to main.
 3. Pending: Unit test cases and testing.

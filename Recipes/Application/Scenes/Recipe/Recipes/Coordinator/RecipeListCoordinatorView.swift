@@ -15,7 +15,7 @@ struct RecipeListCoordinatorView: View {
                 coordinator.viewFactory.makeRecipesGridView(viewModel: coordinator.viewModel)
                 .navigationDestination(for: RecipeListAction.self) { action in
                     switch action {
-                    case .userSelectedRecipe(let recipeID):
+                    case .selectRecipe(let recipeID):
                         coordinator.navigateToRecipeDetail(for: recipeID)
                     default: EmptyView()
                     }

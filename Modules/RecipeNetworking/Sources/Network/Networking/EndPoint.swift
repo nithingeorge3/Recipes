@@ -28,7 +28,6 @@ extension EndPoint: URLBuilder {
             components.host = recipeBaseURL
         }
         
-        //https://tasty.p.rapidapi.com/recipes/list?from=0&size=20&tags=under_30_minutes
         if case let .recipes(page, limit) = self {
             components.queryItems = [
                 URLQueryItem(name: "from", value: "\(page)"),

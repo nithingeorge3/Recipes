@@ -8,9 +8,9 @@
 import SwiftUI
 import Kingfisher
 
-//ToDo: need to revisit
 struct RecipeImageView: View {
     let imageURL: URL
+    let width: CGFloat
     let height: CGFloat
     var kingfisherManager: KingfisherManager = .shared
     
@@ -20,10 +20,12 @@ struct RecipeImageView: View {
     @State private var currentImageURL: URL
 
     init(imageURL: URL,
+         width: CGFloat,
          height: CGFloat,
          kingfisherManager: KingfisherManager = .shared)
     {
         self.imageURL = imageURL
+        self.width = width
         self.height = height
         self.kingfisherManager = kingfisherManager
         _currentImageURL = State(initialValue: imageURL)
@@ -33,6 +35,8 @@ struct RecipeImageView: View {
         KFImage(currentImageURL)
             .placeholder {
                 ProgressView("Loading...")
+                    .progressViewStyle(.circular)
+                    .scaleEffect(1.5)
             }
             .onSuccess { result in
                 isLoadingSuccessful = true
@@ -45,7 +49,7 @@ struct RecipeImageView: View {
             }
             .resizable()
             .scaledToFill()
-            .frame(width: height ,height: height)
+            .frame(width: width ,height: height)
     }
 
     private func reloadImage() {

@@ -56,20 +56,3 @@ public final class RecipeListServiceFactory: RecipeServiceListFactoryType {
         return RecipeListServiceImp(recipeRepository: recipeRepository)
     }
 }
-
-//just added for dev purpose
-public final class MockRecipeServiceFactory: RecipeServiceFactoryType, RecipeKeyServiceFactoryType, @unchecked Sendable {
-    public static func makeRecipeService(recipeSDRepo: RecipeSDRepositoryType, paginationSDRepo: PaginationSDRepositoryType) -> RecipeServiceProvider {
-        
-        let pagination: PaginationDomain = PaginationDomain(id: UUID(), entityType: .recipe, totalCount: 10, currentPage: 10, lastUpdated: Date(timeIntervalSince1970: 0))
-                                                        
-        let recipeRepository: RecipeRepositoryType = MockRecipeRepository(fileName: "recipe_success", parser: ServiceParser(), pagination: pagination)
-        
-        return RecipeServiceImp(recipeRepository: recipeRepository)
-    }
-    
-    public static func makeRecipeKeyService() -> any RecipeKeyServiceType {
-        let recipeKeyRepo: RecipeKeyRepositoryType = RecipeKeyRepository(keyChainManager: KeyChainManager.shared)
-        return RecipeKeyService(recipeKeyRepo: recipeKeyRepo)
-    }
-}

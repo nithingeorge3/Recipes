@@ -8,7 +8,6 @@
 import Foundation
 import SwiftData
 import RecipeDataStore
-import RecipeDataStore
 
 protocol RecipeListCoordinatorFactoryType {
     @MainActor func makeRecipeListCoordinator(container: ModelContainer) async -> RecipeListCoordinator
