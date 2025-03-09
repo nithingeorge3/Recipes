@@ -29,7 +29,7 @@ struct CustomBackButtonModifier: ViewModifier {
 }
 
 struct CustomNavigationTitle: ViewModifier {
-    @State var title: String = "News"
+    @State var title: String = "Recipe"
     func body(content: Content) -> some View {
         content
             .navigationBarTitleDisplayMode(.inline)

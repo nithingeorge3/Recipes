@@ -7,4 +7,4 @@
 
 # **RecipeDomain**
 
-The **`RecipeDomain`** module provides bridge between NewsNetworking and NewsDataStore. It avoiding teh circular dependency
+The **`RecipeDomain`** module provides bridge between RecipeNetworking and RecipeDataStore. It avoiding teh circular dependency

@@ -5,14 +5,12 @@
 //  Created by Nitin George on 05/03/2025.
 //
 
-@testable import Recipes
 import XCTest
 import SwiftUI
 import SnapshotTesting
 import RecipeNetworking
 
 @testable import Recipes
-import SwiftUI
 
 @MainActor
 class RecipeDetailViewSnapshotTests: XCTestCase {

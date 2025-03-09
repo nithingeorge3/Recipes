@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-//just added for listing with combine.
+//added for listing with combine.
 struct RecipeListImageView: View {
     let recipe: Recipe
     let gridSize: CGFloat
@@ -16,7 +16,7 @@ struct RecipeListImageView: View {
         HStack(alignment: .top, spacing: 16) {
             Group {
                 if let url = recipe.thumbnailURL.validatedURL {
-                    RecipeImageView(imageURL: url, height: gridSize)
+                    RecipeImageView(imageURL: url, width: gridSize, height: gridSize)
                         .cornerRadius(10)
                 } else {
                     Image(Constants.Recipe.placeholderImage)

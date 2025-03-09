@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import RecipeDomain
 
 struct RecipeResponseDTO: Codable {
     let count: Int

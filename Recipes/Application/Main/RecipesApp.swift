@@ -19,6 +19,8 @@ struct RecipesApp: App {
                 switch appCoordinator.state {
                 case .loading:
                     ProgressView()
+                        .progressViewStyle(.circular)
+                        .scaleEffect(1.5)
                 case .ready(let coordinator):
                     coordinator.start()
                 }

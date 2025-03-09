@@ -23,7 +23,6 @@ final class RequestBuilder: RequestBuilderType {
             request.addValue(apiKey,
                              forHTTPHeaderField: "x-rapidapi-key")
         }
-        print("****request: \(request)")
         return request
     }
 }

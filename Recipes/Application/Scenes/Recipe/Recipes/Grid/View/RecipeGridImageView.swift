@@ -14,7 +14,7 @@ struct RecipeGridImageView: View {
     var body: some View {
         VStack {
             if let url = recipe.thumbnailURL.validatedURL {
-                RecipeImageView(imageURL: url, height: gridSize)
+                RecipeImageView(imageURL: url, width: gridSize, height: gridSize)
                     .cornerRadius(10)
             } else {
                 Image(Constants.Recipe.placeholderImage)
