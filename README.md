@@ -17,15 +17,16 @@ SwiftUI-based application designed using the MVVM-C (Model-View-ViewModel-Coordi
 - View-Specific Model: Used in the view layer for rendering UI.
 5. Coordinator for Navigation: Coordinator pattern is used for managing navigation flow.
 
-## limitations/issues
+## limitations
 1. I have used the same image for both the thumbnail and detail views. In a real scenario, I would resize the image for the thumbnail and save it separately, making it more efficient to decode and render.
 2. Due to time constraints, I used simple Git commit messages. However, in a real work environment, I follow proper commit conventions, use feature branches, and submit pull requests (PRs). I prefer maintaining develop and master branches, but for this project, I committed directly to main.
-3. Pending: Unit test cases and testing.
+3. Pending unit test cases.
 4. SwiftData migration has not been implemented.
-5. UI test cases are not covered, but I have included UI testing using Previews.
-6. Accessibility features are not included.
-7. Bugs
-    
+5. UI test cases are not covered, but I have included UI testing using Previews and snapshot testing.
+
+## Known Issues & Future Improvements
+1. During final testing, I noticed a couple of issues that may require further investigation. Given more time, I would refine data handling and optimize UI updates to ensure the best user experience. These improvements would be prioritised in a production environment.
+2. Accessibility features are not included.
 
 ## Data storage
 1. SDRecipe → Has a one-to-many relationship with SDUserRating.
