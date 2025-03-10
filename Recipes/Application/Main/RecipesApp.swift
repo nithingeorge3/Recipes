@@ -32,6 +32,7 @@ struct RecipesApp: App {
     }
 }
 
+//I used ObservableObject here. But we can also use @Observable macro
 @MainActor
 class AppCoordinator: ObservableObject {
     enum State {
