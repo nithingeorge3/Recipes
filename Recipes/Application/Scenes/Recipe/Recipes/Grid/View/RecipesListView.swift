@@ -30,7 +30,7 @@ struct RecipesListView<ViewModel: RecipesListViewModelType>: View {
                 if isEmpty {
                     EmptyStateView(message: "No recipes found. Please try again later.")
                 } else {
-                    RecipesGridView(favorites: viewModel.favoriteRecipes, others: viewModel.otherRecipes, hasMoreData: viewModel.paginationHandler.hasMoreData) { recipe in
+                    RecipesGridView(favorites: viewModel.favoriteRecipes, others: viewModel.otherRecipes, hasMoreData: viewModel.remotePagination.hasMoreData) { recipe in
                         viewModel.send(.selectRecipe(recipe.id))
                     } onReachBottom: {
                         viewModel.send(.loadMore)
@@ -75,7 +75,9 @@ private class PreviewRecipeListViewModel: RecipesListViewModelType {
     var pagination: Pagination? = Pagination(entityType: .recipe)
     var favoriteRecipes: [Recipe] { recipes.filter { $0.isFavorite } }
     var otherRecipes: [Recipe] { recipes.filter { !$0.isFavorite } }
-    var paginationHandler: PaginationHandlerType = PreviewPaginationHandler()
+    var remotePagination: RemotePaginationHandlerType = PreviewRemotePaginationHandler()
+    var localPagination: any LocalPaginationHandlerType = PreviewLocalPaginationHandler()
+    
     var recipeListActionSubject = PassthroughSubject<RecipeListAction, Never>()
     var state: ResultState
     
@@ -87,7 +89,7 @@ private class PreviewRecipeListViewModel: RecipesListViewModelType {
     }
 }
 
-private class PreviewPaginationHandler: PaginationHandlerType {
+private class PreviewRemotePaginationHandler: RemotePaginationHandlerType {
     var currentPage: Int = 1
     var totalItems: Int = 10
     var hasMoreData: Bool = true
@@ -109,6 +111,27 @@ private class PreviewPaginationHandler: PaginationHandlerType {
         totalItems = pagination.totalCount
         currentPage = pagination.currentPage
         lastUpdated = pagination.lastUpdated
+    }
+}
+
+private class PreviewLocalPaginationHandler: LocalPaginationHandlerType {
+    var currentOffset: Int = 0
+    var pageSize: Int = 0
+    var totalItems: Int = 10
+    var isLoading: Bool = false
+    var lastUpdated: Date = Date()
+
+    var hasMoreData: Bool = false
+    
+    func reset() {
+    }
+    
+    func incrementOffset() {
+        currentOffset += pageSize
+    }
+    
+    func updateTotalItems(_ newValue: Int) {
+        totalItems = newValue
     }
 }
 #endif

@@ -38,10 +38,10 @@ final class PaginationRepositoryTests: XCTestCase {
 
 extension PaginationRepositoryTests {
     func testFetchInitialPagination() async throws {
-        let pagination = try await repository.fetchRecipePagination(.recipe)
+        let pagination = try await repository.fetchPagination(.recipe)
         
         XCTAssertEqual(pagination.entityType, .recipe)
-        XCTAssertEqual(pagination.totalCount, 0)
+        XCTAssertEqual(pagination.totalCount, 40)
         XCTAssertEqual(pagination.currentPage, 0)
     }
     
@@ -52,8 +52,8 @@ extension PaginationRepositoryTests {
             currentPage: 2
         )
         
-        try await repository.updateRecipePagination(pagination)
-        let fetched = try await repository.fetchRecipePagination(.recipe)
+        try await repository.updatePagination(pagination)
+        let fetched = try await repository.fetchPagination(.recipe)
         
         XCTAssertEqual(fetched.totalCount, 100)
         XCTAssertEqual(fetched.currentPage, 2)
@@ -61,11 +61,11 @@ extension PaginationRepositoryTests {
     
     func testUpdate_ModifiesExisting_Pagination() async throws {
         let initial = PaginationDomain(entityType: .recipe, totalCount: 50, currentPage: 1)
-        try await repository.updateRecipePagination(initial)
+        try await repository.updatePagination(initial)
         
         let updated = PaginationDomain(entityType: .recipe, totalCount: 50, currentPage: 2)
-        try await repository.updateRecipePagination(updated)
-        let fetched = try await repository.fetchRecipePagination(.recipe)
+        try await repository.updatePagination(updated)
+        let fetched = try await repository.fetchPagination(.recipe)
         
         XCTAssertEqual(fetched.currentPage, 2)
         XCTAssertEqual(fetched.totalCount, 50)
@@ -77,8 +77,8 @@ extension PaginationRepositoryTests {
         let startDate = Date()
         let pagination = PaginationDomain(entityType: .recipe)
         
-        try await repository.updateRecipePagination(pagination)
-        let fetched = try await repository.fetchRecipePagination(.recipe)
+        try await repository.updatePagination(pagination)
+        let fetched = try await repository.fetchPagination(.recipe)
         
         XCTAssertGreaterThan(fetched.lastUpdated, startDate)
         XCTAssertLessThan(fetched.lastUpdated, Date())

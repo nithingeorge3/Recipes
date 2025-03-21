@@ -34,8 +34,8 @@ Task {
     do {
         let recipeDomains = try await service.fetchRecipes(
             endPoint: .recipes(
-                page: ,
-                limit: 
+                startIndex: ,
+                pageSize: 
             )
         )
     } catch {
@@ -46,16 +46,16 @@ Task {
 // Dangerous - silently ignores errors
 let recipeDomains = try? await service.fetchRecipes(
     endPoint: .recipes(
-        page: ,
-        limit: 
+        startIndex: ,
+        pageSize: 
     )
 )
 
 //Crash Risk - will terminate on errors
 let recipeDomains = try! await service.fetchRecipes(
     endPoint: .recipes(
-        page: ,
-        limit: 
+        startIndex: ,
+        pageSize: 
     )
 )
 ```
@@ -65,7 +65,7 @@ Using service with combine
 ```swift
 var cancellables: Set<AnyCancellable> = []
     
-service.fetchRecipes(endPoint: .recipes(page: , limit: ))
+service.fetchRecipes(endPoint: .recipes(startIndex: , pageSize: ))
     .sink { [weak self] completion in
         guard let self = self else { return }
         switch completion {

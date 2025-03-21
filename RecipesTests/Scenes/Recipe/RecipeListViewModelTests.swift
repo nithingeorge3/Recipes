@@ -14,21 +14,24 @@ import RecipeNetworking
 final class RecipeListViewModelTests: XCTestCase {
     private var viewModel: RecipesListViewModelType!
     private var service: RecipeServiceProvider!
-    private var paginationHandler: PaginationHandlerType!
+    private var remotePagination: RemotePaginationHandlerType!
+    private var localPagination: LocalPaginationHandlerType!
     
     override func setUp() {
         super.setUp()
         service = MockRecipeServiceImp()
-        paginationHandler = MockPaginationHandler()
+        remotePagination = MockRemotePaginationHandler()
+        localPagination = MockLocalPaginationHandler()
         
-        viewModel = RecipeListViewModel(service: service, paginationHandler: paginationHandler)
+        viewModel = RecipeListViewModel(service: service, remotePagination: remotePagination, localPagination: localPagination)
     }
     
     override func tearDown() {
         super.tearDown()
         viewModel = nil
         service = nil
-        paginationHandler = nil
+        remotePagination = nil
+        localPagination = nil
     }
 
     func testInitialStateIsLoading() {

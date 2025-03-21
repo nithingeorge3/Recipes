@@ -1,5 +1,5 @@
 //
-//  PaginationState.swift
+//  RemotePaginationHandler.swift
 //  Recipes
 //
 //  Created by Nitin George on 01/03/2025.
@@ -9,7 +9,7 @@ import Foundation
 import Observation
 
 @MainActor
-protocol PaginationHandlerType: AnyObject {
+protocol RemotePaginationHandlerType: AnyObject {
     var currentPage: Int { get set }
     var totalItems: Int { get set }
     var hasMoreData: Bool { get }
@@ -22,7 +22,7 @@ protocol PaginationHandlerType: AnyObject {
 }
 
 @Observable
-final class PaginationHandler: PaginationHandlerType {
+final class RemotePaginationHandler: RemotePaginationHandlerType {
     var currentPage: Int = 0
     var totalItems: Int = 0
     var isLoading: Bool = false

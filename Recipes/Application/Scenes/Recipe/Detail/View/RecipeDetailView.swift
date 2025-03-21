@@ -25,7 +25,7 @@ struct RecipeDetailView<ViewModel: RecipeDetailViewModelType>: View {
             }
         }
         .onAppear {
-            viewModel.send(.load)
+            viewModel.send(.loadRecipe)
         }
         .withCustomBackButton()
         .withCustomNavigationTitle(title: viewModel.recipe?.name ?? "Recipe Details")
@@ -202,7 +202,7 @@ public class PreviewDetailViewModel: RecipeDetailViewModelType {
         case .toggleFavorite:
             recipe?.isFavorite.toggle()
             Task { try? await service.updateFavouriteRecipe(recipeID) }
-        case .load:
+        case .loadRecipe:
             break
         }
     }
@@ -250,15 +250,19 @@ private class MockPreviewService: RecipeSDServiceType, @unchecked Sendable {
         AsyncStream { _ in }
     }
     
+    func fetchRecipesCount() async throws -> Int {
+        0
+    }
+    
     func fetchRecipe(for recipeID: Int) async throws -> RecipeDomain {
         RecipeDomain(id: 999, name: "Mock Recipe")
     }
     
-    func fetchRecipes(page: Int, pageSize: Int) async throws -> [RecipeDomain] {
+    func fetchRecipes(startIndex: Int, pageSize: Int) async throws -> [RecipeDomain] {
         []
     }
     
-    func fetchRecipePagination(_ type: EntityType) async throws -> PaginationDomain {
+    func fetchPagination(_ type: EntityType) async throws -> PaginationDomain {
         PaginationDomain(entityType: .recipe, totalCount: 10, currentPage: 10)
     }
     

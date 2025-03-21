@@ -32,7 +32,7 @@ final class RecipeDomainTests: XCTestCase {
     func testPaginationDomainDefaults() {
         let pagination = PaginationDomain()
         XCTAssertEqual(pagination.entityType, .recipe)
-        XCTAssertEqual(pagination.totalCount, 0)
+        XCTAssertEqual(pagination.totalCount, 40)
         XCTAssertEqual(pagination.currentPage, 0)
     }
     

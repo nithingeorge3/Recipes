@@ -64,10 +64,10 @@ class RecipeDetailViewModel: RecipeDetailViewModelType {
                 do {
                     recipe?.isFavorite = try await service.updateFavouriteRecipe(recipeID)
                 } catch {
-                    print("failed to upadte SwiftData: errro \(error)")
+                    print("failed to upadte SwiftData: error \(error)")
                 }
             }
-        case .load:
+        case .loadRecipe:
             Task { await fetchRecipe() }
         }
     }

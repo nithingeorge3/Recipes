@@ -45,11 +45,13 @@ final class RecipeListCoordinator: ObservableObject, Coordinator, TabItemProvide
         self.modelFactory = modelFactory
         self.service = RecipeServiceFactory.makeRecipeService(recipeSDRepo: recipeSDRepo, paginationSDRepo: paginationSDRepo)
         
-        let paginationHandler: PaginationHandlerType = PaginationHandler()
+        let remotePagination: RemotePaginationHandlerType = RemotePaginationHandler()
+        let localPagination: LocalPaginationHandlerType = LocalPaginationHandler()
         
         let vm = await modelFactory.makeRecipeListViewModel(
             service: service,
-            paginationHandler: paginationHandler
+            remotePagination: remotePagination,
+            localPagination: localPagination
         )
 
         self.viewModel = vm

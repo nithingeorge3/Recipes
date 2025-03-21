@@ -12,8 +12,8 @@ import SwiftData
 import RecipeDomain
 
 enum RecipeDetailActions {
+    case loadRecipe
     case toggleFavorite
-    case load
 }
 
 final class RecipeDetailCoordinator: Coordinator {

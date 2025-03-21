@@ -16,7 +16,8 @@ protocol RecipesListViewModelType: AnyObject, Observable {
     var recipes: [Recipe] { get }
     var favoriteRecipes: [Recipe] { get }
     var otherRecipes: [Recipe] { get }
-    var paginationHandler: PaginationHandlerType { get }
+    var remotePagination: RemotePaginationHandlerType { get }
+    var localPagination: LocalPaginationHandlerType { get }
     var recipeListActionSubject: PassthroughSubject<RecipeListAction, Never> { get  set }
     var state: ResultState { get }
     
@@ -28,7 +29,9 @@ class RecipeListViewModel: RecipesListViewModelType {
     var state: ResultState = .loading
     var recipes: [Recipe] = []
     let service: RecipeServiceProvider
-    var paginationHandler: PaginationHandlerType
+    var remotePagination: RemotePaginationHandlerType
+    var localPagination: LocalPaginationHandlerType
+    
     var recipeListActionSubject = PassthroughSubject<RecipeListAction, Never>()
     
     private var updateTask: Task<Void, Never>?
@@ -43,50 +46,73 @@ class RecipeListViewModel: RecipesListViewModelType {
     
     init(
         service: RecipeServiceProvider,
-        paginationHandler: PaginationHandlerType
+        remotePagination: RemotePaginationHandlerType,
+        localPagination: LocalPaginationHandlerType
     ) {
         self.service = service
-        self.paginationHandler = paginationHandler
-        Task { try await fetchRecipePagination() }
-        Task { try await fetchLocalRecipes() }
+        self.remotePagination = remotePagination
+        self.localPagination = localPagination
+        
+        Task { try await updateLocalPagination() }
+        Task { try await updateRemotePagination() }
         listeningFavoritesChanges()
     }
     
     func send(_ action: RecipeListAction) {
         switch action {
         case .refresh:
-            Task { try await fetchRemoteRecipes() }
+            if localPagination.hasMoreData {
+                Task { try await fetchLocalRecipes() }
+            } else if remotePagination.hasMoreData {
+                Task { try await fetchRemoteRecipes() }
+            }
         case .loadMore:
-            guard paginationHandler.hasMoreData else { return }
-            Task { try await fetchRemoteRecipes() }
+            Task {
+                do {
+                    if localPagination.hasMoreData {
+                        try await fetchLocalRecipes()
+                    } else if remotePagination.hasMoreData {
+                        try await fetchRemoteRecipes()
+                    }
+                } catch {
+                    print("error: \(error)")
+                }
+            }
         case .selectRecipe( let recipeID):
             recipeListActionSubject.send(RecipeListAction.selectRecipe(recipeID))
         }
     }
     
-    private func fetchRecipePagination() async throws {
+    private func updateRemotePagination() async throws {
         Task {
             do {
-                let paginationDomain = try await service.fetchRecipePagination(.recipe)
-                updatePagination(Pagination(from: paginationDomain))
+                let paginationDomain = try await service.fetchPagination(.recipe)
+                remotePagination.updateFromDomain(Pagination(from: paginationDomain))
             } catch {
                 print("\(error)")
             }
         }
     }
     
+    private func updateLocalPagination() async throws {
+        let count = try await service.fetchRecipesCount()
+        localPagination.updateTotalItems(count)
+    }
+    
     private func fetchLocalRecipes() async throws {
         Task {
             do {
                 let recipeDomains = try await service.fetchRecipes(
-                        page: 0,
-                        pageSize: Constants.Recipe.fetchLimit
+                        startIndex: localPagination.currentOffset,
+                        pageSize: localPagination.pageSize
                     )
                 
                 let storedRecipes = recipeDomains.map { Recipe(from: $0) }
                 
                 if storedRecipes.count > 0 {
-                    recipes = storedRecipes
+                    recipes.append(contentsOf: storedRecipes)
+                    
+                    localPagination.incrementOffset()
                     state = .success
                 }
             } catch {
@@ -96,43 +122,47 @@ class RecipeListViewModel: RecipesListViewModelType {
     }
     
     private func fetchRemoteRecipes() async throws {
-        guard !paginationHandler.isLoading else {
+        guard !remotePagination.isLoading else {
             return
         }
         
-        paginationHandler.isLoading = true
+        remotePagination.isLoading = true
         
         Task {
             do {
-                let recipeDomains = try await service.fetchRecipes(
+                let results = try await service.fetchRecipes(
                     endPoint: .recipes(
-                        page: paginationHandler.currentPage,
-                        limit: Constants.Recipe.fetchLimit
+                        startIndex: remotePagination.currentPage,
+                        pageSize: Constants.Recipe.fetchLimit
                     )
                 )
                 
-                let newRecipes = recipeDomains.map { Recipe(from: $0) }
-                updateRecipes(with: newRecipes)
+                updateRemoteRecipes(with: results)
                 
-                try await fetchRecipePagination()
+                try await updateRemotePagination()
             } catch {
                 if recipes.count == 0 {
+                    remotePagination.isLoading = false
                     state = .failed(error: error)
                 }
             }
         }
     }
     
-    private func updateRecipes(with fetchedRecipes: [Recipe]) {
-        if fetchedRecipes.count > 0 {
-            recipes.append(contentsOf: fetchedRecipes)
+    private func updateRemoteRecipes(with fetchedRecipes: (inserted: [RecipeDomain], updated: [RecipeDomain])) {
+        let newRecipes = fetchedRecipes.inserted.map { Recipe(from: $0) }
+        let updatedRecipes = fetchedRecipes.updated.map { Recipe(from: $0) }
+        
+        recipes.append(contentsOf: newRecipes)
+        
+        for recipe in updatedRecipes {
+            if let index = self.recipes.firstIndex(where: { $0.id == recipe.id }) {
+                self.recipes[index] = recipe
+            }
         }
         
+        remotePagination.isLoading = false
         state = .success
-    }
-    
-    private func updatePagination(_ pagination: Pagination) {
-        paginationHandler.updateFromDomain(pagination)
     }
     
     private func listeningFavoritesChanges() {
