@@ -81,8 +81,6 @@ struct MenuView: View {
     @ViewBuilder
     private func destinationView(for item: SidebarItem) -> some View {
         switch item.title {
-        case "Profile":
-            ProfileView()
         case "Recipe List":
             recipesListView()
         default:
@@ -100,7 +98,7 @@ struct MenuView: View {
 // MARK: - Previews
 #if DEBUG
 #Preview {
-    let items = [SidebarItem(title: "Profile", type: .navigation)]
+    let items = [SidebarItem(title: "Recipe List", type: .navigation)]
     MenuView(viewModel: MenuViewModel(service: RecipeServiceFactory.makeRecipeKeyService(), items: items))
 }
 #endif

@@ -1,6 +1,6 @@
 # Recipes
 ## Requirements
-- iOS 16.0+
+- iOS 17.0+
 - Swift 5.9
 
 ## Overview
