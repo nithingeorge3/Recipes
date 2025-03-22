@@ -164,20 +164,24 @@ struct SubTitleView: View {
 #if DEBUG
 #Preview("Default Detail") {
     RecipeDetailView(viewModel: PreviewDetailViewModel.fullRecipe)
+        .environmentObject(TabBarVisibility())
 }
 
 #Preview("No Image") {
     RecipeDetailView(viewModel: PreviewDetailViewModel.noImageRecipe)
+        .environmentObject(TabBarVisibility())
 }
 
 #Preview("No Description") {
     RecipeDetailView(viewModel: PreviewDetailViewModel.noDescriptionRecipe)
+        .environmentObject(TabBarVisibility())
 }
 
 #Preview("Favorite State") {
     let vm = PreviewDetailViewModel.fullRecipe
     vm.recipe?.isFavorite.toggle()
     return RecipeDetailView(viewModel: vm)
+            .environmentObject(TabBarVisibility())
 }
 
 // MARK: - Preview ViewModel

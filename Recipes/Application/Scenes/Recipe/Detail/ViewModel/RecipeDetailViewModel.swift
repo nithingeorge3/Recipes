@@ -55,7 +55,6 @@ class RecipeDetailViewModel: RecipeDetailViewModelType {
     init(recipeID: Recipe.ID, service: RecipeSDServiceType) {
         self.service = service
         self.recipeID = recipeID
-        Task { await fetchRecipe() }
     }
     
     func send(_ action: RecipeDetailActions) {
