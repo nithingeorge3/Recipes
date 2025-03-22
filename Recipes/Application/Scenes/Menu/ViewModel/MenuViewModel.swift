@@ -11,6 +11,7 @@ import RecipeDataStore
 import SwiftData
 
 class MenuViewModel: ObservableObject {
+    @Published var showDeleteConfirmation = false
     private let service: RecipeKeyServiceType
     let items: [SidebarItem]
     
@@ -19,8 +20,7 @@ class MenuViewModel: ObservableObject {
         self.items = items
     }
     
-     func performLogOut() {
+     func deleteRecipeAPIKey() {
          service.deleteRecipeAPIkey()
-         //clearing API on logout. I just added this code.
     }
 }

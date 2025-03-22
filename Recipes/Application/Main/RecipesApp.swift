@@ -41,16 +41,18 @@ class AppCoordinator: ObservableObject {
     }
     
     @Published var state: State = .loading
+    private let tabBarVisibility: TabBarVisibility
     
     private let containerName: String
     
-    init(containerName: String = "Recipe") {
+    init(containerName: String = "Recipe", tabBarVisibility: TabBarVisibility = TabBarVisibility()) {
         self.containerName = containerName
+        self.tabBarVisibility = tabBarVisibility
     }
     
     func initialize() async {
         let container = DataStoreManagerFactory.makeSharedContainer(for: containerName)
-        let coordinator = await AppTabCoordinatorFactory().makeAppTabCoordinator(container: container)
+        let coordinator = await AppTabCoordinatorFactory().makeAppTabCoordinator(container: container, tabBarVisibility: tabBarVisibility)
         state = .ready(coordinator)
     }
 }

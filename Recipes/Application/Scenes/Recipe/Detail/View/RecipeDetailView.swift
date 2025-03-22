@@ -12,6 +12,7 @@ import RecipeNetworking
 
 struct RecipeDetailView<ViewModel: RecipeDetailViewModelType>: View {
     @Bindable var viewModel: ViewModel
+    @EnvironmentObject private var tabBarVisibility: TabBarVisibility
     @State private var selectedIndex: Int = 0
    
     var body: some View {
@@ -26,6 +27,7 @@ struct RecipeDetailView<ViewModel: RecipeDetailViewModelType>: View {
         }
         .onAppear {
             viewModel.send(.loadRecipe)
+            tabBarVisibility.isHidden = true
         }
         .withCustomBackButton()
         .withCustomNavigationTitle(title: viewModel.recipe?.name ?? "Recipe Details")

@@ -9,13 +9,15 @@ import SwiftUI
 import RecipeNetworking
 
 struct AppTabView: View {
+    @ObservedObject var tabBarVisibility: TabBarVisibility
     @State private var selectedTab: UUID
     private let tabProvider: TabProvider
     let tabs: [TabItem]
 
-    init(tabs: [TabItem], tabProvider: TabProvider) {
+    init(tabs: [TabItem], tabProvider: TabProvider, tabBarVisibility: TabBarVisibility) {
         self.tabs = tabs
         self.tabProvider = tabProvider
+        self.tabBarVisibility = tabBarVisibility
         _selectedTab = State(initialValue: tabs.first!.id)
     }
 
@@ -27,7 +29,10 @@ struct AppTabView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color.white)
 
-            CustomTabBar(selectedTab: $selectedTab, tabs: tabs)
+            if !tabBarVisibility.isHidden {
+                CustomTabBar(selectedTab: $selectedTab, tabs: tabs)
+                    .transition(.move(edge: .bottom))
+            }
         }
         .edgesIgnoringSafeArea(.bottom)
     }

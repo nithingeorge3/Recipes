@@ -17,6 +17,7 @@ enum RecipeDetailActions {
 }
 
 final class RecipeDetailCoordinator: Coordinator {
+    private let tabBarVisibility: TabBarVisibility
     private let viewModelFactory: RecipeDetailViewModelFactoryType
     private let viewFactory: RecipeDetailViewFactoryType
     private var viewModel: RecipeDetailViewModel
@@ -27,16 +28,19 @@ final class RecipeDetailCoordinator: Coordinator {
         viewModelFactory: RecipeDetailViewModelFactoryType,
         viewFactory: RecipeDetailViewFactoryType,
         recipeID: Recipe.ID,
-        service: RecipeSDServiceType
+        service: RecipeSDServiceType,
+        tabBarVisibility: TabBarVisibility
     ) {
         self.viewModelFactory = viewModelFactory
         self.viewFactory = viewFactory
         self.recipeID = recipeID
         self.service = service
         self.viewModel = viewModelFactory.makeRecipeDetailViewModel(recipeID: recipeID, service: service)
+        self.tabBarVisibility = tabBarVisibility
     }
     
     func start() -> some View {
         viewFactory.makeRecipeDetailView(viewModel: viewModel)
+            .environmentObject(tabBarVisibility)
     }
 }

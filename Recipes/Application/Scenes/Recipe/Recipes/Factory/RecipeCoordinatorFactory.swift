@@ -10,11 +10,11 @@ import SwiftData
 import RecipeDataStore
 
 protocol RecipeListCoordinatorFactoryType {
-    @MainActor func makeRecipeListCoordinator(container: ModelContainer) async -> RecipeListCoordinator
+    @MainActor func makeRecipeListCoordinator(container: ModelContainer, tabBarVisibility: TabBarVisibility) async -> RecipeListCoordinator
 }
 
 final class RecipeListCoordinatorFactory: RecipeListCoordinatorFactoryType {
-    func makeRecipeListCoordinator(container: ModelContainer) async -> RecipeListCoordinator {
+    func makeRecipeListCoordinator(container: ModelContainer, tabBarVisibility: TabBarVisibility) async -> RecipeListCoordinator {
         let tabItem = TabItem(title: "Recipe", icon: "house.fill", badgeCount: 0, color: .black)
         let modelFactory = RecipesViewModelFactory()
         let viewFactory = RecipesViewFactory()
@@ -24,6 +24,7 @@ final class RecipeListCoordinatorFactory: RecipeListCoordinatorFactoryType {
         
         return await RecipeListCoordinator(
             tabItem: tabItem,
+            tabBarVisibility: tabBarVisibility,
             viewFactory: viewFactory,
             modelFactory: modelFactory,
             paginationSDRepo: paginationSDRepo,

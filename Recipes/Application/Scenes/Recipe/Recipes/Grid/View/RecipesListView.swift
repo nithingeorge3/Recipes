@@ -10,7 +10,8 @@ import Combine
 
 struct RecipesListView<ViewModel: RecipesListViewModelType>: View {
     @Bindable var viewModel: ViewModel
-   
+    @EnvironmentObject private var tabBarVisibility: TabBarVisibility
+    
     private var isEmpty: Bool {
         viewModel.recipes.isEmpty
     }
@@ -39,6 +40,7 @@ struct RecipesListView<ViewModel: RecipesListViewModelType>: View {
             }
         }.onAppear {
             viewModel.send(.refresh)
+            tabBarVisibility.isHidden = false
         }
         .withCustomNavigationTitle(title: "Recipes")
     }

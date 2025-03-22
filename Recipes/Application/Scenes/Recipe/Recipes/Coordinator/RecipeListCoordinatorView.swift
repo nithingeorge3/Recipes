@@ -13,6 +13,7 @@ struct RecipeListCoordinatorView: View {
     var body: some View {
         NavigationStack(path: $coordinator.navigationPath) {
                 coordinator.viewFactory.makeRecipesGridView(viewModel: coordinator.viewModel)
+                    .environmentObject(coordinator.tabBarVisibility)
                 .navigationDestination(for: RecipeListAction.self) { action in
                     switch action {
                     case .selectRecipe(let recipeID):
