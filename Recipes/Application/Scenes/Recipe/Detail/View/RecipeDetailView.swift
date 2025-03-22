@@ -29,6 +29,14 @@ struct RecipeDetailView<ViewModel: RecipeDetailViewModelType>: View {
             viewModel.send(.loadRecipe)
             tabBarVisibility.isHidden = true
         }
+        .alert("Remove from saved", isPresented: $viewModel.showFavouriteConfirmation) {
+            Button("Cancel", role: .cancel) { }
+            Button("Remove", role: .destructive) {
+                viewModel.send(.toggleFavorite)
+            }
+        } message: {
+            Text("The Recipe will be removed from your saved list.")
+        }
         .withCustomBackButton()
         .withCustomNavigationTitle(title: viewModel.recipe?.name ?? "Recipe Details")
     }
@@ -63,7 +71,11 @@ struct RecipeDetailView<ViewModel: RecipeDetailViewModelType>: View {
                 VStack(alignment: .center) {
                     Spacer().frame(height: 10.0)
                     Button(action: {
-                        viewModel.send(.toggleFavorite)
+                        if !(viewModel.recipe?.isFavorite ?? false) {
+                            viewModel.send(.toggleFavorite)
+                        } else {
+                            viewModel.showFavouriteConfirmation = true
+                        }
                     }) {
                         Image(systemName: recipe.isFavorite ? "heart.fill" : "heart")
                             .font(.system(size: 28))
@@ -171,6 +183,7 @@ struct SubTitleView: View {
 // MARK: - Preview ViewModel
 public class PreviewDetailViewModel: RecipeDetailViewModelType {
     var recipe: Recipe?
+    var showFavouriteConfirmation: Bool = false
     private let recipeID: Recipe.ID
     private let service: RecipeSDServiceType
     

@@ -25,6 +25,7 @@ enum PresentedMedia: Identifiable {
 protocol RecipeDetailViewModelType: AnyObject, Observable {
     var recipe: Recipe? { get set }
     var mediaItems: [PresentedMedia] { get }
+    var showFavouriteConfirmation: Bool { get set }
     
     func send(_ action: RecipeDetailActions)
 }
@@ -32,6 +33,7 @@ protocol RecipeDetailViewModelType: AnyObject, Observable {
 @Observable
 class RecipeDetailViewModel: RecipeDetailViewModelType {    
     var recipe: Recipe?
+    var showFavouriteConfirmation = false
     private let recipeID: Recipe.ID
     
     var mediaItems: [PresentedMedia] {

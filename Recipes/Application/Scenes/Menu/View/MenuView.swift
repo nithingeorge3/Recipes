@@ -43,7 +43,7 @@ struct MenuView: View {
         }
         .alert("Delete API Key?", isPresented: $viewModel.showDeleteConfirmation) {
             Button("Cancel", role: .cancel) { }
-            Button("Remove", role: .destructive) {
+            Button("Delete", role: .destructive) {
                 viewModel.deleteRecipeAPIKey()
             }
         } message: {
