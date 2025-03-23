@@ -13,3 +13,19 @@ extension String? {
         return URL(string: self)
     }
 }
+
+extension DateFormatter {
+    static let recipeDateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .long
+        formatter.timeStyle = .none
+        formatter.doesRelativeDateFormatting = true
+        return formatter
+    }()
+    
+    static func relativeDateString(from timestamp: Int?) -> String? {
+        guard let timestamp = timestamp else { return nil }
+        let date = Date(timeIntervalSince1970: TimeInterval(timestamp))
+        return DateFormatter.recipeDateFormatter.string(from: date)
+    }
+}

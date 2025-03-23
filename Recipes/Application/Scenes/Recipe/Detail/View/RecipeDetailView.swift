@@ -52,7 +52,7 @@ struct RecipeDetailView<ViewModel: RecipeDetailViewModelType>: View {
     private func contentView(for recipe: Recipe) -> some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
-                RecipeImageCarousel(
+                RecipeImageCarouselView(
                     mediaItems: viewModel.mediaItems,
                     selectedIndex: $selectedIndex
                 )
@@ -109,9 +109,10 @@ struct RecipeDetailView<ViewModel: RecipeDetailViewModelType>: View {
     @ViewBuilder
     private func detailSection(for recipe: Recipe) -> some View {
         Group {
+            RecipeMetaInfoView(createdAt: viewModel.createdAtString, servings: recipe.yields)
             SubTitleView(title: "Description")
             DescriptionText(description: recipe.description)
-            RatingsSection(ratings: recipe.ratings)
+            RatingsSectionView(ratings: recipe.ratings)
         }
         .padding(.horizontal, 8)
     }
@@ -168,47 +169,6 @@ struct SubTitleView: View {
     }
 }
 
-struct RatingsSection: View {
-    let ratings: UserRatings
-    
-    var body: some View {
-        VStack(alignment: .leading, spacing: 15) {
-            SubTitleView(title: "Community Ratings")
-            
-            HStack(spacing: 20) {
-                RatingBadge(
-                    count: ratings.countPositive,
-                    label: "Positive",
-                    systemImage: "hand.thumbsup.fill",
-                    color: .green
-                )
-                
-                RatingBadge(
-                    count: ratings.countNegative,
-                    label: "Negative",
-                    systemImage: "hand.thumbsdown.fill",
-                    color: .red
-                )
-                
-                if ratings.score >= 0 {
-                    ScoreIndicator(score: ratings.score)
-                }
-            }
-            .frame(maxWidth: .infinity)
-            
-            if ratings.countPositive == 0 && ratings.countNegative == 0 {
-                Text("Be the first to rate this recipe")
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
-                    .frame(maxWidth: .infinity, alignment: .center)
-            }
-        }
-        .background(Color(.secondarySystemBackground).opacity(0.7))
-        .cornerRadius(15)
-        .transition(.opacity.combined(with: .scale))
-    }
-}
-
 // MARK: - Previews
 #if DEBUG
 #Preview("Default Detail") {
@@ -236,7 +196,7 @@ struct RatingsSection: View {
 // MARK: - Preview ViewModel
 public class PreviewDetailViewModel: RecipeDetailViewModelType {
     var navigationTitle: String = ""
-    
+    var createdAtString: String? = "28/03/2023"
     var state: RecipeDetailState = .loading
     
     var recipe: Recipe?
@@ -300,8 +260,9 @@ extension PreviewDetailViewModel {
                 country: .ind,
                 thumbnailURL: "https://img.buzzfeed.com/thumbnailer-prod-us-east-1/45b4efeb5d2c4d29970344ae165615ab/FixedFBFinal.jpg",
                 originalVideoURL: "https://s3.amazonaws.com/video-api-prod/assets/a0e1b07dc71c4ac6b378f24493ae2d85/FixedFBFinal.mp4",
+                yields: "Serve 4",
                 isFavorite: false,
-                ratings: UserRatings(id: 1)
+                ratings: UserRatings(id: 1, countNegative: 169, countPositive: 3525, score: 0.95)
             )
         )
     }

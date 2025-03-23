@@ -45,6 +45,7 @@ enum PresentedMedia: Identifiable {
 protocol RecipeDetailViewModelType: AnyObject, Observable {
     var state: RecipeDetailState { get }
     var navigationTitle: String  { get }
+    var createdAtString: String? { get }
     var mediaItems: [PresentedMedia] { get }
     var showFavouriteConfirmation: Bool { get set }
     
@@ -56,6 +57,7 @@ protocol RecipeDetailViewModelType: AnyObject, Observable {
 class RecipeDetailViewModel: RecipeDetailViewModelType {    
     var showFavouriteConfirmation = false
     var navigationTitle = ""
+    var createdAtString: String?
     
     private let recipeID: Recipe.ID
     private let service: RecipeSDServiceType
@@ -109,7 +111,11 @@ private extension RecipeDetailViewModel {
         do {
             let recipeDomain = try await service.fetchRecipe(for: recipeID)
             let recipe = Recipe(from: recipeDomain)
+            print("***** recipeID::: \(recipeID)")
             state = .loaded(recipe)
+            createdAtString = DateFormatter.relativeDateString(
+                from: recipe.createdAt
+            )
         } catch {
             state = .error(RecipeError.notFound(recipeID: recipeID))
         }
@@ -117,7 +123,7 @@ private extension RecipeDetailViewModel {
     
     func handleFavoriteToggle() {
         guard case var .loaded(recipe) = state else { return }
-        
+                
         recipe.isFavorite.toggle()
         let updatedValue = recipe.isFavorite
         
