@@ -110,8 +110,8 @@ struct RecipeDetailView<ViewModel: RecipeDetailViewModelType>: View {
     private func detailSection(for recipe: Recipe) -> some View {
         Group {
             SubTitleView(title: "Description")
-
             DescriptionText(description: recipe.description)
+            RatingsSection(ratings: recipe.ratings)
         }
         .padding(.horizontal, 8)
     }
@@ -165,6 +165,47 @@ struct SubTitleView: View {
         Text(title)
             .font(.title2)
             .fontWeight(.semibold)
+    }
+}
+
+struct RatingsSection: View {
+    let ratings: UserRatings
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 15) {
+            SubTitleView(title: "Community Ratings")
+            
+            HStack(spacing: 20) {
+                RatingBadge(
+                    count: ratings.countPositive,
+                    label: "Positive",
+                    systemImage: "hand.thumbsup.fill",
+                    color: .green
+                )
+                
+                RatingBadge(
+                    count: ratings.countNegative,
+                    label: "Negative",
+                    systemImage: "hand.thumbsdown.fill",
+                    color: .red
+                )
+                
+                if ratings.score >= 0 {
+                    ScoreIndicator(score: ratings.score)
+                }
+            }
+            .frame(maxWidth: .infinity)
+            
+            if ratings.countPositive == 0 && ratings.countNegative == 0 {
+                Text("Be the first to rate this recipe")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+                    .frame(maxWidth: .infinity, alignment: .center)
+            }
+        }
+        .background(Color(.secondarySystemBackground).opacity(0.7))
+        .cornerRadius(15)
+        .transition(.opacity.combined(with: .scale))
     }
 }
 
@@ -234,7 +275,7 @@ public class PreviewDetailViewModel: RecipeDetailViewModelType {
             recipe?.isFavorite.toggle()
             Task { try? await service.updateFavouriteRecipe(recipeID) }
         case .loadRecipe:
-            let dummyRecipe = Recipe(id: 1, name: "Pasta")
+            let dummyRecipe = Recipe(id: 1, name: "Pasta", ratings: UserRatings(id: 1))
             state = .loaded(recipe ?? dummyRecipe)
         }
     }
@@ -259,7 +300,8 @@ extension PreviewDetailViewModel {
                 country: .ind,
                 thumbnailURL: "https://img.buzzfeed.com/thumbnailer-prod-us-east-1/45b4efeb5d2c4d29970344ae165615ab/FixedFBFinal.jpg",
                 originalVideoURL: "https://s3.amazonaws.com/video-api-prod/assets/a0e1b07dc71c4ac6b378f24493ae2d85/FixedFBFinal.mp4",
-                isFavorite: false
+                isFavorite: false,
+                ratings: UserRatings(id: 1)
             )
         )
     }
@@ -270,7 +312,8 @@ extension PreviewDetailViewModel {
             name: "Kerala Chicken Biriyani (CB)",
             description: "A flavorful one-pot dish made with fragrant basmati rice, marinated chicken, and aromatic Kerala spices, layered and cooked to perfection. Side dish: Fresh yummy salad",
             country: .ind,
-            thumbnailURL: nil
+            thumbnailURL: nil,
+            ratings: UserRatings(id: 2)
         ))
     }
     
@@ -280,7 +323,8 @@ extension PreviewDetailViewModel {
             name: "Kerala Chicken Curry",
             description: "",
             country: .ind,
-            thumbnailURL: "https://img.buzzfeed.com/thumbnailer-prod-us-east-1/45b4efeb5d2c4d29970344ae165615ab/FixedFBFinal.jpg"
+            thumbnailURL: "https://img.buzzfeed.com/thumbnailer-prod-us-east-1/45b4efeb5d2c4d29970344ae165615ab/FixedFBFinal.jpg",
+            ratings: UserRatings(id: 3)
         ))
     }
 }
@@ -308,7 +352,7 @@ private class MockPreviewService: RecipeSDServiceType, @unchecked Sendable {
     }
     
     func fetchRecipe(id: Recipe.ID) async throws -> Recipe {
-        Recipe(id: 999, name: "Mock Recipe")
+        Recipe(id: 999, name: "Mock Recipe", ratings: UserRatings(id: 1))
     }
     
     func updateFavouriteRecipe(_ id: Int) async throws -> Bool {

@@ -17,9 +17,9 @@ public struct RecipeDomain: Identifiable, @unchecked Sendable {
     public var createdAt, approvedAt: Int?
     public var yields: String?
     public var isFavorite: Bool
-    public var userRatings: UserRatingsDomain?
+    public var ratings: UserRatingsDomain?
     
-    public init(id: Int, name: String, description: String? = nil, country: Country = .unknown, thumbnailURL: String? = nil, originalVideoURL: String? = nil, createdAt: Int? = nil, approvedAt: Int? = nil, yields: String? = nil, isFavorite: Bool = false, userRatings: UserRatingsDomain? = nil) {
+    public init(id: Int, name: String, description: String? = nil, country: Country = .unknown, thumbnailURL: String? = nil, originalVideoURL: String? = nil, createdAt: Int? = nil, approvedAt: Int? = nil, yields: String? = nil, isFavorite: Bool = false, ratings: UserRatingsDomain? = nil) {
         self.id = id
         self.name = name
         self.description = description
@@ -30,16 +30,16 @@ public struct RecipeDomain: Identifiable, @unchecked Sendable {
         self.approvedAt = approvedAt
         self.yields = yields
         self.isFavorite = isFavorite
-        self.userRatings = userRatings
+        self.ratings = ratings
     }
 }
 
 public struct UserRatingsDomain: Codable {
     public let id: Int
-    public var countNegative, countPositive: Int?
-    public var score: Double?
+    public var countNegative, countPositive: Int
+    public var score: Double
     
-    public init(id: Int, countNegative: Int?, countPositive: Int?, score: Double? = nil) {
+    public init(id: Int, countNegative: Int = 0, countPositive: Int = 0, score: Double = 0) {
         self.id = id
         self.countNegative = countNegative
         self.countPositive = countPositive

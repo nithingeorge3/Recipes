@@ -77,9 +77,9 @@ struct RecipesView<ViewModel: RecipesViewModelType>: View {
 
 private class PreviewRecipesViewModel: RecipesViewModelType {
     var recipes: [Recipe] = [
-        Recipe(id: 1, name: "Kerala Chicken", description: "Whether you’re trying to be healthy, pulling an all-nighter, or just trying to get through the day, protein-packed snacks are your best friends", thumbnailURL: "https://img.buzzfeed.com/thumbnailer-prod-us-east-1/45b4efeb5d2c4d29970344ae165615ab/FixedFBFinal.jpg" ,isFavorite: true),
-        Recipe(id: 2, name: "Kerala Dosha", description: "Whether you’re trying to be healthy, pulling an all-nighter, or just trying to get through the day, protein-packed snacks are your best friends", thumbnailURL: "https://img.buzzfeed.com/thumbnailer-prod-us-east-1/video-api/assets/314886.jpg", isFavorite: false),
-        Recipe(id: 3, name: "Kerala CB", description: "Whether you’re trying to be healthy, pulling an all-nighter, or just trying to get through the day, protein-packed snacks are your best friends", thumbnailURL: "https://s3.amazonaws.com/video-api-prod/assets/654d0916588d46c5835b7a5f547a090e/BestPastaFB.jpg", isFavorite: true)
+        Recipe(id: 1, name: "Kerala Chicken", description: "Whether you’re trying to be healthy, pulling an all-nighter, or just trying to get through the day, protein-packed snacks are your best friends", thumbnailURL: "https://img.buzzfeed.com/thumbnailer-prod-us-east-1/45b4efeb5d2c4d29970344ae165615ab/FixedFBFinal.jpg" ,isFavorite: true, ratings: UserRatings(id: 1)),
+        Recipe(id: 2, name: "Kerala Dosha", description: "Whether you’re trying to be healthy, pulling an all-nighter, or just trying to get through the day, protein-packed snacks are your best friends", thumbnailURL: "https://img.buzzfeed.com/thumbnailer-prod-us-east-1/video-api/assets/314886.jpg", isFavorite: false, ratings: UserRatings(id: 2)),
+        Recipe(id: 3, name: "Kerala CB", description: "Whether you’re trying to be healthy, pulling an all-nighter, or just trying to get through the day, protein-packed snacks are your best friends", thumbnailURL: "https://s3.amazonaws.com/video-api-prod/assets/654d0916588d46c5835b7a5f547a090e/BestPastaFB.jpg", isFavorite: true, ratings: UserRatings(id: 3))
     ]
     var state: ResultState
     

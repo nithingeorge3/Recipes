@@ -18,7 +18,7 @@ struct Recipe: Identifiable, Hashable {
     let createdAt, approvedAt: Int?
     let yields: String?
     var isFavorite: Bool = false
-    let userRatings: UserRatings?
+    let ratings: UserRatings
 
     public func hash(into hasher: inout Hasher) {
         hasher.combine(id)
@@ -28,7 +28,7 @@ struct Recipe: Identifiable, Hashable {
         lhs.id == rhs.id
     }
     
-    init(id: Int, name: String, description: String? = nil, country: Country = .unknown, thumbnailURL: String? = nil, originalVideoURL: String? = nil, createdAt: Int? = nil, approvedAt: Int? = nil, yields: String? = nil, isFavorite: Bool = false, userRatings: UserRatings? = nil) {
+    init(id: Int, name: String, description: String? = nil, country: Country = .unknown, thumbnailURL: String? = nil, originalVideoURL: String? = nil, createdAt: Int? = nil, approvedAt: Int? = nil, yields: String? = nil, isFavorite: Bool = false, ratings: UserRatings) {
         self.id = id
         self.name = name
         self.description = description
@@ -39,13 +39,13 @@ struct Recipe: Identifiable, Hashable {
         self.approvedAt = approvedAt
         self.yields = yields
         self.isFavorite = isFavorite
-        self.userRatings = userRatings
+        self.ratings = ratings
     }
 }
 
 extension Recipe {
     init(from recipeDomain: RecipeDomain) {
-        let userRatings = UserRatings(from: recipeDomain.userRatings)
+        let ratings = UserRatings(from: recipeDomain.ratings)
         
         self.id = recipeDomain.id
         self.name = recipeDomain.name
@@ -57,6 +57,6 @@ extension Recipe {
         self.approvedAt = recipeDomain.approvedAt
         self.yields = recipeDomain.yields
         self.isFavorite = recipeDomain.isFavorite
-        self.userRatings = userRatings
+        self.ratings = ratings
     }
 }

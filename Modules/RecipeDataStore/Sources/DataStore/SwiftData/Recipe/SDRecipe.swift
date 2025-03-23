@@ -22,10 +22,9 @@ public final class SDRecipe {
     public var approvedAt: Int?
     public var yields: String?
     public var isFavorite: Bool
-    public var userRatings: SDUserRatings?
     
-    @Relationship(inverse: \SDUserRatings.recipe)
-    public var rating: SDUserRatings?
+    @Relationship(deleteRule: .cascade, inverse: \SDUserRatings.recipe)
+    public var ratings: SDUserRatings?
     
     init(
         id: Int,
@@ -38,14 +37,13 @@ public final class SDRecipe {
         approvedAt: Int? = nil,
         yields: String? = nil,
         isFavorite: Bool,
-        userRatings: UserRatingsDomain? = nil,
-        rating: SDUserRatings? = nil
+        ratings: SDUserRatings? = nil
     ) {
-        let rating = SDUserRatings(
-            id: rating?.id,
-            countNegative: rating?.countNegative,
-            countPositive: rating?.countPositive,
-            score: rating?.score
+        let ratings = SDUserRatings(
+            id: ratings?.id,
+            countNegative: ratings?.countNegative,
+            countPositive: ratings?.countPositive,
+            score: ratings?.score
         )
         
         self.id = id
@@ -58,14 +56,13 @@ public final class SDRecipe {
         self.approvedAt = approvedAt
         self.yields = yields
         self.isFavorite = isFavorite
-        self.userRatings = rating
-        self.rating = rating
+        self.ratings = ratings
     }
 }
 
 extension SDRecipe {
     convenience init(from recipe: RecipeDomain) {
-        let ratings = SDUserRatings(from: recipe.userRatings)
+        let ratings = SDUserRatings(from: recipe.ratings)
         
         self.init(
             id: recipe.id,
@@ -78,8 +75,7 @@ extension SDRecipe {
             approvedAt: recipe.approvedAt,
             yields: recipe.yields,
             isFavorite: recipe.isFavorite,
-            userRatings: recipe.userRatings,
-            rating: ratings
+            ratings: ratings
             )
     }
     
@@ -94,30 +90,25 @@ extension SDRecipe {
         self.createdAt = domain.createdAt
         self.approvedAt = domain.approvedAt
         self.yields = domain.yields
-        self.userRatings = SDUserRatings(from: domain.userRatings)
-        
-        self.rating = {
-            guard let domainRatings = domain.userRatings else { return nil }
-            
-            if let existing = self.rating {
-                existing.countNegative = domainRatings.countNegative
+         
+        // Handle ratings update
+        if let domainRatings = domain.ratings {
+            if let existing = self.ratings {
                 existing.countPositive = domainRatings.countPositive
+                existing.countNegative = domainRatings.countNegative
                 existing.score = domainRatings.score
-                return existing
+            } else {
+                self.ratings = SDUserRatings(from: domainRatings)
             }
-            return SDUserRatings(
-                id: domainRatings.id,
-                countNegative: domainRatings.countNegative,
-                countPositive: domainRatings.countPositive,
-                score: domainRatings.score
-            )
-        }()
+        } else {
+            self.ratings = nil
+        }
     }
 }
 
 extension RecipeDomain {
     init(from sdRecipe: SDRecipe) {
-        let ratings = UserRatingsDomain(id: sdRecipe.userRatings?.id ?? 0, countNegative: sdRecipe.userRatings?.countNegative, countPositive: sdRecipe.userRatings?.countPositive, score: sdRecipe.userRatings?.score)
+        let ratings = UserRatingsDomain(id: sdRecipe.ratings?.id ?? 0, countNegative: sdRecipe.ratings?.countNegative ?? 0, countPositive: sdRecipe.ratings?.countPositive ?? 0, score: sdRecipe.ratings?.score ?? 0)
         
         self.init(
             id: sdRecipe.id,
@@ -130,7 +121,7 @@ extension RecipeDomain {
             approvedAt: sdRecipe.approvedAt,
             yields: sdRecipe.yields,
             isFavorite: sdRecipe.isFavorite,
-            userRatings: ratings
+            ratings: ratings
         )
     }
 }
