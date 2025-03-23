@@ -8,8 +8,15 @@
 import Foundation
 
 @frozen
-public enum RecipeError: Error {
+public enum RecipeError: Error, Equatable {
     case notFound(recipeID: Int)
+    
+    public static func == (lhs: RecipeError, rhs: RecipeError) -> Bool {
+        switch (lhs, rhs) {
+        case (.notFound, .notFound):
+            return true
+        }
+    }
 }
 
 extension RecipeError: LocalizedError {

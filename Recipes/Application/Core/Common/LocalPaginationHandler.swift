@@ -32,7 +32,7 @@ final class LocalPaginationHandler: LocalPaginationHandlerType {
     var lastUpdated: Date = Date()
     
     var hasMoreData: Bool {
-        return currentOffset < totalItems
+        currentOffset < totalItems
     }
     
     func reset() {

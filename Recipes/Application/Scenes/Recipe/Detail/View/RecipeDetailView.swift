@@ -14,22 +14,29 @@ struct RecipeDetailView<ViewModel: RecipeDetailViewModelType>: View {
     @Bindable var viewModel: ViewModel
     @EnvironmentObject private var tabBarVisibility: TabBarVisibility
     @State private var selectedIndex: Int = 0
-   
+    @State private var showFavouriteConfirmation: Bool = false
+    
     var body: some View {
         Group {
-            if let recipe = viewModel.recipe {
-                content(for: recipe)
-            } else {
+            switch viewModel.state {
+            case .loading:
                 ProgressView()
-                    .progressViewStyle(.circular)
-                    .scaleEffect(1.5)
+                    .task { viewModel.send(.loadRecipe) }
+                
+            case .loaded(let recipe):
+                contentView(for: recipe)
+                
+            case .error(let error):
+                ErrorView(error: error) {
+                    viewModel.send(.loadRecipe)
+                }
             }
         }
         .onAppear {
             viewModel.send(.loadRecipe)
             tabBarVisibility.isHidden = true
         }
-        .alert("Remove from saved", isPresented: $viewModel.showFavouriteConfirmation) {
+        .alert("Remove from saved", isPresented: $showFavouriteConfirmation) {
             Button("Cancel", role: .cancel) { }
             Button("Remove", role: .destructive) {
                 viewModel.send(.toggleFavorite)
@@ -38,11 +45,11 @@ struct RecipeDetailView<ViewModel: RecipeDetailViewModelType>: View {
             Text("The Recipe will be removed from your saved list.")
         }
         .withCustomBackButton()
-        .withCustomNavigationTitle(title: viewModel.recipe?.name ?? "Recipe Details")
+        .withCustomNavigationTitle(title: viewModel.navigationTitle)
     }
     
     @ViewBuilder
-    private func content(for recipe: Recipe) -> some View {
+    private func contentView(for recipe: Recipe) -> some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
                 RecipeImageCarousel(
@@ -71,10 +78,11 @@ struct RecipeDetailView<ViewModel: RecipeDetailViewModelType>: View {
                 VStack(alignment: .center) {
                     Spacer().frame(height: 10.0)
                     Button(action: {
-                        if !(viewModel.recipe?.isFavorite ?? false) {
+                        if viewModel.favouriteStatus() {
+                            showFavouriteConfirmation = true
+                        }
+                        else {
                             viewModel.send(.toggleFavorite)
-                        } else {
-                            viewModel.showFavouriteConfirmation = true
                         }
                     }) {
                         Image(systemName: recipe.isFavorite ? "heart.fill" : "heart")
@@ -186,6 +194,10 @@ struct SubTitleView: View {
 
 // MARK: - Preview ViewModel
 public class PreviewDetailViewModel: RecipeDetailViewModelType {
+    var navigationTitle: String = ""
+    
+    var state: RecipeDetailState = .loading
+    
     var recipe: Recipe?
     var showFavouriteConfirmation: Bool = false
     private let recipeID: Recipe.ID
@@ -222,7 +234,17 @@ public class PreviewDetailViewModel: RecipeDetailViewModelType {
             recipe?.isFavorite.toggle()
             Task { try? await service.updateFavouriteRecipe(recipeID) }
         case .loadRecipe:
-            break
+            let dummyRecipe = Recipe(id: 1, name: "Pasta")
+            state = .loaded(recipe ?? dummyRecipe)
+        }
+    }
+    
+    func favouriteStatus() -> Bool {
+        switch state {
+        case .loaded(let recipe):
+            return recipe.isFavorite
+        default:
+            return false
         }
     }
 }

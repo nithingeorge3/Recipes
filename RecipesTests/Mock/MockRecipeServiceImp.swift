@@ -17,9 +17,7 @@ final class MockRecipeServiceImp: RecipeServiceProvider, @unchecked Sendable {
     var resultsJSON: String
     var stubbedRecipes: [RecipeDomain] = []
     var shouldThrowError: Bool = false
-    
-    private var isFavorite: Bool = false
-    
+        
     private let (stream, continuation) = AsyncStream.makeStream(of: Int.self)
     
     init(mockJSON: String = JSONData.recipeValidJSON) {
@@ -47,7 +45,12 @@ final class MockRecipeServiceImp: RecipeServiceProvider, @unchecked Sendable {
     }
     
     func updateFavouriteRecipe(_ recipeID: Int) async throws -> Bool {
-        false
+        guard let index = stubbedRecipes.firstIndex(where: { $0.id == recipeID }) else {
+            throw RecipeError.notFound(recipeID: recipeID)
+        }
+        
+        stubbedRecipes[index].isFavorite.toggle()
+        return stubbedRecipes[index].isFavorite
     }
     
     func fetchPagination(_ type: EntityType) async throws -> PaginationDomain {

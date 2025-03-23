@@ -6,8 +6,28 @@
 //
 
 import Foundation
+import RecipeDomain
 import RecipeNetworking
 import Observation
+
+enum RecipeDetailState: Equatable {
+    case loading
+    case loaded(Recipe)
+    case error(RecipeError)
+    
+    static func == (lhs: RecipeDetailState, rhs: RecipeDetailState) -> Bool {
+        switch (lhs, rhs) {
+        case (.loading, .loading):
+            return true
+        case let (.loaded(l), (.loaded(r))):
+            return l.id == r.id
+        case let (.error(l), .error(r)):
+            return l == r
+        default:
+            return false
+        }
+    }
+}
 
 enum PresentedMedia: Identifiable {
     case image(URL)
@@ -23,34 +43,42 @@ enum PresentedMedia: Identifiable {
 
 @MainActor
 protocol RecipeDetailViewModelType: AnyObject, Observable {
-    var recipe: Recipe? { get set }
+    var state: RecipeDetailState { get }
+    var navigationTitle: String  { get }
     var mediaItems: [PresentedMedia] { get }
     var showFavouriteConfirmation: Bool { get set }
     
     func send(_ action: RecipeDetailActions)
+    func favouriteStatus() -> Bool
 }
 
 @Observable
 class RecipeDetailViewModel: RecipeDetailViewModelType {    
-    var recipe: Recipe?
     var showFavouriteConfirmation = false
+    var navigationTitle = ""
+    
     private let recipeID: Recipe.ID
+    private let service: RecipeSDServiceType
     
     var mediaItems: [PresentedMedia] {
-        var result: [PresentedMedia] = []
-        
-        if let imageURL = recipe?.thumbnailURL.validatedURL {
-            result.append(.image(imageURL))
-        }
-        
-        if let videoURL = recipe?.originalVideoURL.validatedURL {
-            result.append(.video(videoURL))
-        }
-        
-        return result
+        guard case let .loaded(recipe) = state else { return [] }
+        return createMediaItems(for: recipe)
     }
     
-    private let service: RecipeSDServiceType
+     var state: RecipeDetailState = .loading {
+         didSet {
+             updateNavigationTitle()
+         }
+    }
+        
+    private func updateNavigationTitle() {
+        switch state {
+        case .loaded(let recipe):
+            navigationTitle = recipe.name
+        case .loading, .error:
+            navigationTitle = "Recipe Details"
+        }
+    }
     
     init(recipeID: Recipe.ID, service: RecipeSDServiceType) {
         self.service = service
@@ -60,25 +88,62 @@ class RecipeDetailViewModel: RecipeDetailViewModelType {
     func send(_ action: RecipeDetailActions) {
         switch action {
         case .toggleFavorite:
-            recipe?.isFavorite.toggle()
-            Task {
-                do {
-                    recipe?.isFavorite = try await service.updateFavouriteRecipe(recipeID)
-                } catch {
-                    print("failed to upadte SwiftData: error \(error)")
-                }
-            }
+            handleFavoriteToggle()
         case .loadRecipe:
             Task { await fetchRecipe() }
         }
     }
     
-    private func fetchRecipe() async {
+    func favouriteStatus() -> Bool {
+        switch state {
+        case .loaded(let recipe):
+            return recipe.isFavorite
+        default:
+            return false
+        }
+    }
+}
+
+private extension RecipeDetailViewModel {
+    func fetchRecipe() async {
         do {
             let recipeDomain = try await service.fetchRecipe(for: recipeID)
-            self.recipe = Recipe(from: recipeDomain)
+            let recipe = Recipe(from: recipeDomain)
+            state = .loaded(recipe)
         } catch {
-            print("Error: \(error)")
+            state = .error(RecipeError.notFound(recipeID: recipeID))
         }
+    }
+    
+    func handleFavoriteToggle() {
+        guard case var .loaded(recipe) = state else { return }
+        
+        recipe.isFavorite.toggle()
+        let updatedValue = recipe.isFavorite
+        
+        Task {
+            do {
+                let success = try await service.updateFavouriteRecipe(recipeID)
+                recipe.isFavorite = success
+                state = .loaded(recipe)
+            } catch {
+                state = .error(RecipeError.notFound(recipeID: recipeID))
+                recipe.isFavorite = !updatedValue
+            }
+        }
+    }
+    
+    func createMediaItems(for recipe: Recipe) -> [PresentedMedia] {
+        var items: [PresentedMedia] = []
+        
+        if let imageURL = recipe.thumbnailURL.validatedURL {
+            items.append(.image(imageURL))
+        }
+        
+        if let videoURL = recipe.originalVideoURL.validatedURL {
+            items.append(.video(videoURL))
+        }
+        
+        return items
     }
 }
