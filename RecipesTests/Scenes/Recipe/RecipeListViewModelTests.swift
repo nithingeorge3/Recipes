@@ -36,6 +36,7 @@ final class RecipeListViewModelTests: XCTestCase {
 
     func testInitialStateIsLoading() {
         XCTAssertEqual(viewModel.state, .loading, "Initial state should be .loading")
-        XCTAssertTrue(viewModel.recipes.isEmpty, "Initially, recipes should be empty")
+        XCTAssertTrue(viewModel.otherRecipes.isEmpty, "Initially, recipes should be empty")
+        XCTAssertTrue(viewModel.favoriteRecipes.isEmpty, "Initially, favorite recipes should be empty")
     }
 }

@@ -36,7 +36,7 @@ final class RecipeRepositoryTests: XCTestCase {
 }
 
 extension RecipeRepositoryTests {
-    func testfetchRecipeCount_1() async throws {
+    func testfetchRecipesCount_1() async throws {
         let recipes = [
             RecipeDomain(id: 1, name: "Kerala Chicken Curry")
             ]
@@ -49,13 +49,40 @@ extension RecipeRepositoryTests {
         XCTAssertNotEqual(fetchedRecipeCount, 6)
     }
     
-    func testfetchRecipeCount_2() async throws {
+    func testfetchRecipesCount_2() async throws {
+        let recipes = [
+            RecipeDomain(id: 1, name: "Kerala Chicken Curry", isFavorite: true)
+            ]
+            
+        try await saveTestRecipes(recipes)
+        
+        let fetchedRecipeCount = try await repository.fetchRecipesCount()
+        
+        XCTAssertEqual(fetchedRecipeCount, 0)
+        XCTAssertNotEqual(fetchedRecipeCount, 6)
+    }
+    
+    func testfetchRecipesCount_3() async throws {
         try await saveTestRecipes()
         
         let fetchedRecipeCount = try await repository.fetchRecipesCount()
         
         XCTAssertEqual(fetchedRecipeCount, 2)
         XCTAssertNotEqual(fetchedRecipeCount, 6)
+    }
+    
+    func testfetchFavoritesRecipes() async throws {
+        let recipes = [
+            RecipeDomain(id: 1, name: "Kerala Chicken Curry", isFavorite: true)
+            ]
+            
+        try await saveTestRecipes(recipes)
+        
+        let fetchedRecipeCount = try await repository.fetchFavoritesRecipesCount()
+        XCTAssertEqual(fetchedRecipeCount, 1)
+        let fetchFavRecipes = try await repository.fetchFavorites(startIndex: 0, pageSize: 40)
+        XCTAssertEqual(fetchFavRecipes.first?.name, "Kerala Chicken Curry")
+        
     }
     
     func testSaveAndFetchRecipesWithPagination() async throws {

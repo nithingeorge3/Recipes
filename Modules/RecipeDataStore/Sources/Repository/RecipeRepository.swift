@@ -30,7 +30,20 @@ public final class RecipeSDRepository: RecipeSDRepositoryType {
     public func fetchRecipesCount() async throws -> Int {
         try await dataStore.performBackgroundTask { context in
             do {
-                let descriptor = FetchDescriptor<SDRecipe>()
+                let predicate = #Predicate<SDRecipe> { !$0.isFavorite }
+                let descriptor = FetchDescriptor<SDRecipe>(predicate: predicate)
+                return try context.fetchCount(descriptor)
+            } catch {
+                throw SDError.countOperationFailed
+            }
+        }
+    }
+    
+    public func fetchFavoritesRecipesCount() async throws -> Int {
+        try await dataStore.performBackgroundTask { context in
+            do {
+                let predicate = #Predicate<SDRecipe> { $0.isFavorite }
+                let descriptor = FetchDescriptor<SDRecipe>(predicate: predicate)
                 return try context.fetchCount(descriptor)
             } catch {
                 throw SDError.countOperationFailed
@@ -52,8 +65,23 @@ public final class RecipeSDRepository: RecipeSDRepositoryType {
     
     public func fetchRecipes(startIndex: Int = 0, pageSize: Int = 40) async throws -> [RecipeDomain] {
         try await dataStore.performBackgroundTask { context in
+            let predicate = #Predicate<SDRecipe> { !$0.isFavorite }
             var descriptor = FetchDescriptor<SDRecipe>(
-                predicate: nil,
+                predicate: predicate,
+                sortBy: [SortDescriptor(\.createdAt, order: .forward)]
+            )
+            descriptor.fetchLimit = pageSize
+            descriptor.fetchOffset = startIndex
+
+            return try context.fetch(descriptor).map(RecipeDomain.init)
+        }
+    }
+    
+    public func fetchFavorites(startIndex: Int = 0, pageSize: Int = 40) async throws -> [RecipeDomain] {
+        try await dataStore.performBackgroundTask { context in
+            let predicate = #Predicate<SDRecipe> { $0.isFavorite }
+            var descriptor = FetchDescriptor<SDRecipe>(
+                predicate: predicate,
                 sortBy: [SortDescriptor(\.createdAt, order: .forward)]
             )
             descriptor.fetchLimit = pageSize

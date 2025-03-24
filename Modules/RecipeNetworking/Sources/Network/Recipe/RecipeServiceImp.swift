@@ -35,12 +35,20 @@ extension RecipeServiceImp {
         try await recipeRepository.fetchRecipesCount()
     }
     
+    func fetchFavoritesRecipesCount() async throws -> Int {
+        try await recipeRepository.fetchFavoritesRecipesCount()
+    }
+    
     func fetchRecipe(for recipeID: Int) async throws -> RecipeDomain {
         try await recipeRepository.fetchRecipe(for: recipeID)
     }
     
     func fetchRecipes(startIndex: Int = 0, pageSize: Int = 40) async throws -> [RecipeDomain] {
         try await recipeRepository.fetchRecipes(startIndex: startIndex, pageSize: pageSize)
+    }
+    
+    func fetchFavorites(startIndex: Int = 0, pageSize: Int = 40) async throws -> [RecipeDomain] {
+        try await recipeRepository.fetchFavorites(startIndex: startIndex, pageSize: pageSize)
     }
     
     func updateFavouriteRecipe(_ recipeID: Int) async throws -> Bool {

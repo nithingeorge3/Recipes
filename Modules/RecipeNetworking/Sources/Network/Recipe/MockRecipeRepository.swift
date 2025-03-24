@@ -63,6 +63,10 @@ extension MockRecipeRepository {
         recipes.count
     }
     
+    func fetchFavoritesRecipesCount() async throws -> Int {
+        0
+    }
+    
     func fetchRecipe(for recipeID: Int) async throws -> RecipeDomain {
         guard let recipe = recipe else {
             throw RecipeError.notFound(recipeID: recipeID)
@@ -71,7 +75,11 @@ extension MockRecipeRepository {
     }
     
     func fetchRecipes(startIndex: Int, pageSize: Int) async throws -> [RecipeDomain] {
-        return []
+        []
+    }
+    
+    func fetchFavorites(startIndex: Int, pageSize: Int) async throws -> [RecipeDomain] {
+        []
     }
     
     func updateFavouriteRecipe(_ recipeID: Int) async throws -> Bool {

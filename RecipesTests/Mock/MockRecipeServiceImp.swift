@@ -33,6 +33,14 @@ final class MockRecipeServiceImp: RecipeServiceProvider, @unchecked Sendable {
         stubbedRecipes.count
     }
     
+    func fetchFavoritesRecipesCount() async throws -> Int {
+        stubbedRecipes.count(where: \.isFavorite)
+    }
+    
+    func fetchFavorites(startIndex: Int, pageSize: Int) async throws -> [RecipeDomain] {
+        stubbedRecipes.filter { $0.isFavorite }
+    }
+    
     func fetchRecipe(for recipeID: Int) async throws -> RecipeDomain {
         guard let recipe = stubbedRecipes.first else {
             throw RecipeError.notFound(recipeID: recipeID)

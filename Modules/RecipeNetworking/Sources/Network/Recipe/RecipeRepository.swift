@@ -13,8 +13,10 @@ import RecipeDomain
 public protocol RecipeRepositoryType: Sendable {
     func fetchRecipes(endPoint: EndPoint) async throws -> (inserted: [RecipeDomain], updated: [RecipeDomain])
     func fetchRecipesCount() async throws -> Int
+    func fetchFavoritesRecipesCount() async throws -> Int
     func fetchRecipe(for recipeID: Int) async throws -> RecipeDomain
     func fetchRecipes(startIndex: Int, pageSize: Int) async throws -> [RecipeDomain]
+    func fetchFavorites(startIndex: Int, pageSize: Int) async throws -> [RecipeDomain]
     func updateFavouriteRecipe(_ recipeID: Int) async throws -> Bool
     func fetchPagination(_ entityType: EntityType) async throws -> PaginationDomain
 }
@@ -81,12 +83,20 @@ extension RecipeRepository {
         try await recipeSDRepo.fetchRecipesCount()
     }
     
+    func fetchFavoritesRecipesCount() async throws -> Int {
+        try await recipeSDRepo.fetchFavoritesRecipesCount()
+    }
+    
     func fetchRecipe(for recipeID: Int) async throws -> RecipeDomain {
         try await recipeSDRepo.fetchRecipe(for: recipeID)
     }
     
     func fetchRecipes(startIndex: Int, pageSize: Int) async throws -> [RecipeDomain] {
         try await recipeSDRepo.fetchRecipes(startIndex: startIndex, pageSize: pageSize)
+    }
+    
+    func fetchFavorites(startIndex: Int, pageSize: Int) async throws -> [RecipeDomain] {
+        try await recipeSDRepo.fetchFavorites(startIndex: startIndex, pageSize: pageSize)
     }
     
     func updateFavouriteRecipe(_ recipeID: Int) async throws -> Bool {

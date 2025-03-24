@@ -24,7 +24,9 @@ public protocol RecipeSDServiceType: Sendable {
     var favoritesDidChange: AsyncStream<Int> { get }
     func fetchRecipe(for recipeID: Int) async throws -> RecipeDomain
     func fetchRecipesCount() async throws -> Int
+    func fetchFavoritesRecipesCount() async throws -> Int
     func fetchRecipes(startIndex: Int, pageSize: Int) async throws -> [RecipeDomain]
+    func fetchFavorites(startIndex: Int, pageSize: Int) async throws -> [RecipeDomain]
     func updateFavouriteRecipe(_ recipeID: Int) async throws -> Bool
     func fetchPagination(_ type: EntityType) async throws -> PaginationDomain
 }

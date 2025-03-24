@@ -13,9 +13,9 @@ import RecipeDomain
 
 @MainActor
 protocol RecipesListViewModelType: AnyObject, Observable {
-    var recipes: [Recipe] { get }
     var favoriteRecipes: [Recipe] { get }
     var otherRecipes: [Recipe] { get }
+    var isEmpty: Bool { get }
     var remotePagination: RemotePaginationHandlerType { get }
     var localPagination: LocalPaginationHandlerType { get }
     var recipeListActionSubject: PassthroughSubject<RecipeListAction, Never> { get  set }
@@ -27,7 +27,6 @@ protocol RecipesListViewModelType: AnyObject, Observable {
 @Observable
 class RecipeListViewModel: RecipesListViewModelType {
     var state: ResultState = .loading
-    var recipes: [Recipe] = []
     let service: RecipeServiceProvider
     var remotePagination: RemotePaginationHandlerType
     var localPagination: LocalPaginationHandlerType
@@ -36,12 +35,15 @@ class RecipeListViewModel: RecipesListViewModelType {
     
     private var updateTask: Task<Void, Never>?
     
-    var favoriteRecipes: [Recipe] {
-        recipes.filter { $0.isFavorite }
-    }
+    var favoriteRecipes: [Recipe] = []
+   
+    var otherRecipes: [Recipe] = []
     
-    var otherRecipes: [Recipe] {
-        recipes.filter { !$0.isFavorite }
+    var isEmpty: Bool {
+        otherRecipes.isEmpty &&
+        favoriteRecipes.isEmpty &&
+        !remotePagination.isLoading &&
+        !localPagination.isLoading
     }
     
     init(
@@ -61,6 +63,10 @@ class RecipeListViewModel: RecipesListViewModelType {
     func send(_ action: RecipeListAction) {
         switch action {
         case .refresh:
+            if favoriteRecipes.count == 0 { //later handle pagination
+                Task { try await fetchLocalFavoritesRecipes() }
+            }
+            
             if localPagination.hasMoreData {
                 Task { try await fetchLocalRecipes() }
             } else if remotePagination.hasMoreData {
@@ -82,7 +88,9 @@ class RecipeListViewModel: RecipesListViewModelType {
             recipeListActionSubject.send(RecipeListAction.selectRecipe(recipeID))
         }
     }
-    
+}
+
+private extension RecipeListViewModel {
     private func updateRemotePagination() async throws {
         Task {
             do {
@@ -101,6 +109,8 @@ class RecipeListViewModel: RecipesListViewModelType {
     
     private func fetchLocalRecipes() async throws {
         Task {
+            localPagination.isLoading = true
+            
             do {
                 let recipeDomains = try await service.fetchRecipes(
                         startIndex: localPagination.currentOffset,
@@ -108,15 +118,36 @@ class RecipeListViewModel: RecipesListViewModelType {
                     )
                 
                 let storedRecipes = recipeDomains.map { Recipe(from: $0) }
-                
+
                 if storedRecipes.count > 0 {
-                    recipes.append(contentsOf: storedRecipes)
-                    
+                    otherRecipes.append(contentsOf: storedRecipes)
+                    localPagination.isLoading = false
                     localPagination.incrementOffset()
                     state = .success
                 }
             } catch {
+                localPagination.isLoading = false
                 state = .failed(error: error)
+            }
+        }
+    }
+    
+    private func fetchLocalFavoritesRecipes() async throws {
+        Task {
+            do {
+                let recipeDomains = try await service.fetchFavorites(
+                        startIndex: 0,
+                        pageSize: localPagination.pageSize
+                    )
+                
+                let storedRecipes = recipeDomains.map { Recipe(from: $0) }
+                
+                favoriteRecipes = storedRecipes
+                if !storedRecipes.isEmpty {
+                    state = .success
+                }
+            } catch {
+                print("no favorites found. handle later \(error)")
             }
         }
     }
@@ -138,10 +169,9 @@ class RecipeListViewModel: RecipesListViewModelType {
                 )
                 
                 updateRemoteRecipes(with: results)
-                
                 try await updateRemotePagination()
             } catch {
-                if recipes.count == 0 {
+                if otherRecipes.count == 0 {
                     remotePagination.isLoading = false
                     state = .failed(error: error)
                 }
@@ -153,11 +183,11 @@ class RecipeListViewModel: RecipesListViewModelType {
         let newRecipes = fetchedRecipes.inserted.map { Recipe(from: $0) }
         let updatedRecipes = fetchedRecipes.updated.map { Recipe(from: $0) }
         
-        recipes.append(contentsOf: newRecipes)
+        otherRecipes.append(contentsOf: newRecipes)
         
         for recipe in updatedRecipes {
-            if let index = self.recipes.firstIndex(where: { $0.id == recipe.id }) {
-                self.recipes[index] = recipe
+            if let index = otherRecipes.firstIndex(where: { $0.id == recipe.id }) {
+                otherRecipes[index] = recipe
             }
         }
         
@@ -176,10 +206,14 @@ class RecipeListViewModel: RecipesListViewModelType {
     }
     
     private func updateRecipeFavoritesStatus(recipeID: Int) {
-        guard let index = recipes.firstIndex(where: { $0.id == recipeID }) else { return }
-        
-        if recipes.count > index - 1 {
-            recipes[index].isFavorite.toggle()
+        if let index = otherRecipes.firstIndex(where: { $0.id == recipeID }) {
+            var movedRecipe = otherRecipes.remove(at: index)
+            movedRecipe.isFavorite = true
+            favoriteRecipes.append(movedRecipe)
+        } else if let index = favoriteRecipes.firstIndex(where: { $0.id == recipeID }) {
+            var movedRecipe = favoriteRecipes.remove(at: index)
+            movedRecipe.isFavorite = false
+            otherRecipes.append(movedRecipe)
         }
     }
 }
