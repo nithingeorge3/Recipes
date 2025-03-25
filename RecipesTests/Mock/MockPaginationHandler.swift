@@ -46,3 +46,24 @@ final class MockLocalPaginationHandler: LocalPaginationHandlerType {
         totalItems = newValue
     }
 }
+
+final class MockFavoritesPaginationHandler: LocalPaginationHandlerType {
+    var currentOffset: Int = 0
+    var pageSize: Int = 0
+    var totalItems: Int = 0
+    var isLoading: Bool = false
+    var lastUpdated: Date = Date()
+
+    var hasMoreData: Bool = false
+    
+    func reset() {
+    }
+    
+    func incrementOffset() {
+        currentOffset += pageSize
+    }
+    
+    func updateTotalItems(_ newValue: Int) {
+        totalItems = newValue
+    }
+}

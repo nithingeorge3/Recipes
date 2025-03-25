@@ -79,7 +79,6 @@ extension SDRecipe {
             )
     }
     
-    //Not updating isFavorite because we are not fetching isFavorite from backend
     func update(from domain: RecipeDomain) {
         self.id = domain.id
         self.name = domain.name

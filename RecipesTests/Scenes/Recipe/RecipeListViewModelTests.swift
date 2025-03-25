@@ -16,14 +16,21 @@ final class RecipeListViewModelTests: XCTestCase {
     private var service: RecipeServiceProvider!
     private var remotePagination: RemotePaginationHandlerType!
     private var localPagination: LocalPaginationHandlerType!
+    private var favoritesPagination: LocalPaginationHandlerType!
     
     override func setUp() {
         super.setUp()
         service = MockRecipeServiceImp()
         remotePagination = MockRemotePaginationHandler()
         localPagination = MockLocalPaginationHandler()
+        favoritesPagination = MockFavoritesPaginationHandler()
         
-        viewModel = RecipeListViewModel(service: service, remotePagination: remotePagination, localPagination: localPagination)
+        viewModel = RecipeListViewModel(
+            service: service,
+            remotePagination: remotePagination,
+            localPagination: localPagination,
+            favoritesPagination: favoritesPagination
+        )
     }
     
     override func tearDown() {
@@ -32,6 +39,7 @@ final class RecipeListViewModelTests: XCTestCase {
         service = nil
         remotePagination = nil
         localPagination = nil
+        favoritesPagination = nil
     }
 
     func testInitialStateIsLoading() {

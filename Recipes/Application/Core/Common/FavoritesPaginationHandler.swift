@@ -8,23 +8,8 @@
 import Foundation
 import Observation
 
-@MainActor
-protocol LocalPaginationHandlerType: AnyObject {
-    var currentOffset: Int { get set }
-    var pageSize: Int { get set }
-    var totalItems: Int { get set }
-    var isLoading: Bool { get set }
-    var lastUpdated: Date { get set }
-    
-    var hasMoreData: Bool { get }
-    
-    func reset()
-    func incrementOffset()
-    func updateTotalItems(_ newValue: Int)
-}
-
 @Observable
-final class LocalPaginationHandler: LocalPaginationHandlerType {
+final class FavoritesPaginationHandler: LocalPaginationHandlerType {
     var currentOffset: Int = 0
     var pageSize: Int = Constants.Recipe.fetchLimit
     var totalItems: Int = 0

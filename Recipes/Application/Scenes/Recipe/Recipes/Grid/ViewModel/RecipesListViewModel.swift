@@ -30,7 +30,7 @@ class RecipeListViewModel: RecipesListViewModelType {
     let service: RecipeServiceProvider
     var remotePagination: RemotePaginationHandlerType
     var localPagination: LocalPaginationHandlerType
-    
+    var favoritesPagination: LocalPaginationHandlerType
     var recipeListActionSubject = PassthroughSubject<RecipeListAction, Never>()
     
     private var updateTask: Task<Void, Never>?
@@ -43,18 +43,22 @@ class RecipeListViewModel: RecipesListViewModelType {
         otherRecipes.isEmpty &&
         favoriteRecipes.isEmpty &&
         !remotePagination.isLoading &&
-        !localPagination.isLoading
+        !localPagination.isLoading &&
+        !favoritesPagination.isLoading
     }
     
     init(
         service: RecipeServiceProvider,
         remotePagination: RemotePaginationHandlerType,
-        localPagination: LocalPaginationHandlerType
+        localPagination: LocalPaginationHandlerType,
+        favoritesPagination: LocalPaginationHandlerType
     ) {
         self.service = service
         self.remotePagination = remotePagination
         self.localPagination = localPagination
+        self.favoritesPagination = favoritesPagination
         
+        Task { try await updateFavoritesPagination() }
         Task { try await updateLocalPagination() }
         Task { try await updateRemotePagination() }
         listeningFavoritesChanges()
@@ -63,7 +67,7 @@ class RecipeListViewModel: RecipesListViewModelType {
     func send(_ action: RecipeListAction) {
         switch action {
         case .refresh:
-            if favoriteRecipes.count == 0 { //later handle pagination
+            if favoritesPagination.hasMoreData {
                 Task { try await fetchLocalFavoritesRecipes() }
             }
             
@@ -75,6 +79,10 @@ class RecipeListViewModel: RecipesListViewModelType {
         case .loadMore:
             Task {
                 do {
+                    if favoritesPagination.hasMoreData {
+                        try await fetchLocalFavoritesRecipes()
+                    }
+                    
                     if localPagination.hasMoreData {
                         try await fetchLocalRecipes()
                     } else if remotePagination.hasMoreData {
@@ -100,6 +108,11 @@ private extension RecipeListViewModel {
                 print("\(error)")
             }
         }
+    }
+    
+    private func updateFavoritesPagination() async throws {
+        let count = try await service.fetchFavoritesRecipesCount()
+        favoritesPagination.updateTotalItems(count)
     }
     
     private func updateLocalPagination() async throws {
@@ -134,16 +147,21 @@ private extension RecipeListViewModel {
     
     private func fetchLocalFavoritesRecipes() async throws {
         Task {
+            
+            favoritesPagination.isLoading = true
+            
             do {
                 let recipeDomains = try await service.fetchFavorites(
                         startIndex: 0,
-                        pageSize: localPagination.pageSize
+                        pageSize: favoritesPagination.pageSize
                     )
                 
                 let storedRecipes = recipeDomains.map { Recipe(from: $0) }
                 
                 favoriteRecipes = storedRecipes
                 if !storedRecipes.isEmpty {
+                    favoritesPagination.isLoading = false
+                    favoritesPagination.incrementOffset()
                     state = .success
                 }
             } catch {

@@ -50,11 +50,13 @@ final class RecipeListCoordinator: ObservableObject, Coordinator, TabItemProvide
         
         let remotePagination: RemotePaginationHandlerType = RemotePaginationHandler()
         let localPagination: LocalPaginationHandlerType = LocalPaginationHandler()
+        let favoritesPagination: LocalPaginationHandlerType = FavoritesPaginationHandler()
         
         let vm = await modelFactory.makeRecipeListViewModel(
             service: service,
             remotePagination: remotePagination,
-            localPagination: localPagination
+            localPagination: localPagination,
+            favoritesPagination: favoritesPagination
         )
 
         self.viewModel = vm

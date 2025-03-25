@@ -111,7 +111,6 @@ private extension RecipeDetailViewModel {
         do {
             let recipeDomain = try await service.fetchRecipe(for: recipeID)
             let recipe = Recipe(from: recipeDomain)
-            print("***** recipeID::: \(recipeID)")
             state = .loaded(recipe)
             createdAtString = DateFormatter.relativeDateString(
                 from: recipe.createdAt

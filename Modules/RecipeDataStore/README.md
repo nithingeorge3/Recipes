@@ -11,6 +11,9 @@ The **`RecipeDataStore`** module provides a simple, reusable wrapper for data pe
 
 ---
 
+## Database Schema
+<img src="./docs/dataStore.png" width="100%" height="100%">
+
 ## **Features**
 
 - **Save Recipe**: Add streamlined methods to save recipes fetched from the RecipeNetworking module to the data store.

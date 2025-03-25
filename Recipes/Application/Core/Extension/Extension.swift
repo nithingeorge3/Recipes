@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUICore
 
 extension String? {
     var validatedURL: URL? {
@@ -27,5 +28,16 @@ extension DateFormatter {
         guard let timestamp = timestamp else { return nil }
         let date = Date(timeIntervalSince1970: TimeInterval(timestamp))
         return DateFormatter.recipeDateFormatter.string(from: date)
+    }
+}
+
+//Accessibility Modifier
+extension View {
+    func navigationAccessibility(title: String) -> some View {
+        self
+            .navigationTitle(title)
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel(title)
+            .accessibilityAddTraits(.isHeader)
     }
 }
