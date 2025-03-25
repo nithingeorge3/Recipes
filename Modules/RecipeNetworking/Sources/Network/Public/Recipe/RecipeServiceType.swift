@@ -17,15 +17,18 @@ public protocol RecipeKeyServiceType {
 public typealias RecipeServiceProvider = RecipeServiceType & RecipeSDServiceType
 
 public protocol RecipeServiceType: Sendable {
-    func fetchRecipes(endPoint: EndPoint) async throws -> [RecipeDomain]
+    func fetchRecipes(endPoint: EndPoint) async throws -> (inserted: [RecipeDomain], updated: [RecipeDomain])
 }
 
 public protocol RecipeSDServiceType: Sendable {
     var favoritesDidChange: AsyncStream<Int> { get }
     func fetchRecipe(for recipeID: Int) async throws -> RecipeDomain
-    func fetchRecipes(page: Int, pageSize: Int) async throws -> [RecipeDomain]
+    func fetchRecipesCount() async throws -> Int
+    func fetchFavoritesRecipesCount() async throws -> Int
+    func fetchRecipes(startIndex: Int, pageSize: Int) async throws -> [RecipeDomain]
+    func fetchFavorites(startIndex: Int, pageSize: Int) async throws -> [RecipeDomain]
     func updateFavouriteRecipe(_ recipeID: Int) async throws -> Bool
-    func fetchRecipePagination(_ type: EntityType) async throws -> PaginationDomain
+    func fetchPagination(_ type: EntityType) async throws -> PaginationDomain
 }
 
 //just added for showing combine

@@ -11,7 +11,7 @@ import RecipeDomain
 extension RecipeDomain {
     init(from dto: RecipeDTO) {
         let country = Country(from: dto.country ?? .unknown)
-        let rating = UserRatingsDomain(id: dto.id, countNegative: dto.userRatings?.countNegative, countPositive: dto.userRatings?.countPositive, score: dto.userRatings?.score)
+        let ratings = UserRatingsDomain(id: dto.id, countNegative: dto.ratings?.countNegative ?? 0, countPositive: dto.ratings?.countPositive ?? 0, score: dto.ratings?.score ?? 0)
         
         self.init(
             id: dto.id,
@@ -23,7 +23,7 @@ extension RecipeDomain {
             createdAt: dto.createdAt,
             approvedAt: dto.approvedAt,
             yields: dto.yields,
-            userRatings: rating
+            ratings: ratings
         )
     }
 }

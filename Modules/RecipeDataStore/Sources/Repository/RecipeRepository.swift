@@ -11,8 +11,8 @@ import SwiftData
 
 @frozen
 public enum SDError: Error {
-    case modelNotFound
     case modelObjNotFound
+    case countOperationFailed
 }
 
 public final class RecipeSDRepository: RecipeSDRepositoryType {
@@ -27,6 +27,30 @@ public final class RecipeSDRepository: RecipeSDRepositoryType {
         DataStoreManager(container: self.container)
     }
     
+    public func fetchRecipesCount() async throws -> Int {
+        try await dataStore.performBackgroundTask { context in
+            do {
+                let predicate = #Predicate<SDRecipe> { !$0.isFavorite }
+                let descriptor = FetchDescriptor<SDRecipe>(predicate: predicate)
+                return try context.fetchCount(descriptor)
+            } catch {
+                throw SDError.countOperationFailed
+            }
+        }
+    }
+    
+    public func fetchFavoritesRecipesCount() async throws -> Int {
+        try await dataStore.performBackgroundTask { context in
+            do {
+                let predicate = #Predicate<SDRecipe> { $0.isFavorite }
+                let descriptor = FetchDescriptor<SDRecipe>(predicate: predicate)
+                return try context.fetchCount(descriptor)
+            } catch {
+                throw SDError.countOperationFailed
+            }
+        }
+    }
+    
     public func fetchRecipe(for recipeID: Int) async throws -> RecipeDomain {
         try await dataStore.performBackgroundTask { context in
             let predicate = #Predicate<SDRecipe> { $0.id == recipeID }
@@ -39,32 +63,50 @@ public final class RecipeSDRepository: RecipeSDRepositoryType {
         }
     }
     
-    public func fetchRecipes(page: Int = 0, pageSize: Int = 40) async throws -> [RecipeDomain] {
+    public func fetchRecipes(startIndex: Int = 0, pageSize: Int = 40) async throws -> [RecipeDomain] {
         try await dataStore.performBackgroundTask { context in
-            let offset = page * pageSize
-            
+            let predicate = #Predicate<SDRecipe> { !$0.isFavorite }
             var descriptor = FetchDescriptor<SDRecipe>(
-                predicate: nil,
-                sortBy: [SortDescriptor(\.createdAt, order: .reverse)]
+                predicate: predicate,
+                sortBy: [SortDescriptor(\.createdAt, order: .forward)]
             )
             descriptor.fetchLimit = pageSize
-            descriptor.fetchOffset = offset
+            descriptor.fetchOffset = startIndex
 
             return try context.fetch(descriptor).map(RecipeDomain.init)
         }
     }
     
-    public func saveRecipes(_ recipes: [RecipeDomain]) async throws {
+    public func fetchFavorites(startIndex: Int = 0, pageSize: Int = 40) async throws -> [RecipeDomain] {
+        try await dataStore.performBackgroundTask { context in
+            let predicate = #Predicate<SDRecipe> { $0.isFavorite }
+            var descriptor = FetchDescriptor<SDRecipe>(
+                predicate: predicate,
+                sortBy: [SortDescriptor(\.createdAt, order: .forward)]
+            )
+            descriptor.fetchLimit = pageSize
+            descriptor.fetchOffset = startIndex
+
+            return try context.fetch(descriptor).map(RecipeDomain.init)
+        }
+    }
+    
+    public func saveRecipes(_ recipes: [RecipeDomain]) async throws -> (inserted: [RecipeDomain], updated: [RecipeDomain]) {
         try await dataStore.performBackgroundTask { context in
             let existing = try self.existingRecipes(ids: recipes.map(\.id), context: context)
+            var insertedRecipes: [RecipeDomain] = []
+            var updatedRecipes: [RecipeDomain] = []
             
             for recipe in recipes {
                 if let existingRecipe = existing[recipe.id] {
                     existingRecipe.update(from: recipe)
+                    updatedRecipes.append(recipe)
                 } else {
                     context.insert(SDRecipe(from: recipe))
+                    insertedRecipes.append(recipe)
                 }
             }
+            return (insertedRecipes, updatedRecipes)
         }
     }
     

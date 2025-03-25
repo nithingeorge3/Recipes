@@ -9,13 +9,13 @@ import SwiftData
 
 @MainActor
 protocol AppTabCoordinatorFactoryType {
-    func makeAppTabCoordinator(container: ModelContainer) async -> AppTabCoordinator
+    func makeAppTabCoordinator(container: ModelContainer, tabBarVisibility: TabBarVisibility) async -> AppTabCoordinator
 }
 
 final class AppTabCoordinatorFactory: AppTabCoordinatorFactoryType {
-    func makeAppTabCoordinator(container: ModelContainer) async -> AppTabCoordinator {
+    func makeAppTabCoordinator(container: ModelContainer, tabBarVisibility: TabBarVisibility) async -> AppTabCoordinator {
         let recipeCoordinatorFactory = RecipeListCoordinatorFactory()
-        let recipeCoordinator = await recipeCoordinatorFactory.makeRecipeListCoordinator(container: container)
+        let recipeCoordinator = await recipeCoordinatorFactory.makeRecipeListCoordinator(container: container, tabBarVisibility: tabBarVisibility)
         
         let menuViewModelFactory = MenuViewModelFactory()
         let menuViewFactory = MenuViewFactory(menuViewModelFactory: menuViewModelFactory)
@@ -23,7 +23,7 @@ final class AppTabCoordinatorFactory: AppTabCoordinatorFactoryType {
         let menuCoordinator = menuCoordinatorFactory.makeMenuCoordinator()
         
         let viewFactory = AppTabViewFactory(coordinators: [recipeCoordinator,
-                                                           menuCoordinator])
+                                                           menuCoordinator], tabBarVisibility: tabBarVisibility)
         
         return AppTabCoordinator(appTabViewFactory: viewFactory)
     }

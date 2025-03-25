@@ -13,13 +13,13 @@ final class RecipeDomainTests: XCTestCase {
             originalVideoURL: "https://abc.com/video",
             yields: "4 servings",
             isFavorite: false,
-            userRatings: ratings
+            ratings: ratings
         )
         
         XCTAssertEqual(recipe.id, 123)
         XCTAssertEqual(recipe.country, .us)
         XCTAssertEqual(recipe.description, "Yummy chicken")
-        XCTAssertEqual(recipe.userRatings?.countPositive, 95)
+        XCTAssertEqual(recipe.ratings?.countPositive, 95)
     }
     
     func testRecipeDomainDefaults() {
@@ -32,7 +32,7 @@ final class RecipeDomainTests: XCTestCase {
     func testPaginationDomainDefaults() {
         let pagination = PaginationDomain()
         XCTAssertEqual(pagination.entityType, .recipe)
-        XCTAssertEqual(pagination.totalCount, 0)
+        XCTAssertEqual(pagination.totalCount, 40)
         XCTAssertEqual(pagination.currentPage, 0)
     }
     

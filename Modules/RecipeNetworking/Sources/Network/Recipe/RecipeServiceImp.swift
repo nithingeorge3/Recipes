@@ -17,7 +17,7 @@ final class RecipeServiceImp: RecipeServiceProvider {
         self.recipeRepository = recipeRepository
     }
 
-    func fetchRecipes(endPoint: EndPoint) async throws(NetworkError) -> [RecipeDomain] {
+    func fetchRecipes(endPoint: EndPoint) async throws(NetworkError) -> (inserted: [RecipeDomain], updated: [RecipeDomain]) {
         do {
             return try await recipeRepository.fetchRecipes(endPoint: endPoint)
             //add business logic
@@ -31,12 +31,24 @@ final class RecipeServiceImp: RecipeServiceProvider {
 extension RecipeServiceImp {        
     var favoritesDidChange: AsyncStream<Int> { favoritesDidChangeStream }
     
+    func fetchRecipesCount() async throws -> Int {
+        try await recipeRepository.fetchRecipesCount()
+    }
+    
+    func fetchFavoritesRecipesCount() async throws -> Int {
+        try await recipeRepository.fetchFavoritesRecipesCount()
+    }
+    
     func fetchRecipe(for recipeID: Int) async throws -> RecipeDomain {
         try await recipeRepository.fetchRecipe(for: recipeID)
     }
     
-    func fetchRecipes(page: Int = 0, pageSize: Int = 40) async throws -> [RecipeDomain] {
-        try await recipeRepository.fetchRecipes(page: page, pageSize: pageSize)
+    func fetchRecipes(startIndex: Int = 0, pageSize: Int = 40) async throws -> [RecipeDomain] {
+        try await recipeRepository.fetchRecipes(startIndex: startIndex, pageSize: pageSize)
+    }
+    
+    func fetchFavorites(startIndex: Int = 0, pageSize: Int = 40) async throws -> [RecipeDomain] {
+        try await recipeRepository.fetchFavorites(startIndex: startIndex, pageSize: pageSize)
     }
     
     func updateFavouriteRecipe(_ recipeID: Int) async throws -> Bool {
@@ -45,8 +57,8 @@ extension RecipeServiceImp {
         return isUpdated
     }
     
-    func fetchRecipePagination(_ entityType: EntityType) async throws -> PaginationDomain {
-        return try await recipeRepository.fetchRecipePagination(entityType)
+    func fetchPagination(_ entityType: EntityType) async throws -> PaginationDomain {
+        return try await recipeRepository.fetchPagination(entityType)
     }
 }
 

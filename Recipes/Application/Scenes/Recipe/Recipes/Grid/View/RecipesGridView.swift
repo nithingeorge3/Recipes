@@ -14,7 +14,7 @@ struct RecipesGridView: View {
     var onRecipeTap: (Recipe) -> Void
     var onReachBottom: () -> Void
     
-    @State private var isFavoritesCollapsed: Bool = false
+    @State private var isFavoritesCollapsed: Bool = true
     @State private var isOtherCollapsed: Bool = false
     @State private var showProgress: Bool = false
     

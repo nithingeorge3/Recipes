@@ -1,5 +1,5 @@
 //
-//  RecipeImageCarousel.swift
+//  RecipeImageCarouselView.swift
 //  Recipes
 //
 //  Created by Nitin George on 01/03/2025.
@@ -8,7 +8,7 @@
 import SwiftUI
 import Kingfisher
 
-struct RecipeImageCarousel: View {
+struct RecipeImageCarouselView: View {
     let mediaItems: [PresentedMedia]
     @Binding var selectedIndex: Int
     @State private var presentedMedia: PresentedMedia?

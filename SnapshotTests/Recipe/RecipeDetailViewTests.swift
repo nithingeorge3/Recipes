@@ -23,8 +23,10 @@ class RecipeDetailViewSnapshotTests: XCTestCase {
         
     func testDefaultDetailView() {
         let viewModel = PreviewDetailViewModel.fullRecipe
+        
         let view = RecipeDetailView(viewModel: viewModel)
-            .frame(width: 375, height: 812)
+                    .frame(width: 375, height: 812)
+                    .environmentObject(TabBarVisibility())
         
         assertSnapshot(
             matching: view.toVC(),
@@ -35,8 +37,10 @@ class RecipeDetailViewSnapshotTests: XCTestCase {
     
     func testNoImageView() {
         let viewModel = PreviewDetailViewModel.noImageRecipe
+        
         let view = RecipeDetailView(viewModel: viewModel)
-            .frame(width: 375, height: 812)
+                .frame(width: 375, height: 812)
+                .environmentObject(TabBarVisibility())
         
         assertSnapshot(
             matching: view.toVC(),
@@ -47,8 +51,10 @@ class RecipeDetailViewSnapshotTests: XCTestCase {
     
     func testNoDescriptionView() {
         let viewModel = PreviewDetailViewModel.noDescriptionRecipe
+        
         let view = RecipeDetailView(viewModel: viewModel)
-            .frame(width: 375, height: 812)
+                    .frame(width: 375, height: 812)
+                    .environmentObject(TabBarVisibility())
         
         assertSnapshot(
             matching: view.toVC(),
@@ -59,8 +65,10 @@ class RecipeDetailViewSnapshotTests: XCTestCase {
     
     func testFavoriteStateView() {
         let viewModel = PreviewDetailViewModel.fullRecipe
+        
         let view = RecipeDetailView(viewModel: viewModel)
-            .frame(width: 375, height: 812)
+                    .frame(width: 375, height: 812)
+                    .environmentObject(TabBarVisibility())
         
         assertSnapshot(
             matching: view.toVC(),

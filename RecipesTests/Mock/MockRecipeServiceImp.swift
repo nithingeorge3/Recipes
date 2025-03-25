@@ -15,13 +15,9 @@ import RecipeDomain
 
 final class MockRecipeServiceImp: RecipeServiceProvider, @unchecked Sendable {
     var resultsJSON: String
-    
     var stubbedRecipes: [RecipeDomain] = []
-    
     var shouldThrowError: Bool = false
-    
-    private var isFavorite: Bool = false
-    
+        
     private let (stream, continuation) = AsyncStream.makeStream(of: Int.self)
     
     init(mockJSON: String = JSONData.recipeValidJSON) {
@@ -33,6 +29,18 @@ final class MockRecipeServiceImp: RecipeServiceProvider, @unchecked Sendable {
     
     var favoritesDidChange: AsyncStream<Int> { stream }
     
+    func fetchRecipesCount() async throws -> Int {
+        stubbedRecipes.count
+    }
+    
+    func fetchFavoritesRecipesCount() async throws -> Int {
+        stubbedRecipes.count(where: \.isFavorite)
+    }
+    
+    func fetchFavorites(startIndex: Int, pageSize: Int) async throws -> [RecipeDomain] {
+        stubbedRecipes.filter { $0.isFavorite }
+    }
+    
     func fetchRecipe(for recipeID: Int) async throws -> RecipeDomain {
         guard let recipe = stubbedRecipes.first else {
             throw RecipeError.notFound(recipeID: recipeID)
@@ -40,19 +48,24 @@ final class MockRecipeServiceImp: RecipeServiceProvider, @unchecked Sendable {
         return recipe
     }
     
-    func fetchRecipes(page: Int, pageSize: Int) async throws -> [RecipeDomain] {
+    func fetchRecipes(startIndex: Int, pageSize: Int) async throws -> [RecipeDomain] {
         return stubbedRecipes
     }
     
     func updateFavouriteRecipe(_ recipeID: Int) async throws -> Bool {
-        false
+        guard let index = stubbedRecipes.firstIndex(where: { $0.id == recipeID }) else {
+            throw RecipeError.notFound(recipeID: recipeID)
+        }
+        
+        stubbedRecipes[index].isFavorite.toggle()
+        return stubbedRecipes[index].isFavorite
     }
     
-    func fetchRecipePagination(_ type: EntityType) async throws -> PaginationDomain {
+    func fetchPagination(_ type: EntityType) async throws -> PaginationDomain {
         PaginationDomain()
     }
     
-    func fetchRecipes(endPoint: EndPoint = .recipes(page: 0, limit: 40)) async throws -> [RecipeDomain] {
+    func fetchRecipes(endPoint: EndPoint = .recipes(startIndex: 0, pageSize: 40)) async throws -> (inserted: [RecipeDomain], updated: [RecipeDomain]) {
         do {
             if let data = resultsJSON.data(using: .utf8) {
                 let decoder = JSONDecoder()
@@ -60,13 +73,13 @@ final class MockRecipeServiceImp: RecipeServiceProvider, @unchecked Sendable {
                 
                 let recipeDomains = dtos.results.map { RecipeDomain(from: $0) }
                 stubbedRecipes = recipeDomains
-                return stubbedRecipes
+                return (stubbedRecipes, [])
             }
         } catch {
             throw NetworkError.failedToDecode
         }
         
-        return stubbedRecipes
+        return (stubbedRecipes, [])
     }
 }
 

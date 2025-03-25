@@ -8,11 +8,21 @@
 import RecipeNetworking
 
 protocol RecipesViewModelFactoryType {
-    @MainActor func makeRecipeListViewModel(service: RecipeServiceProvider, paginationHandler: PaginationHandlerType) async -> RecipeListViewModel
+    @MainActor func makeRecipeListViewModel(service: RecipeServiceProvider, remotePagination: RemotePaginationHandlerType, localPagination: LocalPaginationHandlerType, favoritesPagination: LocalPaginationHandlerType) async -> RecipeListViewModel
 }
 
 final class RecipesViewModelFactory: RecipesViewModelFactoryType {
-    func makeRecipeListViewModel(service: RecipeServiceProvider, paginationHandler: PaginationHandlerType) async -> RecipeListViewModel {
-        RecipeListViewModel(service: service, paginationHandler: paginationHandler)
+    func makeRecipeListViewModel(
+        service: RecipeServiceProvider,
+        remotePagination: RemotePaginationHandlerType,
+        localPagination: LocalPaginationHandlerType,
+        favoritesPagination: LocalPaginationHandlerType
+    ) async -> RecipeListViewModel {
+        RecipeListViewModel(
+            service: service,
+            remotePagination: remotePagination,
+            localPagination: localPagination,
+            favoritesPagination: favoritesPagination
+        )
     }
 }

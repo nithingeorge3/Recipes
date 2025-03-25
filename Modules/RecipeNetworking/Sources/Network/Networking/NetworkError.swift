@@ -26,7 +26,7 @@ extension NetworkError: LocalizedError {
         case .responseError:
             "Failed to fetch data from server, please try again later"
         case .failedToDecode:
-            "Failed to decode teh data. Error"
+            "Failed to decode the data. Error"
         case .noKeyAvailable:
             "Failed to fetch key from server, please try again later"
         case .unKnown:

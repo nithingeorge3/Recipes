@@ -1,10 +1,14 @@
 # Recipes
 ## Requirements
-- iOS 16.0+
+- iOS 17.0+
 - Swift 5.9
 
-## Overview
-SwiftUI-based application designed using the MVVM-C (Model-View-ViewModel-Coordinator) architecture for scalability, modularity, and testability.
+## Architecture Overview
+- SwiftUI-based application designed using the MVVM-C (Model-View-ViewModel-Coordinator) architecture for scalability, modularity, and testability. 
+- Implements Repository Pattern for abstracting data sources (API + SwiftData) and Factory Pattern for dependency injection.
+- Uses SwiftData for local persistence and async/await for concurrency.
+
+<img src="./docs/mvvmc-architecture.png"  width="100%" height="100%">
 
 ## Approches
 1. MVVM-C Architecture: Implemented MVVM-C using async/await.

@@ -15,9 +15,8 @@ final class MenuViewModelFactory: MenuViewModelFactoryType {
     
     func makeMenuViewModel(service: RecipeKeyServiceType) -> MenuViewModel {
         let items = [
-            SidebarItem(title: "Profile", type: .navigation),
             SidebarItem(title: "Recipe List", type: .navigation),
-            SidebarItem(title: "Logout", type: .action)
+            SidebarItem(title: "Delete API Key", type: .action)
         ]
         return MenuViewModel(service: service, items: items)
     }

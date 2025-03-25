@@ -14,7 +14,7 @@ protocol URLBuilder {
 }
 
 public enum EndPoint: Sendable {
-    case recipes(page: Int, limit: Int)
+    case recipes(startIndex: Int, pageSize: Int)
 }
 
 extension EndPoint: URLBuilder {
@@ -28,10 +28,10 @@ extension EndPoint: URLBuilder {
             components.host = recipeBaseURL
         }
         
-        if case let .recipes(page, limit) = self {
+        if case let .recipes(startIndex, pageSize) = self {
             components.queryItems = [
-                URLQueryItem(name: "from", value: "\(page)"),
-                URLQueryItem(name: "size", value: "\(limit)"),
+                URLQueryItem(name: "from", value: "\(startIndex)"),
+                URLQueryItem(name: "size", value: "\(pageSize)"),
                 URLQueryItem(name: "tags", value: "under_30_minutes")
                 ]
         }
@@ -53,12 +53,5 @@ extension EndPoint: URLBuilder {
             "/recipes/list"
         }
     }
-}
-
-extension EndPoint {
-    var recipeFetchInfo: (Int, Int) {
-        guard case let .recipes(page, limit) = self else { return (0, 40) }
-        return (page, limit)
-        }
 }
 

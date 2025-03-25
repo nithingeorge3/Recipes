@@ -11,7 +11,6 @@ import RecipeNetworking
 struct MenuView: View {
     @ObservedObject var viewModel: MenuViewModel
     @State private var selectedItem: SidebarItem?
-    @State private var showLogoutConfirmation = false
     
     init(viewModel: MenuViewModel) {
         self.viewModel = viewModel
@@ -27,7 +26,7 @@ struct MenuView: View {
                         .padding(.vertical, 8)
                 case .action:
                     SideBarActionButton(title: item.title) {
-                        handleAction(for: item)
+                        viewModel.showDeleteConfirmation = true
                     }
                 }
             }
@@ -42,10 +41,13 @@ struct MenuView: View {
                     .foregroundStyle(.secondary)
             }
         }
-        .sheet(isPresented: $showLogoutConfirmation) {
-            LogoutConfirmationView {
-                viewModel.performLogOut()
+        .alert("Delete API Key?", isPresented: $viewModel.showDeleteConfirmation) {
+            Button("Cancel", role: .cancel) { }
+            Button("Delete", role: .destructive) {
+                viewModel.deleteRecipeAPIKey()
             }
+        } message: {
+            Text("The Recipe API Key will be deleted from Keychain.")
         }
     }
     
@@ -65,24 +67,13 @@ struct MenuView: View {
             }
             .buttonStyle(.plain)
             .frame(maxWidth: .infinity, alignment:  .leading)
-            .foregroundColor(title == "Logout" ? .red : .primary)
-        }
-    }
-    
-    private func handleAction(for item: SidebarItem) {
-        switch item.title {
-        case "Logout":
-            showLogoutConfirmation = true
-        default:
-            break
+            .foregroundColor(title == "Delete API Key" ? .red : .primary)
         }
     }
     
     @ViewBuilder
     private func destinationView(for item: SidebarItem) -> some View {
         switch item.title {
-        case "Profile":
-            ProfileView()
         case "Recipe List":
             recipesListView()
         default:
@@ -100,7 +91,7 @@ struct MenuView: View {
 // MARK: - Previews
 #if DEBUG
 #Preview {
-    let items = [SidebarItem(title: "Profile", type: .navigation)]
+    let items = [SidebarItem(title: "Recipe List", type: .navigation)]
     MenuView(viewModel: MenuViewModel(service: RecipeServiceFactory.makeRecipeKeyService(), items: items))
 }
 #endif

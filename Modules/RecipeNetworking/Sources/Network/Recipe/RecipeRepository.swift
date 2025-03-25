@@ -11,11 +11,14 @@ import RecipeDomain
 
 //we can split protocol. backend and SwiftData fetch
 public protocol RecipeRepositoryType: Sendable {
-    func fetchRecipes(endPoint: EndPoint) async throws -> [RecipeDomain]
+    func fetchRecipes(endPoint: EndPoint) async throws -> (inserted: [RecipeDomain], updated: [RecipeDomain])
+    func fetchRecipesCount() async throws -> Int
+    func fetchFavoritesRecipesCount() async throws -> Int
     func fetchRecipe(for recipeID: Int) async throws -> RecipeDomain
-    func fetchRecipes(page: Int, pageSize: Int) async throws -> [RecipeDomain]
+    func fetchRecipes(startIndex: Int, pageSize: Int) async throws -> [RecipeDomain]
+    func fetchFavorites(startIndex: Int, pageSize: Int) async throws -> [RecipeDomain]
     func updateFavouriteRecipe(_ recipeID: Int) async throws -> Bool
-    func fetchRecipePagination(_ entityType: EntityType) async throws -> PaginationDomain
+    func fetchPagination(_ entityType: EntityType) async throws -> PaginationDomain
 }
 
 final class RecipeRepository: RecipeRepositoryType {
@@ -39,7 +42,7 @@ final class RecipeRepository: RecipeRepositoryType {
         self.paginationSDRepo = paginationSDRepo
     }
     
-    func fetchRecipes(endPoint: EndPoint) async throws -> [RecipeDomain] {
+    func fetchRecipes(endPoint: EndPoint) async throws -> (inserted: [RecipeDomain], updated: [RecipeDomain]) {
         do {
             let apiKey = try await apiKeyProvider.getRecipeAPIKey()
             
@@ -53,27 +56,22 @@ final class RecipeRepository: RecipeRepositoryType {
             
             let recipeDomains = dtos.results.map { RecipeDomain(from: $0) }
 
-            //Reach the page end or no data
+            //Reach the last page or no data available
             if recipeDomains.count == 0 {
-                return recipeDomains
+                return ([], [])
             }
             
-            try await recipeSDRepo.saveRecipes(recipeDomains)
+            let result = try await recipeSDRepo.saveRecipes(recipeDomains)
             
-            var pagination = try await paginationSDRepo.fetchRecipePagination(.recipe)
+            var pagination = try await paginationSDRepo.fetchPagination(.recipe)
             pagination.totalCount = dtos.count
             pagination.currentPage += 1
             pagination.lastUpdated = Date()
             
             //updating Pagination
-            try await paginationSDRepo.updateRecipePagination(pagination)
-            
-            let pageSize = endPoint.recipeFetchInfo.1
-            let page = endPoint.recipeFetchInfo.0
-
-            let batchRecipes = try await fetchRecipes(page: page, pageSize: pageSize)
+            try await paginationSDRepo.updatePagination(pagination)
                         
-            return batchRecipes
+            return result
         } catch {
             throw NetworkError.noNetworkAndNoCache(context: error)
         }
@@ -81,20 +79,32 @@ final class RecipeRepository: RecipeRepositoryType {
 }
 
 extension RecipeRepository {
+    func fetchRecipesCount() async throws -> Int {
+        try await recipeSDRepo.fetchRecipesCount()
+    }
+    
+    func fetchFavoritesRecipesCount() async throws -> Int {
+        try await recipeSDRepo.fetchFavoritesRecipesCount()
+    }
+    
     func fetchRecipe(for recipeID: Int) async throws -> RecipeDomain {
         try await recipeSDRepo.fetchRecipe(for: recipeID)
     }
     
-    func fetchRecipes(page: Int, pageSize: Int) async throws -> [RecipeDomain] {
-        try await recipeSDRepo.fetchRecipes(page: page, pageSize: pageSize)
+    func fetchRecipes(startIndex: Int, pageSize: Int) async throws -> [RecipeDomain] {
+        try await recipeSDRepo.fetchRecipes(startIndex: startIndex, pageSize: pageSize)
+    }
+    
+    func fetchFavorites(startIndex: Int, pageSize: Int) async throws -> [RecipeDomain] {
+        try await recipeSDRepo.fetchFavorites(startIndex: startIndex, pageSize: pageSize)
     }
     
     func updateFavouriteRecipe(_ recipeID: Int) async throws -> Bool {
         try await recipeSDRepo.updateFavouriteRecipe(recipeID)
     }
     
-    func fetchRecipePagination(_ entityType: EntityType) async throws -> PaginationDomain {
-        try await paginationSDRepo.fetchRecipePagination(entityType)
+    func fetchPagination(_ entityType: EntityType) async throws -> PaginationDomain {
+        try await paginationSDRepo.fetchPagination(entityType)
     }
 }
 

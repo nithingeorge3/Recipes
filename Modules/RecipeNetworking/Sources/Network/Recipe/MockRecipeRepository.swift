@@ -12,6 +12,7 @@ final class MockRecipeRepository: RecipeRepositoryType, @unchecked Sendable {
     private let fileName: String
     private let parser: ServiceParserType
     private var recipe: RecipeDomain?
+    private var recipes: [RecipeDomain] = []
     private var pagination: PaginationDomain
     
     init(
@@ -24,7 +25,7 @@ final class MockRecipeRepository: RecipeRepositoryType, @unchecked Sendable {
         self.pagination = pagination
     }
     
-    func fetchRecipes(endPoint: EndPoint) async throws -> [RecipeDomain] {
+    func fetchRecipes(endPoint: EndPoint) async throws -> (inserted: [RecipeDomain], updated: [RecipeDomain]) {
         guard let url = Bundle.module.url(forResource: self.fileName, withExtension: "json") else {
             throw NetworkError.responseError
         }
@@ -43,15 +44,27 @@ final class MockRecipeRepository: RecipeRepositoryType, @unchecked Sendable {
             
             let dtos = try await parser.parse(data: data, response: mockResponse, type: RecipeResponseDTO.self)
             let recipeDomains = dtos.results.map { RecipeDomain(from: $0) }
+            
             recipe = recipeDomains.first
             pagination.totalCount = dtos.count
             pagination.currentPage = 1
-
-            return recipeDomains
+            recipes = recipeDomains
+            
+            return (recipeDomains, [])
         }
         catch {
             throw NetworkError.failedToDecode
         }
+    }
+}
+
+extension MockRecipeRepository {
+    func fetchRecipesCount() async throws -> Int {
+        recipes.count
+    }
+    
+    func fetchFavoritesRecipesCount() async throws -> Int {
+        0
     }
     
     func fetchRecipe(for recipeID: Int) async throws -> RecipeDomain {
@@ -61,8 +74,12 @@ final class MockRecipeRepository: RecipeRepositoryType, @unchecked Sendable {
         return recipe
     }
     
-    func fetchRecipes(page: Int, pageSize: Int) async throws -> [RecipeDomain] {
-        return []
+    func fetchRecipes(startIndex: Int, pageSize: Int) async throws -> [RecipeDomain] {
+        []
+    }
+    
+    func fetchFavorites(startIndex: Int, pageSize: Int) async throws -> [RecipeDomain] {
+        []
     }
     
     func updateFavouriteRecipe(_ recipeID: Int) async throws -> Bool {
@@ -74,7 +91,7 @@ final class MockRecipeRepository: RecipeRepositoryType, @unchecked Sendable {
         return recipe.isFavorite
     }
     
-    func fetchRecipePagination(_ entityType: EntityType) async throws -> PaginationDomain {
+    func fetchPagination(_ entityType: EntityType) async throws -> PaginationDomain {
         pagination
     }
 }
