@@ -17,7 +17,6 @@ protocol RemotePaginationHandlerType: AnyObject {
     var lastUpdated: Date { get set }
     
     func reset()
-    func validateLoadMore(index: Int) -> Bool
     func updateFromDomain(_ pagination: Pagination)
 }
 
@@ -37,10 +36,6 @@ final class RemotePaginationHandler: RemotePaginationHandlerType {
         totalItems = 0
         isLoading = false
         lastUpdated = Date()
-    }
-    
-    func validateLoadMore(index: Int) -> Bool {
-        index == currentPage * Constants.Recipe.fetchLimit - 5 && !isLoading && hasMoreData
     }
     
     func updateFromDomain(_ pagination: Pagination) {

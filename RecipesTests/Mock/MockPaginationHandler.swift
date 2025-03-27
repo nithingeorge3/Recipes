@@ -17,7 +17,6 @@ final class MockRemotePaginationHandler: RemotePaginationHandlerType {
     var hasMoreData: Bool = true
     
     func reset() { }
-    func validateLoadMore(index: Int) -> Bool { false }
     func updateFromDomain(_ pagination: Pagination) {
         totalItems = pagination.totalCount
         currentPage = pagination.currentPage
