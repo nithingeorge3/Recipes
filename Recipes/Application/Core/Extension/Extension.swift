@@ -31,7 +31,6 @@ extension DateFormatter {
     }
 }
 
-//Accessibility Modifier
 extension View {
     func navigationAccessibility(title: String) -> some View {
         self

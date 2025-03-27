@@ -133,9 +133,7 @@ private class PreviewRemotePaginationHandler: RemotePaginationHandlerType {
         totalItems = 50
         isLoading = false
     }
-    
-    func validateLoadMore(index: Int) -> Bool { false }
-    
+        
     func updateFromDomain(_ pagination: Pagination) {
         totalItems = pagination.totalCount
         currentPage = pagination.currentPage

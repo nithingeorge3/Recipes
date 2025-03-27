@@ -135,7 +135,7 @@ final class RecipeListRepository: RecipeListRepositoryType {
             
             do {
                 //We ned to save this in keychain. same as Async/await impliemntataion
-                let apiKey = "c36446da42msh685aa9134d41e0ep10f9cdjsnaa15ec2198b5"
+                let apiKey = "53053d2c99msha938f9283114fdep1f1931jsn24fc750558f7"
                 let url = try endPoint.url()
                 URLSession.shared.dataTaskPublisher(for: requestBuilder.buildRequest(url: url, apiKey: apiKey))
                     .mapError { error -> Error in

@@ -1,0 +1,78 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "%lld" : {
+
+    },
+    "%lld%%" : {
+
+    },
+    "Be the first to rate this recipe" : {
+
+    },
+    "Cancel" : {
+
+    },
+    "Delete" : {
+
+    },
+    "Delete API Key?" : {
+
+    },
+    "Description unavailable" : {
+
+    },
+    "Double tap to view recipe details" : {
+
+    },
+    "Empty recipe list" : {
+
+    },
+    "Loading recipes" : {
+
+    },
+    "Loading..." : {
+
+    },
+    "More" : {
+
+    },
+    "Ooops..." : {
+
+    },
+    "Recipe" : {
+
+    },
+    "Recipes collection" : {
+
+    },
+    "Remove" : {
+
+    },
+    "Remove from saved" : {
+
+    },
+    "Retry" : {
+
+    },
+    "Score" : {
+
+    },
+    "Score: %lld percent" : {
+
+    },
+    "Select an item" : {
+
+    },
+    "The Recipe API Key will be deleted from Keychain." : {
+
+    },
+    "The Recipe will be removed from your saved list." : {
+
+    },
+    "Unknown Tab" : {
+
+    }
+  },
+  "version" : "1.0"
+}
