@@ -14,6 +14,7 @@ struct RecipesListView<ViewModel: RecipesListViewModelType>: View {
     
     var body: some View {
         content
+            .withCustomNavigationTitle(title: "Recipes")
             .navigationAccessibility(title: "Recipes")
             .onAppear(perform: handleAppear)
             .accessibilityElement(children: .contain)
