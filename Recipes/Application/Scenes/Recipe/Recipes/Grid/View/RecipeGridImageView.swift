@@ -28,6 +28,9 @@ struct RecipeGridImageView: View {
                 RecipeImageView(imageURL: url, width: gridSize, height: gridSize)
             } else {
                 Image(Constants.Recipe.placeholderImage)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: gridSize, height: gridSize)
                     .accessibilityHidden(true)
             }
         }

@@ -21,25 +21,31 @@ struct RecipeDetailView<ViewModel: RecipeDetailViewModelType>: View {
             switch viewModel.state {
             case .loading:
                 ProgressView()
-                    .task { viewModel.send(.loadRecipe) }
+                    .task { await viewModel.send(.loadRecipe) }
                 
             case .loaded(let recipe):
                 contentView(for: recipe)
                 
             case .error(let error):
                 ErrorView(error: error) {
-                    viewModel.send(.loadRecipe)
+                    Task {
+                        await viewModel.send(.loadRecipe)
+                    }
                 }
             }
         }
         .onAppear {
-            viewModel.send(.loadRecipe)
+            Task {
+                await viewModel.send(.loadRecipe)
+            }
             tabBarVisibility.isHidden = true
         }
         .alert("Remove from saved", isPresented: $showFavouriteConfirmation) {
             Button("Cancel", role: .cancel) { }
             Button("Remove", role: .destructive) {
-                viewModel.send(.toggleFavorite)
+                Task {
+                    await viewModel.send(.toggleFavorite)
+                }
             }
         } message: {
             Text("The Recipe will be removed from your saved list.")
@@ -82,7 +88,9 @@ struct RecipeDetailView<ViewModel: RecipeDetailViewModelType>: View {
                             showFavouriteConfirmation = true
                         }
                         else {
-                            viewModel.send(.toggleFavorite)
+                            Task {
+                                await viewModel.send(.toggleFavorite)
+                            }
                         }
                     }) {
                         Image(systemName: recipe.isFavorite ? "heart.fill" : "heart")

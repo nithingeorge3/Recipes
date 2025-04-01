@@ -43,11 +43,15 @@ struct RecipesListView<ViewModel: RecipesListViewModelType>: View {
     
     private func errorView(error: Error) -> some View {
         ErrorView(error: error) {
-            viewModel.send(.refresh)
+            Task {
+                await viewModel.send(.refresh)
+            }
         }
         .accessibilityElement(children: .combine)
         .accessibilityAction(named: "Retry") {
-            viewModel.send(.refresh)
+            Task {
+                await viewModel.send(.refresh)
+            }
         }
     }
     
@@ -62,16 +66,24 @@ struct RecipesListView<ViewModel: RecipesListViewModelType>: View {
                 others: viewModel.otherRecipes,
                 hasMoreData: viewModel.remotePagination.hasMoreData
             ) { recipe in
-                viewModel.send(.selectRecipe(recipe.id))
+                Task {
+                    await viewModel.send(.selectRecipe(recipe.id))
+                }
             } onReachBottom: {
-                viewModel.send(.loadMore)
+                Task {
+                    await viewModel.send(.loadMore)
+                }
             }
             .accessibilityLabel("Recipes collection")
         }
     }
     
     private func handleAppear() {
-        viewModel.send(.refresh)
+        Task {
+            await viewModel.loadInitialData()
+            await viewModel.send(.refresh)
+        }
+        
         tabBarVisibility.isHidden = false
         
         UIAccessibility.post(

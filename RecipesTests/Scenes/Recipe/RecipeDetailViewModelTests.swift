@@ -37,7 +37,7 @@ final class RecipeDetailViewModelTests: XCTestCase {
         
         XCTAssertEqual(viewModel.state, .loading)
         
-        viewModel.send(.loadRecipe)
+        await viewModel.send(.loadRecipe)
         
         let expectation = XCTestExpectation(description: "Fetch completes")
         DispatchQueue.main.async {
@@ -62,10 +62,8 @@ final class RecipeDetailViewModelTests: XCTestCase {
             service: service
         )
                 
-        viewModel.send(.loadRecipe)
-        
-        try await Task.sleep(nanoseconds: 100_000_000)
-        
+        await viewModel.send(.loadRecipe)
+                
         if case let .loaded(recipe) = viewModel.state {
             XCTAssertEqual(recipe.id, 1)
             XCTAssertEqual(recipe.name, "Pasta")
@@ -84,20 +82,16 @@ final class RecipeDetailViewModelTests: XCTestCase {
             service: service
         )
         
-        viewModel.send(.loadRecipe)
-        
-        try await Task.sleep(nanoseconds: 100_000_000)
-        
+        await viewModel.send(.loadRecipe)
+                
         if case let .loaded(recipe) = viewModel.state {
             XCTAssertFalse(recipe.isFavorite)
         } else {
             XCTFail("Recipe should be loaded")
         }
         
-        viewModel.send(.toggleFavorite)
-        
-        try await Task.sleep(nanoseconds: 100_000_000)
-        
+        await viewModel.send(.toggleFavorite)
+                
         if case let .loaded(updatedRecipe) = viewModel.state {
             XCTAssertTrue(updatedRecipe.isFavorite)
         } else {
