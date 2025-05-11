@@ -64,9 +64,7 @@ class RecipeListViewModel: RecipesListViewModelType {
     
     func send(_ action: RecipeListAction) async {
         switch action {
-        case .refresh:
-            await fetchRecipes()
-        case .loadMore:
+        case .refresh, .loadMore:
             await fetchRecipes()
         case .selectRecipe( let recipeID):
             recipeListActionSubject.send(RecipeListAction.selectRecipe(recipeID))
