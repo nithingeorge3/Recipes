@@ -9,7 +9,7 @@ import SwiftUI
 import Combine
 
 struct RecipesListView<ViewModel: RecipesListViewModelType>: View {
-    @Bindable var viewModel: ViewModel
+    var viewModel: ViewModel
     @EnvironmentObject private var tabBarVisibility: TabBarVisibility
     
     var body: some View {

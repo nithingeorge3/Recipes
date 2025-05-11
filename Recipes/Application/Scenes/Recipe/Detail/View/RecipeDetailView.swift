@@ -35,10 +35,10 @@ struct RecipeDetailView<ViewModel: RecipeDetailViewModelType>: View {
             }
         }
         .onAppear {
-            Task {
-                await viewModel.send(.loadRecipe)
-            }
             tabBarVisibility.isHidden = true
+        }
+        .task {
+            await viewModel.send(.loadRecipe)
         }
         .alert("Remove from saved", isPresented: $showFavouriteConfirmation) {
             Button("Cancel", role: .cancel) { }
@@ -69,6 +69,7 @@ struct RecipeDetailView<ViewModel: RecipeDetailViewModelType>: View {
                 detailSection(for: recipe)
             }
         }
+        .scrollIndicators(.hidden)
     }
     
     @ViewBuilder
