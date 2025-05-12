@@ -15,14 +15,13 @@ struct RecipeDetailView<ViewModel: RecipeDetailViewModelType>: View {
     @EnvironmentObject private var tabBarVisibility: TabBarVisibility
     @State private var selectedIndex: Int = 0
     @State private var showFavouriteConfirmation: Bool = false
+    @State private var favTask: Task<Void, Never>?
     
     var body: some View {
         Group {
             switch viewModel.state {
             case .loading:
-                ProgressView()
-                    .task { await viewModel.send(.loadRecipe) }
-                
+                ProgressView()                
             case .loaded(let recipe):
                 contentView(for: recipe)
                 
@@ -43,7 +42,8 @@ struct RecipeDetailView<ViewModel: RecipeDetailViewModelType>: View {
         .alert("Remove from saved", isPresented: $showFavouriteConfirmation) {
             Button("Cancel", role: .cancel) { }
             Button("Remove", role: .destructive) {
-                Task {
+                favTask?.cancel()
+                favTask = Task {
                     await viewModel.send(.toggleFavorite)
                 }
             }
