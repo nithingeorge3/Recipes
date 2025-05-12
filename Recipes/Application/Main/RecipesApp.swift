@@ -8,6 +8,7 @@
 import SwiftUI
 import RecipeDataStore
 import SwiftData
+import RecipeUI
 
 @main
 struct RecipesApp: App {

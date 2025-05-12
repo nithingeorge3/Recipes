@@ -6,9 +6,8 @@
 //
 
 import SwiftUI
-import RecipeNetworking
 
-struct AppTabView: View {
+public struct AppTabView: View {
     @ObservedObject var tabBarVisibility: TabBarVisibility
     @State private var selectedTab: UUID
     private let tabProvider: TabProvider
@@ -21,7 +20,7 @@ struct AppTabView: View {
         _selectedTab = State(initialValue: tabs.first!.id)
     }
 
-    var body: some View {
+    public var body: some View {
         VStack(spacing: 0) {
             ZStack {
                 tabProvider.view(for: selectedTab)

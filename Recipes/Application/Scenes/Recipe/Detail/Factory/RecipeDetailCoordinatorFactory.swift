@@ -7,6 +7,7 @@
 
 import Foundation
 import RecipeNetworking
+import RecipeUI
 
 protocol RecipeDetailCoordinatorFactoryType {
     @MainActor func makeRecipeDetailCoordinator(recipeID: Recipe.ID, service: RecipeSDServiceType, tabBarVisibility: TabBarVisibility) -> RecipeDetailCoordinator

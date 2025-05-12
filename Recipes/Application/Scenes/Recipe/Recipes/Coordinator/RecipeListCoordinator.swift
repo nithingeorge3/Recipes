@@ -11,6 +11,7 @@ import RecipeDataStore
 import SwiftData
 import SwiftUI
 import RecipeDomain
+import RecipeUI
 
 enum RecipeListAction: Hashable {
     case refresh

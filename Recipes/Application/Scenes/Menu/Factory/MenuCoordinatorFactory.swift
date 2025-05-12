@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import RecipeUI
 
 @MainActor
 protocol MenuCoordinatorFactoryType {

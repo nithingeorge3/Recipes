@@ -7,14 +7,14 @@
 
 import SwiftUI
 
-final class AppTabCoordinator: Coordinator {
+public final class AppTabCoordinator: Coordinator {
     let appTabViewFactory: AppTabViewFactory
         
-    init(appTabViewFactory: AppTabViewFactory) {
+    public init(appTabViewFactory: AppTabViewFactory) {
         self.appTabViewFactory = appTabViewFactory
     }
     
-    func start() -> some View {
+    public func start() -> some View {
         appTabViewFactory.makeAppTabView()
     }
 }

@@ -10,6 +10,7 @@ import RecipeNetworking
 import RecipeDataStore
 import SwiftData
 import RecipeDomain
+import RecipeUI
 
 enum RecipeDetailActions {
     case loadRecipe

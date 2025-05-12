@@ -7,6 +7,7 @@
 
 import SwiftUI
 import RecipeNetworking
+import RecipeUI
 
 final class MenuCoordinator: Coordinator, TabItemProviderType {
     private var menuViewFactory: MenuViewFactoryType

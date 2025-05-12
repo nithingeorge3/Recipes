@@ -8,6 +8,7 @@
 import SwiftUI
 import RecipeDomain
 import RecipeNetworking
+import RecipeUI
 
 // MARK: - Previews
 #if DEBUG

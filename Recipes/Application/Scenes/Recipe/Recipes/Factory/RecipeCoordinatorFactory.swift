@@ -8,6 +8,7 @@
 import Foundation
 import SwiftData
 import RecipeDataStore
+import RecipeUI
 
 protocol RecipeListCoordinatorFactoryType {
     @MainActor func makeRecipeListCoordinator(container: ModelContainer, tabBarVisibility: TabBarVisibility) async -> RecipeListCoordinator
