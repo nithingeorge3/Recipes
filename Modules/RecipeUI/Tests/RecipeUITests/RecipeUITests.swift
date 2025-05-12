@@ -1,5 +1,5 @@
 //
-//  PaginationRepositoryTests.swift
+//  RecipeUITests.swift
 //  RecipeDataSource
 //
 //  Created by Nitin George on 06/03/2025.
