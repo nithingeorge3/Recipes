@@ -7,26 +7,26 @@
 
 import SwiftUI
 
-enum APIError: Error {
+public enum APIError: Error {
     case decodingError
     case errorCode(Int)
     case unknown
 }
 
-typealias EmptyStateActionHandler = () -> Void
+public typealias EmptyStateActionHandler = () -> Void
 
-struct ErrorView: View {
-    private let handler: EmptyStateActionHandler
-    private var error: Error
+public struct ErrorView: View {
+    public let handler: EmptyStateActionHandler
+    public var error: Error
     
-    internal init(
+    public init(
         error: Error,
         handler: @escaping EmptyStateActionHandler) {
         self.error = error
         self.handler = handler
     }
     
-    var body: some View {
+    public var body: some View {
         VStack(spacing: 12) {
             Image(systemName: "exclamationmark.icloud.fill")
                 .foregroundColor(.gray)

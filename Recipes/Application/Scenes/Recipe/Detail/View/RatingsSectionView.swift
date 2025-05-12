@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import RecipeUI
 
 struct RatingsSectionView: View {
     let ratings: UserRatings

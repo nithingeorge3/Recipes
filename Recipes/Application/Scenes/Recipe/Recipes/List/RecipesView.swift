@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import RecipeUI
 
 //Actually we need only one viewmodel, as i am just showing listing with combine i used seperate viewmodel
 struct RecipesView<ViewModel: RecipesViewModelType>: View {

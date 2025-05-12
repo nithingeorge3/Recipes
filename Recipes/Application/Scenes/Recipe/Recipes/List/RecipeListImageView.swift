@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import RecipeUI
 
 //added for listing with combine.
 struct RecipeListImageView: View {

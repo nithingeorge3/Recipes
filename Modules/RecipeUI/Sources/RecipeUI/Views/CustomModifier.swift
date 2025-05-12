@@ -44,11 +44,11 @@ struct CustomNavigationTitle: ViewModifier {
 }
 
 extension View {
-    func withCustomBackButton(action: (() -> Void)? = nil) -> some View {
+    public func withCustomBackButton(action: (() -> Void)? = nil) -> some View {
         modifier(CustomBackButtonModifier(action: action))
     }
     
-    func withCustomNavigationTitle(title: String) -> some View {
+    public func withCustomNavigationTitle(title: String) -> some View {
         modifier(CustomNavigationTitle(title: title))
     }
 }

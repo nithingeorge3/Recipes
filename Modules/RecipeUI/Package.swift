@@ -1,28 +1,34 @@
 // swift-tools-version: 6.0
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
+// swift-tools-version:5.9
 import PackageDescription
 
 let package = Package(
-    name: "RecipeUI",
-    platforms: [
-        .iOS(.v17)
-    ],
+    name: "RecipeDomain", // Change per module
+    platforms: [.iOS(.v17)],
     products: [
-        // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
-            name: "RecipeUI",
-            targets: ["RecipeUI"]),
+            name: "RecipeDomain",
+            targets: ["RecipeDomain"]
+        )
+    ],
+    dependencies: [
+        // Shared dependencies only
+        .package(
+            url: "https://github.com/onevcat/Kingfisher.git",
+            from: "7.0.0"
+        )
     ],
     targets: [
-        // Targets are the basic building blocks of a package, defining a module or a test suite.
-        // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "RecipeUI"
-        ),
-        .testTarget(
-            name: "RecipeUITests",
-            dependencies: ["RecipeUI"]
-        ),
+            name: "RecipeDomain",
+            dependencies: [
+                .product(name: "Kingfisher", package: "Kingfisher")
+            ],
+            linkerSettings: [
+                .linkedFramework("UIKit")
+            ]
+        )
     ]
 )

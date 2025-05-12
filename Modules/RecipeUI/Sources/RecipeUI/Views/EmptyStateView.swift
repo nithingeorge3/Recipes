@@ -7,10 +7,14 @@
 
 import SwiftUI
 
-struct EmptyStateView: View {
-    let message: String
+public struct EmptyStateView: View {
+    public let message: String
     
-    var body: some View {
+    public init(message: String) {
+        self.message = message
+    }
+    
+    public var body: some View {
         Text(message)
             .multilineTextAlignment(.center)
             .font(.largeTitle)
