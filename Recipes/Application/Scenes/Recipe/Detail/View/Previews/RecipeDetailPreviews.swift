@@ -69,7 +69,7 @@ public class PreviewDetailViewModel: RecipeDetailViewModelType {
         self.service = service
     }
     
-    func send(_ action: RecipeDetailActions) {
+    func send(_ action: RecipeDetailActions) async {
         switch action {
         case .toggleFavorite:
             recipe?.isFavorite.toggle()

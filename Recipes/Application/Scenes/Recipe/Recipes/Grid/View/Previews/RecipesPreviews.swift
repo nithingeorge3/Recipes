@@ -105,7 +105,7 @@ private class PreviewRecipeListViewModel: RecipesListViewModelType {
         state = .failed(error: error)
     }
     
-    func send(_ action: RecipeListAction) {
+    func send(_ action: RecipeListAction) async {
         switch action {
         case .refresh:
             Task {
@@ -118,6 +118,9 @@ private class PreviewRecipeListViewModel: RecipesListViewModelType {
         case .selectRecipe(let id):
             recipeListActionSubject.send(.selectRecipe(id))
         }
+    }
+    
+    func loadInitialData() {
     }
 }
 

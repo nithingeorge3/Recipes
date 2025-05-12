@@ -49,7 +49,7 @@ protocol RecipeDetailViewModelType: AnyObject, Observable {
     var mediaItems: [PresentedMedia] { get }
     var showFavouriteConfirmation: Bool { get set }
     
-    func send(_ action: RecipeDetailActions)
+    func send(_ action: RecipeDetailActions) async
     func favouriteStatus() -> Bool
 }
 
@@ -87,27 +87,27 @@ class RecipeDetailViewModel: RecipeDetailViewModelType {
         self.recipeID = recipeID
     }
     
-    func send(_ action: RecipeDetailActions) {
+    func send(_ action: RecipeDetailActions) async {
         switch action {
-        case .toggleFavorite:
-            handleFavoriteToggle()
         case .loadRecipe:
-            Task { await fetchRecipe() }
+            await fetchRecipe()
+        case .toggleFavorite:
+            await handleFavoriteToggle()
         }
     }
     
     func favouriteStatus() -> Bool {
         switch state {
         case .loaded(let recipe):
-            return recipe.isFavorite
+            recipe.isFavorite
         default:
-            return false
+            false
         }
     }
 }
 
 private extension RecipeDetailViewModel {
-    func fetchRecipe() async {
+    private func fetchRecipe() async {
         do {
             let recipeDomain = try await service.fetchRecipe(for: recipeID)
             let recipe = Recipe(from: recipeDomain)
@@ -120,21 +120,18 @@ private extension RecipeDetailViewModel {
         }
     }
     
-    func handleFavoriteToggle() {
+    private func handleFavoriteToggle() async {
         guard case var .loaded(recipe) = state else { return }
                 
         recipe.isFavorite.toggle()
         let updatedValue = recipe.isFavorite
-        
-        Task {
-            do {
-                let success = try await service.updateFavouriteRecipe(recipeID)
-                recipe.isFavorite = success
-                state = .loaded(recipe)
-            } catch {
-                state = .error(RecipeError.notFound(recipeID: recipeID))
-                recipe.isFavorite = !updatedValue
-            }
+        do {
+            let success = try await service.updateFavouriteRecipe(recipeID)
+            recipe.isFavorite = success
+            state = .loaded(recipe)
+        } catch {
+            state = .error(RecipeError.notFound(recipeID: recipeID))
+            recipe.isFavorite = !updatedValue
         }
     }
     
