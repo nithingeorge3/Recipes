@@ -1,9 +1,6 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "Be the first to rate this recipe" : {
-
-    },
     "Cancel" : {
 
     },
@@ -13,43 +10,13 @@
     "Delete API Key?" : {
 
     },
-    "Description unavailable" : {
-
-    },
-    "Double tap to view recipe details" : {
-
-    },
-    "Empty recipe list" : {
-
-    },
-    "Loading recipes" : {
-
-    },
     "More" : {
-
-    },
-    "Recipe" : {
-
-    },
-    "Recipes collection" : {
-
-    },
-    "Remove" : {
-
-    },
-    "Remove from saved" : {
-
-    },
-    "Retry" : {
 
     },
     "Select an item" : {
 
     },
     "The Recipe API Key will be deleted from Keychain." : {
-
-    },
-    "The Recipe will be removed from your saved list." : {
 
     }
   },

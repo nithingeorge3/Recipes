@@ -7,6 +7,7 @@
 
 import SwiftUI
 import RecipeNetworking
+import RecipeFlow
 
 struct MenuView: View {
     @ObservedObject var viewModel: MenuViewModel

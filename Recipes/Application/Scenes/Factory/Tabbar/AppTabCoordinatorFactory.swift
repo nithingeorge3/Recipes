@@ -7,6 +7,7 @@
 
 import SwiftData
 import RecipeUI
+import RecipeFlow
 
 @MainActor
 protocol AppTabCoordinatorFactoryType {
