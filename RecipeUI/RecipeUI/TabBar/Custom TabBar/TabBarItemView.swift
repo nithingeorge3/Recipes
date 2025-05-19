@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct TabBarItemView: View {
-    @ObservedObject var tab: TabItem
+    var tab: TabItem
     let isSelected: Bool
     
     var body: some View {

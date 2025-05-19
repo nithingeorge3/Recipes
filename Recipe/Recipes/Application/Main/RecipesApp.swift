@@ -9,6 +9,8 @@ import SwiftUI
 import RecipeDataStore
 import SwiftData
 
+import RecipeUI
+
 @main
 struct RecipesApp: App {
     @StateObject private var appCoordinator = AppCoordinator()

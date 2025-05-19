@@ -17,11 +17,11 @@ protocol AppTabViewFactoryType {
     func makeAppTabView() -> AppTabView
 }
 
-final class AppTabViewFactory: AppTabViewFactoryType {
-    private var coordinators: [any TabItemProviderType]
-    private let tabBarVisibility: TabBarVisibility
+public final class AppTabViewFactory: AppTabViewFactoryType {
+    public var coordinators: [any TabItemProviderType]
+    public let tabBarVisibility: TabBarVisibility
     
-    init(coordinators: [any TabItemProviderType], tabBarVisibility: TabBarVisibility) {
+    public init(coordinators: [any TabItemProviderType], tabBarVisibility: TabBarVisibility) {
         self.coordinators = coordinators
         self.tabBarVisibility = tabBarVisibility
     }

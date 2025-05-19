@@ -8,6 +8,8 @@
 import SwiftUI
 import Combine
 
+import RecipeUI
+
 struct RecipesListView<ViewModel: RecipesListViewModelType>: View {
     var viewModel: ViewModel
     @EnvironmentObject private var tabBarVisibility: TabBarVisibility

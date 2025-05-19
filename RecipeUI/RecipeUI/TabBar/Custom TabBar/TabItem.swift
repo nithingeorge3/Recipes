@@ -7,18 +7,20 @@
 
 import SwiftUI
 
-protocol TabItemProviderType: Coordinator {
+@MainActor
+public protocol TabItemProviderType: Coordinator {
     var tabItem: TabItem { get }
 }
 
-class TabItem: Identifiable, ObservableObject {
-    let id = UUID()
-    let title: String
-    let icon: String
-    let color: Color
-    @Published var badgeCount: Int?
+@Observable
+public class TabItem: Identifiable {
+    public let id = UUID()
+    public let title: String
+    public let icon: String
+    public let color: Color
+    public var badgeCount: Int?
     
-    init(title: String, icon: String, badgeCount: Int?, color: Color) {
+    public init(title: String, icon: String, badgeCount: Int?, color: Color) {
         self.title = title
         self.icon = icon
         self.badgeCount = badgeCount

@@ -6,8 +6,13 @@
 //
 
 import Foundation
+import Combine
 
 @MainActor
-final class TabBarVisibility: ObservableObject {
-    @Published var isHidden: Bool = false
+public final class TabBarVisibility: ObservableObject {
+    @Published public var isHidden: Bool = false
+    
+    public init(isHidden: Bool = false) {
+        self.isHidden = isHidden
+    }
 }

@@ -8,6 +8,8 @@
 import SwiftUI
 import Combine
 
+import RecipeUI
+
 // MARK: - Previews
 #if DEBUG
 #Preview("Loading State") {

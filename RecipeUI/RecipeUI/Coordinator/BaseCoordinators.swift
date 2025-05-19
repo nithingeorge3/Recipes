@@ -8,7 +8,7 @@
 import SwiftUI
 
 @MainActor
-protocol Coordinator {
+public protocol Coordinator {
     associatedtype ContentViewType: View
     func start() -> ContentViewType
 }

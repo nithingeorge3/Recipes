@@ -10,6 +10,8 @@ import Kingfisher
 import RecipeDomain
 import RecipeNetworking
 
+import RecipeUI
+
 struct RecipeDetailView<ViewModel: RecipeDetailViewModelType>: View {
     @Bindable var viewModel: ViewModel
     @EnvironmentObject private var tabBarVisibility: TabBarVisibility
