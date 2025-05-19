@@ -22,7 +22,7 @@ final class RecipeListViewModelTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        service = MockRecipeServiceImp()
+        service = MockRecipeService()
         remotePagination = MockRemotePaginationHandler()
         localPagination = MockLocalPaginationHandler()
         favoritesPagination = MockFavoritesPaginationHandler()

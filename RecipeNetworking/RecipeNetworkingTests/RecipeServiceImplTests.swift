@@ -2,22 +2,22 @@ import XCTest
 
 @testable import RecipeNetworking
 
-class RecipeServiceImplTests: XCTestCase {
+class RecipeServiceTests: XCTestCase {
     
     private var recipeRepository: RecipeRepositoryType!
-    private var recipeServiceImpl: RecipeServiceType!
+    private var recipeService: RecipeServiceType!
     
     override func setUp() {
     }
     
     override func tearDown() {
         recipeRepository = nil
-        recipeServiceImpl = nil
+        recipeService = nil
     }
         
     func testFetchRecipes_SuccessResponse_ReturnRecipe() async throws {
         recipeRepository = MockRecipeRepository(fileName: "recipe_success", parser: ServiceParser())
-        recipeServiceImpl = RecipeServiceImp(recipeRepository: recipeRepository)
+        recipeService = RecipeService(recipeRepository: recipeRepository)
         
         let expectation = XCTestExpectation(description: "Recipe should be fetched successfully with one recipe")
         
@@ -35,7 +35,7 @@ class RecipeServiceImplTests: XCTestCase {
     
     func testFetchRecipes__SuccessResponse_ReturnEmptyRecipe() async throws {
         recipeRepository = MockRecipeRepository(fileName: "recipe_empty", parser: ServiceParser())
-        recipeServiceImpl = RecipeServiceImp(recipeRepository: recipeRepository)
+        recipeService = RecipeService(recipeRepository: recipeRepository)
         
         let expectation = XCTestExpectation(description: "Recipe fetch should return an empty list when no recipes are available")
         
@@ -52,7 +52,7 @@ class RecipeServiceImplTests: XCTestCase {
 
     func testFetchRecipes_FailureResponse_ReturnError() async throws {
         recipeRepository = MockRecipeRepository(fileName: "recipe_error", parser: ServiceParser())
-        recipeServiceImpl = RecipeServiceImp(recipeRepository: recipeRepository)
+        recipeService = RecipeService(recipeRepository: recipeRepository)
         
         let expectation = XCTestExpectation(description: "Recipe fetch should fail and return an appropriate error")
         
@@ -69,7 +69,7 @@ class RecipeServiceImplTests: XCTestCase {
     
     func testUpdateFavouriteRecipe() async throws {
         recipeRepository = MockRecipeRepository(fileName: "recipe_success", parser: ServiceParser())
-        recipeServiceImpl = RecipeServiceImp(recipeRepository: recipeRepository)
+        recipeService = RecipeService(recipeRepository: recipeRepository)
         
         let expectation = XCTestExpectation(description: "Recipe's isFavorite status should update successfully")
         
@@ -89,7 +89,7 @@ class RecipeServiceImplTests: XCTestCase {
     
     func testFetchRecipe() async throws {
         recipeRepository = MockRecipeRepository(fileName: "recipe_success", parser: ServiceParser())
-        recipeServiceImpl = RecipeServiceImp(recipeRepository: recipeRepository)
+        recipeService = RecipeService(recipeRepository: recipeRepository)
         
         let expectation = XCTestExpectation(description: "Recipe should be fetched successfully with one recipe")
         
@@ -107,7 +107,7 @@ class RecipeServiceImplTests: XCTestCase {
     
     func testRecipePagination() async throws {
         recipeRepository = MockRecipeRepository(fileName: "recipe_success", parser: ServiceParser())
-        recipeServiceImpl = RecipeServiceImp(recipeRepository: recipeRepository)
+        recipeService = RecipeService(recipeRepository: recipeRepository)
         
         let expectation = XCTestExpectation(description: "Recipe pagination data should be fetched successfully with expected values")
         

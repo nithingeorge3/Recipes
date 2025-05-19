@@ -7,13 +7,14 @@
 
 import RecipeNetworking
 import RecipeCore
+import RecipeDomain
 
 protocol RecipeDetailViewModelFactoryType {
-    @MainActor func makeRecipeDetailViewModel(recipeID: Recipe.ID, service: RecipeSDServiceType) -> RecipeDetailViewModel
+    @MainActor func makeRecipeDetailViewModel(recipeID: Recipe.ID, service: RecipeLocalServiceType) -> RecipeDetailViewModel
 }
 
 final class RecipeDetailViewModelFactory: RecipeDetailViewModelFactoryType {
-    @MainActor func makeRecipeDetailViewModel(recipeID: Recipe.ID, service: RecipeSDServiceType) -> RecipeDetailViewModel {
+    @MainActor func makeRecipeDetailViewModel(recipeID: Recipe.ID, service: RecipeLocalServiceType) -> RecipeDetailViewModel {
         RecipeDetailViewModel(recipeID: recipeID, service: service)
     }
 }

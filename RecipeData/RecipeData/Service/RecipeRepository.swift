@@ -15,10 +15,21 @@ public enum SDError: Error {
     case countOperationFailed
 }
 
-public final class RecipeSDRepository: RecipeSDRepositoryType {
+protocol RecipeSDRepositoryType: Sendable {
+    func fetchRecipesCount() async throws -> Int
+    func fetchFavoritesRecipesCount() async throws -> Int
+    func fetchRecipe(for recipeID: Int) async throws -> RecipeModel
+    func fetchRecipes(startIndex: Int, pageSize: Int) async throws -> [RecipeModel]
+    func fetchFavorites(startIndex: Int, pageSize: Int) async throws -> [RecipeModel]
+    func saveRecipes(_ recipes: [RecipeModel]) async throws -> (inserted: [RecipeModel], updated: [RecipeModel])
+    func updateFavouriteRecipe(_ recipeID: Int) async throws -> Bool
+}
+
+
+final class RecipeSDRepository: RecipeSDRepositoryType {
     private let container: ModelContainer
     
-    public init(container: ModelContainer) {
+    init(container: ModelContainer) {
         self.container = container
     }
     
@@ -27,7 +38,7 @@ public final class RecipeSDRepository: RecipeSDRepositoryType {
         DataStoreManager(container: self.container)
     }
     
-    public func fetchRecipesCount() async throws -> Int {
+    func fetchRecipesCount() async throws -> Int {
         try await dataStore.performBackgroundTask { context in
             do {
                 let predicate = #Predicate<SDRecipe> { !$0.isFavorite }
@@ -39,7 +50,7 @@ public final class RecipeSDRepository: RecipeSDRepositoryType {
         }
     }
     
-    public func fetchFavoritesRecipesCount() async throws -> Int {
+    func fetchFavoritesRecipesCount() async throws -> Int {
         try await dataStore.performBackgroundTask { context in
             do {
                 let predicate = #Predicate<SDRecipe> { $0.isFavorite }
@@ -51,7 +62,7 @@ public final class RecipeSDRepository: RecipeSDRepositoryType {
         }
     }
     
-    public func fetchRecipe(for recipeID: Int) async throws -> RecipeModel {
+    func fetchRecipe(for recipeID: Int) async throws -> RecipeModel {
         try await dataStore.performBackgroundTask { context in
             let predicate = #Predicate<SDRecipe> { $0.id == recipeID }
             let descriptor = FetchDescriptor<SDRecipe>(predicate: predicate)
@@ -63,7 +74,7 @@ public final class RecipeSDRepository: RecipeSDRepositoryType {
         }
     }
     
-    public func fetchRecipes(startIndex: Int = 0, pageSize: Int = 40) async throws -> [RecipeModel] {
+    func fetchRecipes(startIndex: Int = 0, pageSize: Int = 40) async throws -> [RecipeModel] {
         try await dataStore.performBackgroundTask { context in
             let predicate = #Predicate<SDRecipe> { !$0.isFavorite }
             var descriptor = FetchDescriptor<SDRecipe>(
@@ -77,7 +88,7 @@ public final class RecipeSDRepository: RecipeSDRepositoryType {
         }
     }
     
-    public func fetchFavorites(startIndex: Int = 0, pageSize: Int = 40) async throws -> [RecipeModel] {
+    func fetchFavorites(startIndex: Int = 0, pageSize: Int = 40) async throws -> [RecipeModel] {
         try await dataStore.performBackgroundTask { context in
             let predicate = #Predicate<SDRecipe> { $0.isFavorite }
             var descriptor = FetchDescriptor<SDRecipe>(
@@ -91,7 +102,7 @@ public final class RecipeSDRepository: RecipeSDRepositoryType {
         }
     }
     
-    public func saveRecipes(_ recipes: [RecipeModel]) async throws -> (inserted: [RecipeModel], updated: [RecipeModel]) {
+    func saveRecipes(_ recipes: [RecipeModel]) async throws -> (inserted: [RecipeModel], updated: [RecipeModel]) {
         try await dataStore.performBackgroundTask { context in
             let existing = try self.existingRecipes(ids: recipes.map(\.id), context: context)
             var insertedRecipes: [RecipeModel] = []
@@ -110,7 +121,7 @@ public final class RecipeSDRepository: RecipeSDRepositoryType {
         }
     }
     
-    public func updateFavouriteRecipe(_ recipeID: Int) async throws -> Bool {
+    func updateFavouriteRecipe(_ recipeID: Int) async throws -> Bool {
         try await dataStore.performBackgroundTask { context in
             let predicate = #Predicate<SDRecipe> { $0.id == recipeID }
             let descriptor = FetchDescriptor<SDRecipe>(predicate: predicate)
@@ -127,7 +138,7 @@ public final class RecipeSDRepository: RecipeSDRepositoryType {
         }
     }
     
-    private func existingRecipes(ids: [Int], context: ModelContext) throws -> [Int: SDRecipe] {
+    func existingRecipes(ids: [Int], context: ModelContext) throws -> [Int: SDRecipe] {
         let predicate = #Predicate<SDRecipe> { ids.contains($0.id) }
         let descriptor = FetchDescriptor<SDRecipe>(predicate: predicate)
         return try context.fetch(descriptor).reduce(into: [:]) { $0[$1.id] = $1 }

@@ -14,14 +14,16 @@ public protocol RecipeKeyServiceType {
     func deleteRecipeAPIkey() -> Bool
 }
 
-public typealias RecipeServiceProvider = RecipeServiceType & RecipeSDServiceType
+public typealias RecipeServiceProvider = RecipeServiceType & RecipeLocalServiceType
 
+//protocol specific for data from server
 public protocol RecipeServiceType: Sendable {
     func fetchRecipes(endPoint: EndPoint) async throws -> (inserted: [RecipeModel], updated: [RecipeModel])
 }
 
-public protocol RecipeSDServiceType: Sendable {
-    var favoritesDidChange: AsyncStream<Int> { get }
+//protocol specific for data from DB
+public protocol RecipeLocalServiceType: Sendable {
+    var  favoritesDidChange: AsyncStream<Int> { get }
     func fetchRecipe(for recipeID: Int) async throws -> RecipeModel
     func fetchRecipesCount() async throws -> Int
     func fetchFavoritesRecipesCount() async throws -> Int

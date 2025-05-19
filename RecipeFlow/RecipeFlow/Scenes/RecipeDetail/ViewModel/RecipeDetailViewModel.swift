@@ -61,7 +61,7 @@ class RecipeDetailViewModel: RecipeDetailViewModelType {
     var createdAtString: String?
     
     private let recipeID: Recipe.ID
-    private let service: RecipeSDServiceType
+    private let service: RecipeLocalServiceType
     
     var mediaItems: [PresentedMedia] {
         guard case let .loaded(recipe) = state else { return [] }
@@ -83,7 +83,7 @@ class RecipeDetailViewModel: RecipeDetailViewModelType {
         }
     }
     
-    init(recipeID: Recipe.ID, service: RecipeSDServiceType) {
+    init(recipeID: Recipe.ID, service: RecipeLocalServiceType) {
         self.service = service
         self.recipeID = recipeID
     }

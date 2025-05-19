@@ -25,20 +25,20 @@ final class RecipeRepository: RecipeRepositoryType {
     private let parser: ServiceParserType
     private let requestBuilder: RequestBuilderType
     private let apiKeyProvider: APIKeyProviderType
-    private let recipeSDRepo: RecipeSDRepositoryType
+    private let recipeSDService: RecipeSDServiceType
     private let paginationSDRepo: PaginationSDRepositoryType
     
     init(
         parser: ServiceParserType,
         requestBuilder: RequestBuilderType,
         apiKeyProvider: APIKeyProviderType,
-        recipeSDRepo: RecipeSDRepositoryType,
+        recipeSDService: RecipeSDServiceType,
         paginationSDRepo: PaginationSDRepositoryType
     ) {
         self.parser = parser
         self.requestBuilder = requestBuilder
         self.apiKeyProvider = apiKeyProvider
-        self.recipeSDRepo = recipeSDRepo
+        self.recipeSDService = recipeSDService
         self.paginationSDRepo = paginationSDRepo
     }
     
@@ -61,7 +61,7 @@ final class RecipeRepository: RecipeRepositoryType {
                 return ([], [])
             }
             
-            let result = try await recipeSDRepo.saveRecipes(recipeDomains)
+            let result = try await recipeSDService.saveRecipes(recipeDomains)
             
             var pagination = try await paginationSDRepo.fetchPagination(.recipe)
             pagination.totalCount = dtos.count
@@ -80,27 +80,27 @@ final class RecipeRepository: RecipeRepositoryType {
 
 extension RecipeRepository {
     func fetchRecipesCount() async throws -> Int {
-        try await recipeSDRepo.fetchRecipesCount()
+        try await recipeSDService.fetchRecipesCount()
     }
     
     func fetchFavoritesRecipesCount() async throws -> Int {
-        try await recipeSDRepo.fetchFavoritesRecipesCount()
+        try await recipeSDService.fetchFavoritesRecipesCount()
     }
     
     func fetchRecipe(for recipeID: Int) async throws -> RecipeModel {
-        try await recipeSDRepo.fetchRecipe(for: recipeID)
+        try await recipeSDService.fetchRecipe(for: recipeID)
     }
     
     func fetchRecipes(startIndex: Int, pageSize: Int) async throws -> [RecipeModel] {
-        try await recipeSDRepo.fetchRecipes(startIndex: startIndex, pageSize: pageSize)
+        try await recipeSDService.fetchRecipes(startIndex: startIndex, pageSize: pageSize)
     }
     
     func fetchFavorites(startIndex: Int, pageSize: Int) async throws -> [RecipeModel] {
-        try await recipeSDRepo.fetchFavorites(startIndex: startIndex, pageSize: pageSize)
+        try await recipeSDService.fetchFavorites(startIndex: startIndex, pageSize: pageSize)
     }
     
     func updateFavouriteRecipe(_ recipeID: Int) async throws -> Bool {
-        try await recipeSDRepo.updateFavouriteRecipe(recipeID)
+        try await recipeSDService.updateFavouriteRecipe(recipeID)
     }
     
     func fetchPagination(_ entityType: EntityType) async throws -> PaginationDomain {

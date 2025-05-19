@@ -1,5 +1,5 @@
 //
-//  MockRecipeServiceImp.swift
+//  MockRecipeService.swift
 //  Recipes
 //
 //  Created by Nitin George on 06/03/2025.
@@ -13,7 +13,7 @@ import RecipeDomain
 
 @testable import RecipeFlow
 
-final class MockRecipeServiceImp: RecipeServiceProvider, @unchecked Sendable {
+final class MockRecipeService: RecipeServiceProvider, @unchecked Sendable {
     var resultsJSON: String
     var stubbedRecipes: [RecipeModel] = []
     var shouldThrowError: Bool = false

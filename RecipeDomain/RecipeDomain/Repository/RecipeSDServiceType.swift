@@ -13,7 +13,7 @@ public protocol PaginationSDRepositoryType: Sendable {
     func updatePagination(_ pagination: PaginationDomain) async throws
 }
 
-public protocol RecipeSDRepositoryType: Sendable {
+public protocol RecipeSDServiceType: Sendable {
     func fetchRecipesCount() async throws -> Int
     func fetchFavoritesRecipesCount() async throws -> Int
     func fetchRecipe(for recipeID: Int) async throws -> RecipeModel

@@ -19,7 +19,7 @@ final class RecipeDetailViewModelTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        service = MockRecipeServiceImp()
+        service = MockRecipeService()
     }
     
     override func tearDown() {

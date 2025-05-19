@@ -1,5 +1,5 @@
 //
-//  RecipeServiceImp.swift
+//  RecipeService.swift
 //  RecipeNetworking
 //
 //  Created by Nitin George on 01/03/2024.
@@ -9,7 +9,7 @@ import Combine
 import Foundation
 import RecipeDomain
 
-final class RecipeServiceImp: RecipeServiceProvider {
+final class RecipeService: RecipeServiceProvider {
     private let recipeRepository: RecipeRepositoryType
     private let (favoritesDidChangeStream, favoritesDidChangeContinuation) = AsyncStream.makeStream(of: Int.self)
             
@@ -28,7 +28,7 @@ final class RecipeServiceImp: RecipeServiceProvider {
 }
 
 //SwiftData
-extension RecipeServiceImp {        
+extension RecipeService {        
     var favoritesDidChange: AsyncStream<Int> { favoritesDidChangeStream }
     
     func fetchRecipesCount() async throws -> Int {

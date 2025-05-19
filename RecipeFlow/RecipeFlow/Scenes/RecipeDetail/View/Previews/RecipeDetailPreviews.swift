@@ -44,7 +44,7 @@ public class PreviewDetailViewModel: RecipeDetailViewModelType {
     var recipe: Recipe?
     var showFavouriteConfirmation: Bool = false
     private let recipeID: Recipe.ID
-    private let service: RecipeSDServiceType
+    private let service: RecipeLocalServiceType
     
     var mediaItems: [PresentedMedia] {
         var result: [PresentedMedia] = []
@@ -66,7 +66,7 @@ public class PreviewDetailViewModel: RecipeDetailViewModelType {
     }
     
     @MainActor
-    init(recipeID: Recipe.ID, service: RecipeSDServiceType = MockPreviewService()) {
+    init(recipeID: Recipe.ID, service: RecipeLocalServiceType = MockPreviewService()) {
         self.recipeID = recipeID
         self.service = service
     }
@@ -133,7 +133,7 @@ extension PreviewDetailViewModel {
 }
 
 // MARK: - Mock Service
-private class MockPreviewService: RecipeSDServiceType, @unchecked Sendable {
+private class MockPreviewService: RecipeLocalServiceType, @unchecked Sendable {
     var favoritesDidChange: AsyncStream<Int> {
         AsyncStream { _ in }
     }

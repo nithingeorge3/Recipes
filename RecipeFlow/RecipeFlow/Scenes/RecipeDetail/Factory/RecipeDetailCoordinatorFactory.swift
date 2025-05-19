@@ -9,13 +9,14 @@ import Foundation
 import RecipeNetworking
 import RecipeUI
 import RecipeCore
+import RecipeDomain
 
 protocol RecipeDetailCoordinatorFactoryType {
-    @MainActor func makeRecipeDetailCoordinator(recipeID: Recipe.ID, service: RecipeSDServiceType, tabBarVisibility: TabBarVisibility) -> RecipeDetailCoordinator
+    @MainActor func makeRecipeDetailCoordinator(recipeID: Recipe.ID, service: RecipeLocalServiceType, tabBarVisibility: TabBarVisibility) -> RecipeDetailCoordinator
 }
 
 final class RecipeDetailCoordinatorFactory: RecipeDetailCoordinatorFactoryType {
-    func makeRecipeDetailCoordinator(recipeID: Recipe.ID, service: RecipeSDServiceType, tabBarVisibility: TabBarVisibility) -> RecipeDetailCoordinator {
+    func makeRecipeDetailCoordinator(recipeID: Recipe.ID, service: RecipeLocalServiceType, tabBarVisibility: TabBarVisibility) -> RecipeDetailCoordinator {
         let viewModelFactory: RecipeDetailViewModelFactoryType = RecipeDetailViewModelFactory()
         let viewFactory: RecipeDetailViewFactoryType = RecipeDetailViewFactory()
         return RecipeDetailCoordinator(
