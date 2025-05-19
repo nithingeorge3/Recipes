@@ -9,7 +9,7 @@ import XCTest
 import SwiftData
 import RecipeDomain
 
-@testable import RecipeDataStore
+@testable import RecipeData
 
 final class RecipeRepositoryTests: XCTestCase {
     private var repository: RecipeSDRepositoryType!
@@ -38,7 +38,7 @@ final class RecipeRepositoryTests: XCTestCase {
 extension RecipeRepositoryTests {
     func testfetchRecipesCount_1() async throws {
         let recipes = [
-            RecipeDomain(id: 1, name: "Kerala Chicken Curry")
+            RecipeModel(id: 1, name: "Kerala Chicken Curry")
             ]
             
         try await saveTestRecipes(recipes)
@@ -51,7 +51,7 @@ extension RecipeRepositoryTests {
     
     func testfetchRecipesCount_2() async throws {
         let recipes = [
-            RecipeDomain(id: 1, name: "Kerala Chicken Curry", isFavorite: true)
+            RecipeModel(id: 1, name: "Kerala Chicken Curry", isFavorite: true)
             ]
             
         try await saveTestRecipes(recipes)
@@ -73,7 +73,7 @@ extension RecipeRepositoryTests {
     
     func testfetchFavoritesRecipes() async throws {
         let recipes = [
-            RecipeDomain(id: 1, name: "Kerala Chicken Curry", isFavorite: true)
+            RecipeModel(id: 1, name: "Kerala Chicken Curry", isFavorite: true)
             ]
             
         try await saveTestRecipes(recipes)
@@ -86,7 +86,7 @@ extension RecipeRepositoryTests {
     }
     
     func testSaveAndFetchRecipesWithPagination() async throws {
-        let recipes = [RecipeDomain(id: 1, name: "Kerala Chicken Curry")]
+        let recipes = [RecipeModel(id: 1, name: "Kerala Chicken Curry")]
         
         try await saveTestRecipes(recipes)
         
@@ -98,7 +98,7 @@ extension RecipeRepositoryTests {
     }
     
     func testSaveAndFetchRecipes() async throws {
-        let recipes = [RecipeDomain(id: 1, name: "Kerala Chicken Curry")]
+        let recipes = [RecipeModel(id: 1, name: "Kerala Chicken Curry")]
         
         try await saveTestRecipes(recipes)
         
@@ -110,7 +110,7 @@ extension RecipeRepositoryTests {
     
     func testFetchRecipesPagination() async throws {
         let recipes = (1...10).map {
-            RecipeDomain(
+            RecipeModel(
                 id: $0,
                 name: "Chicken Curry\($0)",
                 createdAt: $0
@@ -129,7 +129,7 @@ extension RecipeRepositoryTests {
     }
     
     func testUpdateFavoriteRecipe() async throws {
-        let recipes = [RecipeDomain(id: 1, name: "Biriyani", isFavorite: false)]
+        let recipes = [RecipeModel(id: 1, name: "Biriyani", isFavorite: false)]
         try await saveTestRecipes(recipes)
         
         let isFavoriteAfterFirstUpdate = try await repository.updateFavouriteRecipe(1)
@@ -151,9 +151,9 @@ extension RecipeRepositoryTests {
 
 extension RecipeRepositoryTests {
     private func saveTestRecipes(
-        _ recipes: [RecipeDomain] = [
-            RecipeDomain(id: 1, name: "Kerala Chicken Curry"),
-            RecipeDomain(id: 2, name: "Biriyani", isFavorite: false)
+        _ recipes: [RecipeModel] = [
+            RecipeModel(id: 1, name: "Kerala Chicken Curry"),
+            RecipeModel(id: 2, name: "Biriyani", isFavorite: false)
             ]
     ) async throws {
         _ = try await repository.saveRecipes(recipes)

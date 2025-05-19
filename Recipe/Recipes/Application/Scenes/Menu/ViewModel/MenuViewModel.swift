@@ -7,7 +7,7 @@
 
 import Foundation
 import RecipeNetworking
-import RecipeDataStore
+import RecipeData
 import SwiftData
 
 class MenuViewModel: ObservableObject {

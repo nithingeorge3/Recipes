@@ -11,8 +11,8 @@ import RecipeDomain
 final class MockRecipeRepository: RecipeRepositoryType, @unchecked Sendable {
     private let fileName: String
     private let parser: ServiceParserType
-    private var recipe: RecipeDomain?
-    private var recipes: [RecipeDomain] = []
+    private var recipe: RecipeModel?
+    private var recipes: [RecipeModel] = []
     private var pagination: PaginationDomain
     
     init(
@@ -25,8 +25,8 @@ final class MockRecipeRepository: RecipeRepositoryType, @unchecked Sendable {
         self.pagination = pagination
     }
     
-    func fetchRecipes(endPoint: EndPoint) async throws -> (inserted: [RecipeDomain], updated: [RecipeDomain]) {
-        guard let url = Bundle.module.url(forResource: self.fileName, withExtension: "json") else {
+    func fetchRecipes(endPoint: EndPoint) async throws -> (inserted: [RecipeModel], updated: [RecipeModel]) {
+        guard let url = Bundle.main.url(forResource: self.fileName, withExtension: "json") else {
             throw NetworkError.responseError
         }
         
@@ -43,7 +43,7 @@ final class MockRecipeRepository: RecipeRepositoryType, @unchecked Sendable {
             }
             
             let dtos = try await parser.parse(data: data, response: mockResponse, type: RecipeResponseDTO.self)
-            let recipeDomains = dtos.results.map { RecipeDomain(from: $0) }
+            let recipeDomains = dtos.results.map { RecipeModel(from: $0) }
             
             recipe = recipeDomains.first
             pagination.totalCount = dtos.count
@@ -67,18 +67,18 @@ extension MockRecipeRepository {
         0
     }
     
-    func fetchRecipe(for recipeID: Int) async throws -> RecipeDomain {
+    func fetchRecipe(for recipeID: Int) async throws -> RecipeModel {
         guard let recipe = recipe else {
             throw RecipeError.notFound(recipeID: recipeID)
         }
         return recipe
     }
     
-    func fetchRecipes(startIndex: Int, pageSize: Int) async throws -> [RecipeDomain] {
+    func fetchRecipes(startIndex: Int, pageSize: Int) async throws -> [RecipeModel] {
         []
     }
     
-    func fetchFavorites(startIndex: Int, pageSize: Int) async throws -> [RecipeDomain] {
+    func fetchFavorites(startIndex: Int, pageSize: Int) async throws -> [RecipeModel] {
         []
     }
     

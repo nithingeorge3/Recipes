@@ -7,6 +7,7 @@
 
 import Foundation
 
+@frozen
 public enum Country: String, Codable {
     case us = "US"
     case ind = "IND"

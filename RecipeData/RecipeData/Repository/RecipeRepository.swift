@@ -1,6 +1,6 @@
 //
 //  RecipeRepository.swift
-//  RecipeDataStore
+//  RecipeData
 //
 //  Created by Nitin George on 02/03/2025.
 //
@@ -51,7 +51,7 @@ public final class RecipeSDRepository: RecipeSDRepositoryType {
         }
     }
     
-    public func fetchRecipe(for recipeID: Int) async throws -> RecipeDomain {
+    public func fetchRecipe(for recipeID: Int) async throws -> RecipeModel {
         try await dataStore.performBackgroundTask { context in
             let predicate = #Predicate<SDRecipe> { $0.id == recipeID }
             let descriptor = FetchDescriptor<SDRecipe>(predicate: predicate)
@@ -59,11 +59,11 @@ public final class RecipeSDRepository: RecipeSDRepositoryType {
             guard let recipe = try context.fetch(descriptor).first else {
                 throw SDError.modelObjNotFound
             }
-            return RecipeDomain(from: recipe)
+            return RecipeModel(from: recipe)
         }
     }
     
-    public func fetchRecipes(startIndex: Int = 0, pageSize: Int = 40) async throws -> [RecipeDomain] {
+    public func fetchRecipes(startIndex: Int = 0, pageSize: Int = 40) async throws -> [RecipeModel] {
         try await dataStore.performBackgroundTask { context in
             let predicate = #Predicate<SDRecipe> { !$0.isFavorite }
             var descriptor = FetchDescriptor<SDRecipe>(
@@ -73,11 +73,11 @@ public final class RecipeSDRepository: RecipeSDRepositoryType {
             descriptor.fetchLimit = pageSize
             descriptor.fetchOffset = startIndex
 
-            return try context.fetch(descriptor).map(RecipeDomain.init)
+            return try context.fetch(descriptor).map(RecipeModel.init)
         }
     }
     
-    public func fetchFavorites(startIndex: Int = 0, pageSize: Int = 40) async throws -> [RecipeDomain] {
+    public func fetchFavorites(startIndex: Int = 0, pageSize: Int = 40) async throws -> [RecipeModel] {
         try await dataStore.performBackgroundTask { context in
             let predicate = #Predicate<SDRecipe> { $0.isFavorite }
             var descriptor = FetchDescriptor<SDRecipe>(
@@ -87,15 +87,15 @@ public final class RecipeSDRepository: RecipeSDRepositoryType {
             descriptor.fetchLimit = pageSize
             descriptor.fetchOffset = startIndex
 
-            return try context.fetch(descriptor).map(RecipeDomain.init)
+            return try context.fetch(descriptor).map(RecipeModel.init)
         }
     }
     
-    public func saveRecipes(_ recipes: [RecipeDomain]) async throws -> (inserted: [RecipeDomain], updated: [RecipeDomain]) {
+    public func saveRecipes(_ recipes: [RecipeModel]) async throws -> (inserted: [RecipeModel], updated: [RecipeModel]) {
         try await dataStore.performBackgroundTask { context in
             let existing = try self.existingRecipes(ids: recipes.map(\.id), context: context)
-            var insertedRecipes: [RecipeDomain] = []
-            var updatedRecipes: [RecipeDomain] = []
+            var insertedRecipes: [RecipeModel] = []
+            var updatedRecipes: [RecipeModel] = []
             
             for recipe in recipes {
                 if let existingRecipe = existing[recipe.id] {

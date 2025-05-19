@@ -8,7 +8,7 @@
 import Foundation
 import RecipeDomain
 
-extension RecipeDomain {
+extension RecipeModel {
     init(from dto: RecipeDTO) {
         let country = Country(from: dto.country ?? .unknown)
         let ratings = UserRatingsDomain(id: dto.id, countNegative: dto.ratings?.countNegative ?? 0, countPositive: dto.ratings?.countPositive ?? 0, score: dto.ratings?.score ?? 0)

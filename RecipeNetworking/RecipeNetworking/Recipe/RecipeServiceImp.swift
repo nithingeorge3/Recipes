@@ -17,7 +17,7 @@ final class RecipeServiceImp: RecipeServiceProvider {
         self.recipeRepository = recipeRepository
     }
 
-    func fetchRecipes(endPoint: EndPoint) async throws(NetworkError) -> (inserted: [RecipeDomain], updated: [RecipeDomain]) {
+    func fetchRecipes(endPoint: EndPoint) async throws(NetworkError) -> (inserted: [RecipeModel], updated: [RecipeModel]) {
         do {
             return try await recipeRepository.fetchRecipes(endPoint: endPoint)
             //add business logic
@@ -39,15 +39,15 @@ extension RecipeServiceImp {
         try await recipeRepository.fetchFavoritesRecipesCount()
     }
     
-    func fetchRecipe(for recipeID: Int) async throws -> RecipeDomain {
+    func fetchRecipe(for recipeID: Int) async throws -> RecipeModel {
         try await recipeRepository.fetchRecipe(for: recipeID)
     }
     
-    func fetchRecipes(startIndex: Int = 0, pageSize: Int = 40) async throws -> [RecipeDomain] {
+    func fetchRecipes(startIndex: Int = 0, pageSize: Int = 40) async throws -> [RecipeModel] {
         try await recipeRepository.fetchRecipes(startIndex: startIndex, pageSize: pageSize)
     }
     
-    func fetchFavorites(startIndex: Int = 0, pageSize: Int = 40) async throws -> [RecipeDomain] {
+    func fetchFavorites(startIndex: Int = 0, pageSize: Int = 40) async throws -> [RecipeModel] {
         try await recipeRepository.fetchFavorites(startIndex: startIndex, pageSize: pageSize)
     }
     
@@ -73,8 +73,8 @@ final class RecipeListServiceImp: RecipeListServiceType {
         self.recipeRepository = recipeRepository
     }
     
-    func fetchRecipes(endPoint: EndPoint) -> Future<[RecipeDomain], Error> {
-        return Future<[RecipeDomain], Error> { [weak self] promise in
+    func fetchRecipes(endPoint: EndPoint) -> Future<[RecipeModel], Error> {
+        return Future<[RecipeModel], Error> { [weak self] promise in
             guard let self = self else {
                 return promise(.failure(NetworkError.contextDeallocated))
             }

@@ -11,12 +11,12 @@ import RecipeDomain
 
 //we can split protocol. backend and SwiftData fetch
 public protocol RecipeRepositoryType: Sendable {
-    func fetchRecipes(endPoint: EndPoint) async throws -> (inserted: [RecipeDomain], updated: [RecipeDomain])
+    func fetchRecipes(endPoint: EndPoint) async throws -> (inserted: [RecipeModel], updated: [RecipeModel])
     func fetchRecipesCount() async throws -> Int
     func fetchFavoritesRecipesCount() async throws -> Int
-    func fetchRecipe(for recipeID: Int) async throws -> RecipeDomain
-    func fetchRecipes(startIndex: Int, pageSize: Int) async throws -> [RecipeDomain]
-    func fetchFavorites(startIndex: Int, pageSize: Int) async throws -> [RecipeDomain]
+    func fetchRecipe(for recipeID: Int) async throws -> RecipeModel
+    func fetchRecipes(startIndex: Int, pageSize: Int) async throws -> [RecipeModel]
+    func fetchFavorites(startIndex: Int, pageSize: Int) async throws -> [RecipeModel]
     func updateFavouriteRecipe(_ recipeID: Int) async throws -> Bool
     func fetchPagination(_ entityType: EntityType) async throws -> PaginationDomain
 }
@@ -42,7 +42,7 @@ final class RecipeRepository: RecipeRepositoryType {
         self.paginationSDRepo = paginationSDRepo
     }
     
-    func fetchRecipes(endPoint: EndPoint) async throws -> (inserted: [RecipeDomain], updated: [RecipeDomain]) {
+    func fetchRecipes(endPoint: EndPoint) async throws -> (inserted: [RecipeModel], updated: [RecipeModel]) {
         do {
             let apiKey = try await apiKeyProvider.getRecipeAPIKey()
             
@@ -54,7 +54,7 @@ final class RecipeRepository: RecipeRepositoryType {
                 type: RecipeResponseDTO.self
             )
             
-            let recipeDomains = dtos.results.map { RecipeDomain(from: $0) }
+            let recipeDomains = dtos.results.map { RecipeModel(from: $0) }
 
             //Reach the last page or no data available
             if recipeDomains.count == 0 {
@@ -87,15 +87,15 @@ extension RecipeRepository {
         try await recipeSDRepo.fetchFavoritesRecipesCount()
     }
     
-    func fetchRecipe(for recipeID: Int) async throws -> RecipeDomain {
+    func fetchRecipe(for recipeID: Int) async throws -> RecipeModel {
         try await recipeSDRepo.fetchRecipe(for: recipeID)
     }
     
-    func fetchRecipes(startIndex: Int, pageSize: Int) async throws -> [RecipeDomain] {
+    func fetchRecipes(startIndex: Int, pageSize: Int) async throws -> [RecipeModel] {
         try await recipeSDRepo.fetchRecipes(startIndex: startIndex, pageSize: pageSize)
     }
     
-    func fetchFavorites(startIndex: Int, pageSize: Int) async throws -> [RecipeDomain] {
+    func fetchFavorites(startIndex: Int, pageSize: Int) async throws -> [RecipeModel] {
         try await recipeSDRepo.fetchFavorites(startIndex: startIndex, pageSize: pageSize)
     }
     
@@ -111,7 +111,7 @@ extension RecipeRepository {
 
 //RecipeListRepository added for combine based operation. We can add combine with RecipeRepositoryType.
 public protocol RecipeListRepositoryType {
-    func fetchRecipes(endPoint: EndPoint) -> Future<[RecipeDomain], Error>
+    func fetchRecipes(endPoint: EndPoint) -> Future<[RecipeModel], Error>
 }
 
 final class RecipeListRepository: RecipeListRepositoryType {
@@ -127,8 +127,8 @@ final class RecipeListRepository: RecipeListRepositoryType {
         self.requestBuilder = requestBuilder
     }
     
-    func fetchRecipes(endPoint: EndPoint) -> Future<[RecipeDomain], Error> {
-        Future<[RecipeDomain], Error> { [weak self] promise in
+    func fetchRecipes(endPoint: EndPoint) -> Future<[RecipeModel], Error> {
+        Future<[RecipeModel], Error> { [weak self] promise in
             guard let self = self else {
                 return promise(.failure(NetworkError.contextDeallocated))
             }
@@ -153,7 +153,7 @@ final class RecipeListRepository: RecipeListRepositoryType {
                         if case .failure(let error) = completion { promise(.failure(error))
                         }
                     }, receiveValue:  { decodedData in
-                        let domains = decodedData.results.map { RecipeDomain(from: $0) }
+                        let domains = decodedData.results.map { RecipeModel(from: $0) }
                         promise(.success(domains))
                     })
                     .store(in: &self.cancellables)

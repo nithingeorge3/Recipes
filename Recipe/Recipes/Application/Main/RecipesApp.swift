@@ -6,9 +6,8 @@
 //
 
 import SwiftUI
-import RecipeDataStore
+import RecipeData
 import SwiftData
-
 import RecipeUI
 
 @main

@@ -1,6 +1,6 @@
 //
 //  SDRecipe.swift
-//  RecipeDataStore
+//  RecipeData
 //
 //  Created by Nitin George on 02/03/2025.
 //
@@ -61,7 +61,7 @@ public final class SDRecipe {
 }
 
 extension SDRecipe {
-    convenience init(from recipe: RecipeDomain) {
+    convenience init(from recipe: RecipeModel) {
         let ratings = SDUserRatings(from: recipe.ratings)
         
         self.init(
@@ -79,7 +79,7 @@ extension SDRecipe {
             )
     }
     
-    func update(from domain: RecipeDomain) {
+    func update(from domain: RecipeModel) {
         self.id = domain.id
         self.name = domain.name
         self.desc = domain.description
@@ -105,7 +105,7 @@ extension SDRecipe {
     }
 }
 
-extension RecipeDomain {
+extension RecipeModel {
     init(from sdRecipe: SDRecipe) {
         let ratings = UserRatingsDomain(id: sdRecipe.ratings?.id ?? 0, countNegative: sdRecipe.ratings?.countNegative ?? 0, countPositive: sdRecipe.ratings?.countPositive ?? 0, score: sdRecipe.ratings?.score ?? 0)
         

@@ -7,10 +7,6 @@
 
 import Foundation
 
-public enum EntityType: Int, Codable, Sendable {
-    case recipe = 101
-}
-
 public struct PaginationDomain: Identifiable, @unchecked Sendable {
     public let id: UUID
     public var entityType: EntityType

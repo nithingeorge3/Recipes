@@ -23,6 +23,7 @@
 /* Begin PBXFileReference section */
 		2845C0622DDB3E47007EA66D /* RecipeDomain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RecipeDomain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2845C06C2DDB3E48007EA66D /* RecipeDomainTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RecipeDomainTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		286812832DDB7468009CB591 /* RecipeCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RecipeCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -75,6 +76,7 @@
 			children = (
 				2845C0642DDB3E47007EA66D /* RecipeDomain */,
 				2845C0702DDB3E48007EA66D /* RecipeDomainTests */,
+				286812822DDB7467009CB591 /* Frameworks */,
 				2845C0632DDB3E47007EA66D /* Products */,
 			);
 			sourceTree = "<group>";
@@ -86,6 +88,14 @@
 				2845C06C2DDB3E48007EA66D /* RecipeDomainTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		286812822DDB7467009CB591 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				286812832DDB7468009CB591 /* RecipeCore.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

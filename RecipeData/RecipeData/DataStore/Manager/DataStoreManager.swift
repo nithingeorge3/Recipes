@@ -1,6 +1,6 @@
 //
 //  DataStoreManager.swift
-//  RecipeDataStore
+//  RecipeData
 //
 //  Created by Nitin George on 02/03/2025.
 //
@@ -10,14 +10,14 @@ import SwiftData
 
 @MainActor
 public final class DataStoreManager {
-    private let container: ModelContainer
+    public let container: ModelContainer
     
-    init(container: ModelContainer) {
+    public init(container: ModelContainer) {
         self.container = container
     }
     
     @MainActor
-    var mainContext: ModelContext {
+    public var mainContext: ModelContext {
         container.mainContext
     }
     

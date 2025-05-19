@@ -1,6 +1,6 @@
 //
 //  SDUserRatings.swift
-//  RecipeDataStore
+//  RecipeData
 //
 //  Created by Nitin George on 02/03/2025.
 //
