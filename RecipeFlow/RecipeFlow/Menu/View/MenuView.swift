@@ -75,18 +75,17 @@ struct MenuView: View {
     private func destinationView(for item: SidebarItem) -> some View {
         switch item.title {
         case "Recipe List":
-//            recipesListView()
-            EmptyView()
+            recipesListView()
         default:
             EmptyView()
         }
     }
-    // I am haved added this code for showing combine. Thsi si not a production code. I nee dto move teh code to coordinator and allocation from factory
-//    private func recipesListView() -> some View {
-//        let service = RecipeListServiceFactory.makeRecipeListService()
-//        let viewModel = RecipesViewModel(service: service)
-//        return RecipesViewFactory().makeRecipesListView(viewModel: viewModel)
-//    }
+    // I am haved added this code for showing combine. Thsi si not a production code. I nee dto move the code to coordinator and creation from factory
+    private func recipesListView() -> some View {
+        let service = RecipeListServiceFactory.makeRecipeListService()
+        let viewModel = RecipesViewModel(service: service)
+        return RecipesViewFactory().makeRecipesListView(viewModel: viewModel)
+    }
 }
 
 // MARK: - Previews

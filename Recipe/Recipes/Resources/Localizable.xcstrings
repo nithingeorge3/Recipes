@@ -1,24 +1,7 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "Cancel" : {
 
-    },
-    "Delete" : {
-
-    },
-    "Delete API Key?" : {
-
-    },
-    "More" : {
-
-    },
-    "Select an item" : {
-
-    },
-    "The Recipe API Key will be deleted from Keychain." : {
-
-    }
   },
   "version" : "1.0"
 }

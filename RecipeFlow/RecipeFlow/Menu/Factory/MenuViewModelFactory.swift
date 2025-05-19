@@ -8,12 +8,12 @@
 import RecipeNetworking
 
 protocol MenuViewModelFactoryType {
-    func makeMenuViewModel(service: RecipeKeyServiceType) -> MenuViewModel
+    func make(service: RecipeKeyServiceType) -> MenuViewModel
 }
 
 final class MenuViewModelFactory: MenuViewModelFactoryType {
     
-    func makeMenuViewModel(service: RecipeKeyServiceType) -> MenuViewModel {
+    func make(service: RecipeKeyServiceType) -> MenuViewModel {
         let items = [
             SidebarItem(title: "Recipe List", type: .navigation),
             SidebarItem(title: "Delete API Key", type: .action)
