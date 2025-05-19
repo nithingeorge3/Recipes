@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		2845C0922DDB3E62007EA66D /* RecipeUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2845C0872DDB3E62007EA66D /* RecipeUI.framework */; };
+		28DB89BB2DDB5E6200FD3253 /* RecipeCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28DB89BA2DDB5E6200FD3253 /* RecipeCore.framework */; };
+		28DB89BC2DDB5E6200FD3253 /* RecipeCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 28DB89BA2DDB5E6200FD3253 /* RecipeCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		28DB89C02DDB5E8400FD3253 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 28DB89BF2DDB5E8400FD3253 /* Kingfisher */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -20,9 +23,24 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		28DB89BD2DDB5E6200FD3253 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				28DB89BC2DDB5E6200FD3253 /* RecipeCore.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		2845C0872DDB3E62007EA66D /* RecipeUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RecipeUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2845C0912DDB3E62007EA66D /* RecipeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RecipeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		28DB89BA2DDB5E6200FD3253 /* RecipeCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RecipeCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -56,6 +74,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28DB89C02DDB5E8400FD3253 /* Kingfisher in Frameworks */,
+				28DB89BB2DDB5E6200FD3253 /* RecipeCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,6 +95,7 @@
 			children = (
 				2845C0892DDB3E62007EA66D /* RecipeUI */,
 				2845C0952DDB3E62007EA66D /* RecipeUITests */,
+				28DB89B92DDB5E6200FD3253 /* Frameworks */,
 				2845C0882DDB3E62007EA66D /* Products */,
 			);
 			sourceTree = "<group>";
@@ -86,6 +107,14 @@
 				2845C0912DDB3E62007EA66D /* RecipeUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		28DB89B92DDB5E6200FD3253 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				28DB89BA2DDB5E6200FD3253 /* RecipeCore.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -109,6 +138,7 @@
 				2845C0832DDB3E62007EA66D /* Sources */,
 				2845C0842DDB3E62007EA66D /* Frameworks */,
 				2845C0852DDB3E62007EA66D /* Resources */,
+				28DB89BD2DDB5E6200FD3253 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -119,6 +149,7 @@
 			);
 			name = RecipeUI;
 			packageProductDependencies = (
+				28DB89BF2DDB5E8400FD3253 /* Kingfisher */,
 			);
 			productName = RecipeUI;
 			productReference = 2845C0872DDB3E62007EA66D /* RecipeUI.framework */;
@@ -174,6 +205,9 @@
 			);
 			mainGroup = 2845C07D2DDB3E62007EA66D;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				28DB89BE2DDB5E8400FD3253 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 2845C0882DDB3E62007EA66D /* Products */;
 			projectDirPath = "";
@@ -231,7 +265,7 @@
 		2845C09B2DDB3E62007EA66D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -263,7 +297,7 @@
 		2845C09C2DDB3E62007EA66D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -478,6 +512,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		28DB89BE2DDB5E8400FD3253 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.3.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		28DB89BF2DDB5E8400FD3253 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 28DB89BE2DDB5E8400FD3253 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 2845C07E2DDB3E62007EA66D /* Project object */;
 }

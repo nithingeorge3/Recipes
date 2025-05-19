@@ -7,13 +7,23 @@
 
 import SwiftUI
 
-struct CollapsibleSection<Content: View>: View {
-    let title: String
-    @Binding var isCollapsed: Bool
+public struct CollapsibleSection<Content: View>: View {
+    public let title: String
+    @Binding public var isCollapsed: Bool
     
     @ViewBuilder let content: () -> Content
         
-    var body: some View {
+    public init(
+        title: String,
+        isCollapsed: Binding<Bool>,
+        @ViewBuilder content: @escaping () -> Content
+    ) {
+        self.title = title
+        self._isCollapsed = isCollapsed
+        self.content = content
+    }
+    
+    public var body: some View {
         Section {
             if !isCollapsed {
                 content()

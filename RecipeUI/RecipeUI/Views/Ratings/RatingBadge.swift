@@ -7,13 +7,20 @@
 
 import SwiftUI
 
-struct RatingBadge: View {
-    let count: Int
-    let label: String
-    let systemImage: String
-    let color: Color
+public struct RatingBadge: View {
+    public let count: Int
+    public let label: String
+    public let systemImage: String
+    public let color: Color
     
-    var body: some View {
+    public init(count: Int, label: String, systemImage: String, color: Color) {
+        self.count = count
+        self.label = label
+        self.systemImage = systemImage
+        self.color = color
+    }
+    
+    public var body: some View {
         HStack(spacing: 6) {
             Image(systemName: systemImage)
                 .font(.system(size: 16, weight: .semibold))
@@ -37,11 +44,16 @@ struct RatingBadge: View {
     }
 }
 
-struct ScoreIndicator: View {
-    let score: Double
-    let size: CGFloat = 60
+public struct ScoreIndicator: View {
+    public let score: Double
+    public let size: CGFloat
     
-    var body: some View {
+    public init(score: Double, size: CGFloat = 60) {
+        self.score = score
+        self.size = size
+    }
+    
+    public var body: some View {
         ZStack {
             Circle()
                 .stroke(Color.gray.opacity(0.2), lineWidth: 4)

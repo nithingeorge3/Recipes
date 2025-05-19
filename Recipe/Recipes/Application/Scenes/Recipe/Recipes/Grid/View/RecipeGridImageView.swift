@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import RecipeUI
 
 struct RecipeGridImageView: View {
     let recipe: Recipe

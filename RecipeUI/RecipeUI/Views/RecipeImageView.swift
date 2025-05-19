@@ -8,18 +8,18 @@
 import SwiftUI
 import Kingfisher
 
-struct RecipeImageView: View {
-    let imageURL: URL
-    let width: CGFloat
-    let height: CGFloat
-    var kingfisherManager: KingfisherManager = .shared
+public struct RecipeImageView: View {
+    public let imageURL: URL
+    public let width: CGFloat
+    public let height: CGFloat
+    public var kingfisherManager: KingfisherManager = .shared
     
     @State private var retryAttempts = 0
     @State private var maxRetryAttempts = 3
     @State private var isLoadingSuccessful = false
     @State private var currentImageURL: URL
 
-    init(imageURL: URL,
+    public init(imageURL: URL,
          width: CGFloat,
          height: CGFloat,
          kingfisherManager: KingfisherManager = .shared)
@@ -31,7 +31,7 @@ struct RecipeImageView: View {
         _currentImageURL = State(initialValue: imageURL)
     }
 
-    var body: some View {
+    public var body: some View {
         KFImage(currentImageURL)
             .placeholder {
                 ProgressView("Loading...")

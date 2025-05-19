@@ -43,7 +43,7 @@ struct CustomNavigationTitle: ViewModifier {
     }
 }
 
-extension View {
+public extension View {
     func withCustomBackButton(action: (() -> Void)? = nil) -> some View {
         modifier(CustomBackButtonModifier(action: action))
     }

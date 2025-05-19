@@ -1,12 +1,6 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "%lld" : {
-
-    },
-    "%lld%%" : {
-
-    },
     "Be the first to rate this recipe" : {
 
     },
@@ -31,13 +25,7 @@
     "Loading recipes" : {
 
     },
-    "Loading..." : {
-
-    },
     "More" : {
-
-    },
-    "Ooops..." : {
 
     },
     "Recipe" : {
@@ -53,12 +41,6 @@
 
     },
     "Retry" : {
-
-    },
-    "Score" : {
-
-    },
-    "Score: %lld percent" : {
 
     },
     "Select an item" : {
