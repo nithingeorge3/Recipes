@@ -8,6 +8,10 @@
 import Foundation
 import RecipeDomain
 
+final class RecipeNetBundle {
+    public static let bundle = Bundle(for: RecipeNetBundle.self)
+}
+
 final class MockRecipeRepository: RecipeRepositoryType, @unchecked Sendable {
     private let fileName: String
     private let parser: ServiceParserType
@@ -26,7 +30,7 @@ final class MockRecipeRepository: RecipeRepositoryType, @unchecked Sendable {
     }
     
     func fetchRecipes(endPoint: EndPoint) async throws -> (inserted: [RecipeModel], updated: [RecipeModel]) {
-        guard let url = Bundle.main.url(forResource: self.fileName, withExtension: "json") else {
+        guard let url = RecipeNetBundle.bundle.url(forResource: self.fileName, withExtension: "json") else {
             throw NetworkError.responseError
         }
         

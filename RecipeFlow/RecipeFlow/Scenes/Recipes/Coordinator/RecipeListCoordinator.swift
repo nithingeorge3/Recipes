@@ -35,20 +35,20 @@ public final class RecipeListCoordinator: ObservableObject, Coordinator, TabItem
     public var tabItem: TabItem {
         _tabItem
     }
-    
+
     init(
         tabItem: TabItem,
         tabBarVisibility: TabBarVisibility,
         viewFactory: RecipesViewFactoryType,
         modelFactory: RecipesViewModelFactoryType,
-        paginationSDRepo: PaginationSDRepositoryType,
+        paginationSDService: PaginationSDServiceType,
         recipeSDService: RecipeSDServiceType
     ) async {
         _tabItem = tabItem
         self.tabBarVisibility = tabBarVisibility
         self.viewFactory = viewFactory
         self.modelFactory = modelFactory
-        self.service = RecipeServiceFactory.makeRecipeService(recipeSDService: recipeSDService, paginationSDRepo: paginationSDRepo)
+        self.service = RecipeServiceFactory.makeRecipeService(recipeSDService: recipeSDService, paginationSDService: paginationSDService)
         
         let remotePagination: RemotePaginationHandlerType = RemotePaginationHandler()
         let localPagination: LocalPaginationHandlerType = LocalPaginationHandler()

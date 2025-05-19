@@ -9,11 +9,16 @@ import Foundation
 import RecipeDomain
 import SwiftData
 
+protocol PaginationSDRepositoryType: Sendable {
+    func fetchPagination(_ entityType: EntityType) async throws -> PaginationDomain
+    func updatePagination(_ pagination: PaginationDomain) async throws
+}
+
 @MainActor
-public class PaginationSDRepository: PaginationSDRepositoryType {
+class PaginationSDRepository: PaginationSDRepositoryType {
     private let container: ModelContainer
     
-    public init(container: ModelContainer) {
+    init(container: ModelContainer) {
         self.container = container
     }
     
@@ -22,7 +27,7 @@ public class PaginationSDRepository: PaginationSDRepositoryType {
         DataStoreManager(container: self.container)
     }
     
-    public func fetchPagination(_ entityType: EntityType) async throws -> PaginationDomain {
+    func fetchPagination(_ entityType: EntityType) async throws -> PaginationDomain {
         try await dataStore.performBackgroundTask { context in            
             let predicate = #Predicate<SDPagination> { $0.entityTypeRaw == entityType.rawValue }
             let descriptor = FetchDescriptor(predicate: predicate)
@@ -35,7 +40,7 @@ public class PaginationSDRepository: PaginationSDRepositoryType {
         }
     }
     
-    public func updatePagination(_ pagination: PaginationDomain) async throws {
+    func updatePagination(_ pagination: PaginationDomain) async throws {
         try await dataStore.performBackgroundTask { context in
             let type = pagination.entityType
             let predicate = #Predicate<SDPagination> { $0.entityTypeRaw == type.rawValue }

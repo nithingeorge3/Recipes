@@ -8,11 +8,6 @@
 import Foundation
 import SwiftData
 
-public protocol PaginationSDRepositoryType: Sendable {
-    func fetchPagination(_ entityType: EntityType) async throws -> PaginationDomain
-    func updatePagination(_ pagination: PaginationDomain) async throws
-}
-
 public protocol RecipeSDServiceType: Sendable {
     func fetchRecipesCount() async throws -> Int
     func fetchFavoritesRecipesCount() async throws -> Int

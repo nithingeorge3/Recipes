@@ -26,20 +26,20 @@ final class RecipeRepository: RecipeRepositoryType {
     private let requestBuilder: RequestBuilderType
     private let apiKeyProvider: APIKeyProviderType
     private let recipeSDService: RecipeSDServiceType
-    private let paginationSDRepo: PaginationSDRepositoryType
+    private let paginationSDService: PaginationSDServiceType
     
     init(
         parser: ServiceParserType,
         requestBuilder: RequestBuilderType,
         apiKeyProvider: APIKeyProviderType,
         recipeSDService: RecipeSDServiceType,
-        paginationSDRepo: PaginationSDRepositoryType
+        paginationSDService: PaginationSDServiceType
     ) {
         self.parser = parser
         self.requestBuilder = requestBuilder
         self.apiKeyProvider = apiKeyProvider
         self.recipeSDService = recipeSDService
-        self.paginationSDRepo = paginationSDRepo
+        self.paginationSDService = paginationSDService
     }
     
     func fetchRecipes(endPoint: EndPoint) async throws -> (inserted: [RecipeModel], updated: [RecipeModel]) {
@@ -63,13 +63,13 @@ final class RecipeRepository: RecipeRepositoryType {
             
             let result = try await recipeSDService.saveRecipes(recipeDomains)
             
-            var pagination = try await paginationSDRepo.fetchPagination(.recipe)
+            var pagination = try await paginationSDService.fetchPagination(.recipe)
             pagination.totalCount = dtos.count
             pagination.currentPage += 1
             pagination.lastUpdated = Date()
             
             //updating Pagination
-            try await paginationSDRepo.updatePagination(pagination)
+            try await paginationSDService.updatePagination(pagination)
                         
             return result
         } catch {
@@ -104,7 +104,7 @@ extension RecipeRepository {
     }
     
     func fetchPagination(_ entityType: EntityType) async throws -> PaginationDomain {
-        try await paginationSDRepo.fetchPagination(entityType)
+        try await paginationSDService.fetchPagination(entityType)
     }
 }
 

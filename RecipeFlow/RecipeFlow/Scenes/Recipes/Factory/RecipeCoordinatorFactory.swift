@@ -22,7 +22,7 @@ public final class RecipeListCoordinatorFactory: RecipeListCoordinatorFactoryTyp
         let modelFactory = RecipesViewModelFactory()
         let viewFactory = RecipesViewFactory()
         
-        let paginationSDRepo = PaginationSDRepository(container: container)
+        let paginationSDService = PaginationSDServiceFactory().makePaginationSDService(container: container)
         let recipeSDService = RecipeSDServiceFactory().makeRecipeSDService(container: container)
         
         return await RecipeListCoordinator(
@@ -30,7 +30,7 @@ public final class RecipeListCoordinatorFactory: RecipeListCoordinatorFactoryTyp
             tabBarVisibility: tabBarVisibility,
             viewFactory: viewFactory,
             modelFactory: modelFactory,
-            paginationSDRepo: paginationSDRepo,
+            paginationSDService: paginationSDService,
             recipeSDService: recipeSDService
         )
     }
