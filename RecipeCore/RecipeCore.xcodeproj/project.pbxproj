@@ -7,124 +7,91 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2845C0B72DDB3E76007EA66D /* RecipeFlow.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2845C0AC2DDB3E76007EA66D /* RecipeFlow.framework */; };
-		28DB88822DDB4D6B00FD3253 /* RecipeUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28DB88812DDB4D6B00FD3253 /* RecipeUI.framework */; };
-		28DB88832DDB4D6B00FD3253 /* RecipeUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 28DB88812DDB4D6B00FD3253 /* RecipeUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		28DB88862DDB4D7E00FD3253 /* RecipeDataStore in Frameworks */ = {isa = PBXBuildFile; productRef = 28DB88852DDB4D7E00FD3253 /* RecipeDataStore */; };
-		28DB88882DDB4D7E00FD3253 /* RecipeDomain in Frameworks */ = {isa = PBXBuildFile; productRef = 28DB88872DDB4D7E00FD3253 /* RecipeDomain */; };
-		28DB888A2DDB4D7E00FD3253 /* RecipeNetworking in Frameworks */ = {isa = PBXBuildFile; productRef = 28DB88892DDB4D7E00FD3253 /* RecipeNetworking */; };
+		28DB88DE2DDB4DE300FD3253 /* RecipeCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28DB88D32DDB4DE300FD3253 /* RecipeCore.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		2845C0B82DDB3E76007EA66D /* PBXContainerItemProxy */ = {
+		28DB88DF2DDB4DE300FD3253 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 2845C0A32DDB3E76007EA66D /* Project object */;
+			containerPortal = 28DB88CA2DDB4DE300FD3253 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 2845C0AB2DDB3E76007EA66D;
-			remoteInfo = RecipeFlow;
+			remoteGlobalIDString = 28DB88D22DDB4DE300FD3253;
+			remoteInfo = RecipeCore;
 		};
 /* End PBXContainerItemProxy section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		28DB88842DDB4D6B00FD3253 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				28DB88832DDB4D6B00FD3253 /* RecipeUI.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
-		2845C0AC2DDB3E76007EA66D /* RecipeFlow.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RecipeFlow.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		2845C0B62DDB3E76007EA66D /* RecipeFlowTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RecipeFlowTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		28DB88812DDB4D6B00FD3253 /* RecipeUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RecipeUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		28DB88D32DDB4DE300FD3253 /* RecipeCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RecipeCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		28DB88DD2DDB4DE300FD3253 /* RecipeCoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RecipeCoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		2845C0BE2DDB3E76007EA66D /* Exceptions for "RecipeFlow" folder in "RecipeFlow" target */ = {
+		28DB88E52DDB4DE300FD3253 /* Exceptions for "RecipeCore" folder in "RecipeCore" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			publicHeaders = (
-				RecipeFlow.h,
+				RecipeCore.h,
 			);
-			target = 2845C0AB2DDB3E76007EA66D /* RecipeFlow */;
+			target = 28DB88D22DDB4DE300FD3253 /* RecipeCore */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		2845C0AE2DDB3E76007EA66D /* RecipeFlow */ = {
+		28DB88D52DDB4DE300FD3253 /* RecipeCore */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				2845C0BE2DDB3E76007EA66D /* Exceptions for "RecipeFlow" folder in "RecipeFlow" target */,
+				28DB88E52DDB4DE300FD3253 /* Exceptions for "RecipeCore" folder in "RecipeCore" target */,
 			);
-			path = RecipeFlow;
+			path = RecipeCore;
 			sourceTree = "<group>";
 		};
-		2845C0BA2DDB3E76007EA66D /* RecipeFlowTests */ = {
+		28DB88E12DDB4DE300FD3253 /* RecipeCoreTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = RecipeFlowTests;
+			path = RecipeCoreTests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		2845C0A92DDB3E76007EA66D /* Frameworks */ = {
+		28DB88D02DDB4DE300FD3253 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				28DB888A2DDB4D7E00FD3253 /* RecipeNetworking in Frameworks */,
-				28DB88862DDB4D7E00FD3253 /* RecipeDataStore in Frameworks */,
-				28DB88882DDB4D7E00FD3253 /* RecipeDomain in Frameworks */,
-				28DB88822DDB4D6B00FD3253 /* RecipeUI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		2845C0B32DDB3E76007EA66D /* Frameworks */ = {
+		28DB88DA2DDB4DE300FD3253 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2845C0B72DDB3E76007EA66D /* RecipeFlow.framework in Frameworks */,
+				28DB88DE2DDB4DE300FD3253 /* RecipeCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2845C0A22DDB3E76007EA66D = {
+		28DB88C92DDB4DE300FD3253 = {
 			isa = PBXGroup;
 			children = (
-				2845C0AE2DDB3E76007EA66D /* RecipeFlow */,
-				2845C0BA2DDB3E76007EA66D /* RecipeFlowTests */,
-				28DB88802DDB4D6B00FD3253 /* Frameworks */,
-				2845C0AD2DDB3E76007EA66D /* Products */,
+				28DB88D52DDB4DE300FD3253 /* RecipeCore */,
+				28DB88E12DDB4DE300FD3253 /* RecipeCoreTests */,
+				28DB88D42DDB4DE300FD3253 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		2845C0AD2DDB3E76007EA66D /* Products */ = {
+		28DB88D42DDB4DE300FD3253 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				2845C0AC2DDB3E76007EA66D /* RecipeFlow.framework */,
-				2845C0B62DDB3E76007EA66D /* RecipeFlowTests.xctest */,
+				28DB88D32DDB4DE300FD3253 /* RecipeCore.framework */,
+				28DB88DD2DDB4DE300FD3253 /* RecipeCoreTests.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		28DB88802DDB4D6B00FD3253 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				28DB88812DDB4D6B00FD3253 /* RecipeUI.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		2845C0A72DDB3E76007EA66D /* Headers */ = {
+		28DB88CE2DDB4DE300FD3253 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -134,103 +101,99 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		2845C0AB2DDB3E76007EA66D /* RecipeFlow */ = {
+		28DB88D22DDB4DE300FD3253 /* RecipeCore */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2845C0BF2DDB3E76007EA66D /* Build configuration list for PBXNativeTarget "RecipeFlow" */;
+			buildConfigurationList = 28DB88E62DDB4DE300FD3253 /* Build configuration list for PBXNativeTarget "RecipeCore" */;
 			buildPhases = (
-				2845C0A72DDB3E76007EA66D /* Headers */,
-				2845C0A82DDB3E76007EA66D /* Sources */,
-				2845C0A92DDB3E76007EA66D /* Frameworks */,
-				2845C0AA2DDB3E76007EA66D /* Resources */,
-				28DB88842DDB4D6B00FD3253 /* Embed Frameworks */,
+				28DB88CE2DDB4DE300FD3253 /* Headers */,
+				28DB88CF2DDB4DE300FD3253 /* Sources */,
+				28DB88D02DDB4DE300FD3253 /* Frameworks */,
+				28DB88D12DDB4DE300FD3253 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				2845C0AE2DDB3E76007EA66D /* RecipeFlow */,
+				28DB88D52DDB4DE300FD3253 /* RecipeCore */,
 			);
-			name = RecipeFlow;
+			name = RecipeCore;
 			packageProductDependencies = (
-				28DB88852DDB4D7E00FD3253 /* RecipeDataStore */,
-				28DB88872DDB4D7E00FD3253 /* RecipeDomain */,
-				28DB88892DDB4D7E00FD3253 /* RecipeNetworking */,
 			);
-			productName = RecipeFlow;
-			productReference = 2845C0AC2DDB3E76007EA66D /* RecipeFlow.framework */;
+			productName = RecipeCore;
+			productReference = 28DB88D32DDB4DE300FD3253 /* RecipeCore.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		2845C0B52DDB3E76007EA66D /* RecipeFlowTests */ = {
+		28DB88DC2DDB4DE300FD3253 /* RecipeCoreTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2845C0C42DDB3E76007EA66D /* Build configuration list for PBXNativeTarget "RecipeFlowTests" */;
+			buildConfigurationList = 28DB88EB2DDB4DE300FD3253 /* Build configuration list for PBXNativeTarget "RecipeCoreTests" */;
 			buildPhases = (
-				2845C0B22DDB3E76007EA66D /* Sources */,
-				2845C0B32DDB3E76007EA66D /* Frameworks */,
-				2845C0B42DDB3E76007EA66D /* Resources */,
+				28DB88D92DDB4DE300FD3253 /* Sources */,
+				28DB88DA2DDB4DE300FD3253 /* Frameworks */,
+				28DB88DB2DDB4DE300FD3253 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				2845C0B92DDB3E76007EA66D /* PBXTargetDependency */,
+				28DB88E02DDB4DE300FD3253 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				2845C0BA2DDB3E76007EA66D /* RecipeFlowTests */,
+				28DB88E12DDB4DE300FD3253 /* RecipeCoreTests */,
 			);
-			name = RecipeFlowTests;
+			name = RecipeCoreTests;
 			packageProductDependencies = (
 			);
-			productName = RecipeFlowTests;
-			productReference = 2845C0B62DDB3E76007EA66D /* RecipeFlowTests.xctest */;
+			productName = RecipeCoreTests;
+			productReference = 28DB88DD2DDB4DE300FD3253 /* RecipeCoreTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		2845C0A32DDB3E76007EA66D /* Project object */ = {
+		28DB88CA2DDB4DE300FD3253 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1620;
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
-					2845C0AB2DDB3E76007EA66D = {
+					28DB88D22DDB4DE300FD3253 = {
 						CreatedOnToolsVersion = 16.2;
 					};
-					2845C0B52DDB3E76007EA66D = {
+					28DB88DC2DDB4DE300FD3253 = {
 						CreatedOnToolsVersion = 16.2;
 					};
 				};
 			};
-			buildConfigurationList = 2845C0A62DDB3E76007EA66D /* Build configuration list for PBXProject "RecipeFlow" */;
+			buildConfigurationList = 28DB88CD2DDB4DE300FD3253 /* Build configuration list for PBXProject "RecipeCore" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = 2845C0A22DDB3E76007EA66D;
+			mainGroup = 28DB88C92DDB4DE300FD3253;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 2845C0AD2DDB3E76007EA66D /* Products */;
+			productRefGroup = 28DB88D42DDB4DE300FD3253 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				2845C0AB2DDB3E76007EA66D /* RecipeFlow */,
-				2845C0B52DDB3E76007EA66D /* RecipeFlowTests */,
+				28DB88D22DDB4DE300FD3253 /* RecipeCore */,
+				28DB88DC2DDB4DE300FD3253 /* RecipeCoreTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		2845C0AA2DDB3E76007EA66D /* Resources */ = {
+		28DB88D12DDB4DE300FD3253 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		2845C0B42DDB3E76007EA66D /* Resources */ = {
+		28DB88DB2DDB4DE300FD3253 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -240,14 +203,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		2845C0A82DDB3E76007EA66D /* Sources */ = {
+		28DB88CF2DDB4DE300FD3253 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		2845C0B22DDB3E76007EA66D /* Sources */ = {
+		28DB88D92DDB4DE300FD3253 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -257,15 +220,15 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		2845C0B92DDB3E76007EA66D /* PBXTargetDependency */ = {
+		28DB88E02DDB4DE300FD3253 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 2845C0AB2DDB3E76007EA66D /* RecipeFlow */;
-			targetProxy = 2845C0B82DDB3E76007EA66D /* PBXContainerItemProxy */;
+			target = 28DB88D22DDB4DE300FD3253 /* RecipeCore */;
+			targetProxy = 28DB88DF2DDB4DE300FD3253 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		2845C0C02DDB3E76007EA66D /* Debug */ = {
+		28DB88E72DDB4DE300FD3253 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
@@ -287,7 +250,7 @@
 				MARKETING_VERSION = 1.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
-				PRODUCT_BUNDLE_IDENTIFIER = uk.recipe.RecipeFlow;
+				PRODUCT_BUNDLE_IDENTIFIER = uk.recipe.RecipeCore;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -297,7 +260,7 @@
 			};
 			name = Debug;
 		};
-		2845C0C12DDB3E76007EA66D /* Release */ = {
+		28DB88E82DDB4DE300FD3253 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
@@ -319,7 +282,7 @@
 				MARKETING_VERSION = 1.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
-				PRODUCT_BUNDLE_IDENTIFIER = uk.recipe.RecipeFlow;
+				PRODUCT_BUNDLE_IDENTIFIER = uk.recipe.RecipeCore;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -329,7 +292,7 @@
 			};
 			name = Release;
 		};
-		2845C0C22DDB3E76007EA66D /* Debug */ = {
+		28DB88E92DDB4DE300FD3253 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -395,7 +358,7 @@
 			};
 			name = Debug;
 		};
-		2845C0C32DDB3E76007EA66D /* Release */ = {
+		28DB88EA2DDB4DE300FD3253 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -454,14 +417,14 @@
 			};
 			name = Release;
 		};
-		2845C0C52DDB3E76007EA66D /* Debug */ = {
+		28DB88EC2DDB4DE300FD3253 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = uk.recipe.RecipeFlowTests;
+				PRODUCT_BUNDLE_IDENTIFIER = uk.recipe.RecipeCoreTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -469,14 +432,14 @@
 			};
 			name = Debug;
 		};
-		2845C0C62DDB3E76007EA66D /* Release */ = {
+		28DB88ED2DDB4DE300FD3253 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = uk.recipe.RecipeFlowTests;
+				PRODUCT_BUNDLE_IDENTIFIER = uk.recipe.RecipeCoreTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -487,49 +450,34 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		2845C0A62DDB3E76007EA66D /* Build configuration list for PBXProject "RecipeFlow" */ = {
+		28DB88CD2DDB4DE300FD3253 /* Build configuration list for PBXProject "RecipeCore" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				2845C0C22DDB3E76007EA66D /* Debug */,
-				2845C0C32DDB3E76007EA66D /* Release */,
+				28DB88E92DDB4DE300FD3253 /* Debug */,
+				28DB88EA2DDB4DE300FD3253 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2845C0BF2DDB3E76007EA66D /* Build configuration list for PBXNativeTarget "RecipeFlow" */ = {
+		28DB88E62DDB4DE300FD3253 /* Build configuration list for PBXNativeTarget "RecipeCore" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				2845C0C02DDB3E76007EA66D /* Debug */,
-				2845C0C12DDB3E76007EA66D /* Release */,
+				28DB88E72DDB4DE300FD3253 /* Debug */,
+				28DB88E82DDB4DE300FD3253 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2845C0C42DDB3E76007EA66D /* Build configuration list for PBXNativeTarget "RecipeFlowTests" */ = {
+		28DB88EB2DDB4DE300FD3253 /* Build configuration list for PBXNativeTarget "RecipeCoreTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				2845C0C52DDB3E76007EA66D /* Debug */,
-				2845C0C62DDB3E76007EA66D /* Release */,
+				28DB88EC2DDB4DE300FD3253 /* Debug */,
+				28DB88ED2DDB4DE300FD3253 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		28DB88852DDB4D7E00FD3253 /* RecipeDataStore */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = RecipeDataStore;
-		};
-		28DB88872DDB4D7E00FD3253 /* RecipeDomain */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = RecipeDomain;
-		};
-		28DB88892DDB4D7E00FD3253 /* RecipeNetworking */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = RecipeNetworking;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
-	rootObject = 2845C0A32DDB3E76007EA66D /* Project object */;
+	rootObject = 28DB88CA2DDB4DE300FD3253 /* Project object */;
 }

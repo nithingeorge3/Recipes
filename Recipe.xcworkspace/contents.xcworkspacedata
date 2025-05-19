@@ -5,7 +5,13 @@
       location = "container:Recipe/Recipes.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:RecipeFlow/RecipeFlow.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "container:RecipeUI/RecipeUI.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "container:RecipeCore/RecipeCore.xcodeproj">
    </FileRef>
    <FileRef
       location = "container:RecipeNetworking/RecipeNetworking.xcodeproj">
@@ -15,8 +21,5 @@
    </FileRef>
    <FileRef
       location = "container:RecipeData/RecipeData.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:RecipeFlow/RecipeFlow.xcodeproj">
    </FileRef>
 </Workspace>
