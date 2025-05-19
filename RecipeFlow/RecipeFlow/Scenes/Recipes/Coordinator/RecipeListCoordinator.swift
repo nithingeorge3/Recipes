@@ -85,8 +85,7 @@ public final class RecipeListCoordinator: ObservableObject, Coordinator, TabItem
 
 extension RecipeListCoordinator {
     func navigateToRecipeDetail(for recipeID: Recipe.ID) -> some View {
-        EmptyView()
-//        let detailedCoordinator = RecipeDetailCoordinatorFactory().makeRecipeDetailCoordinator(recipeID: recipeID, service: service, tabBarVisibility: tabBarVisibility)
-//        return detailedCoordinator.start()
+        let detailedCoordinator = RecipeDetailCoordinatorFactory().makeRecipeDetailCoordinator(recipeID: recipeID, service: service, tabBarVisibility: tabBarVisibility)
+        return detailedCoordinator.start()
     }
 }

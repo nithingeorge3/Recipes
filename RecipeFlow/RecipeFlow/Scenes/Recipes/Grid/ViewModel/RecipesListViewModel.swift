@@ -61,6 +61,7 @@ class RecipeListViewModel: RecipesListViewModelType {
         self.localPagination = localPagination
         self.favoritesPagination = favoritesPagination
 
+        print("*** service: \(service)")
         listeningFavoritesChanges()
     }
     
