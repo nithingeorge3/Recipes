@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2845C0482DDB3E36007EA66D /* RecipeData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2845C03D2DDB3E35007EA66D /* RecipeData.framework */; };
+		28DB896D2DDB597300FD3253 /* RecipeDomain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28DB896C2DDB597300FD3253 /* RecipeDomain.framework */; };
+		28DB896E2DDB597300FD3253 /* RecipeDomain.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 28DB896C2DDB597300FD3253 /* RecipeDomain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		28DB89742DDB5A7400FD3253 /* RecipeData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2845C03D2DDB3E35007EA66D /* RecipeData.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -20,9 +22,24 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		28DB896F2DDB597300FD3253 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				28DB896E2DDB597300FD3253 /* RecipeDomain.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		2845C03D2DDB3E35007EA66D /* RecipeData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RecipeData.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2845C0472DDB3E36007EA66D /* RecipeDataTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RecipeDataTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		28DB896C2DDB597300FD3253 /* RecipeDomain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RecipeDomain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -56,6 +73,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28DB896D2DDB597300FD3253 /* RecipeDomain.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,7 +81,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2845C0482DDB3E36007EA66D /* RecipeData.framework in Frameworks */,
+				28DB89742DDB5A7400FD3253 /* RecipeData.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,6 +93,7 @@
 			children = (
 				2845C03F2DDB3E35007EA66D /* RecipeData */,
 				2845C04B2DDB3E36007EA66D /* RecipeDataTests */,
+				28DB896B2DDB597300FD3253 /* Frameworks */,
 				2845C03E2DDB3E35007EA66D /* Products */,
 			);
 			sourceTree = "<group>";
@@ -86,6 +105,14 @@
 				2845C0472DDB3E36007EA66D /* RecipeDataTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		28DB896B2DDB597300FD3253 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				28DB896C2DDB597300FD3253 /* RecipeDomain.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -109,6 +136,7 @@
 				2845C0392DDB3E35007EA66D /* Sources */,
 				2845C03A2DDB3E35007EA66D /* Frameworks */,
 				2845C03B2DDB3E35007EA66D /* Resources */,
+				28DB896F2DDB597300FD3253 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -231,7 +259,7 @@
 		2845C0512DDB3E36007EA66D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -263,7 +291,7 @@
 		2845C0522DDB3E36007EA66D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
