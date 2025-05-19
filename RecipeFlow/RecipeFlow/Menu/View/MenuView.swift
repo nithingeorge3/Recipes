@@ -80,7 +80,7 @@ struct MenuView: View {
             EmptyView()
         }
     }
-    // I am haved added this code for showing combine. Thsi si not a production code. I nee dto move the code to coordinator and creation from factory
+    //added this code for showing combine. This is not a production code. I need to move the code to coordinator and creation from factory
     private func recipesListView() -> some View {
         let service = RecipeListServiceFactory.makeRecipeListService()
         let viewModel = RecipesViewModel(service: service)

@@ -12,9 +12,7 @@ import Observation
 import RecipeNetworking
 import RecipeDomain
 import RecipeCore
-import RecipeUI
 
-#warning("move ResultState to core? from UI?")
 @MainActor
 protocol RecipesViewModelType: AnyObject, Observable {
     var recipes: [Recipe] { get }

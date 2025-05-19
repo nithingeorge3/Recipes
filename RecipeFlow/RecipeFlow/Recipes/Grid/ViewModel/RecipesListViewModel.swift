@@ -12,7 +12,6 @@ import RecipeNetworking
 import RecipeDomain
 import RecipeCore
 import RecipeData
-import RecipeUI
 
 @MainActor
 protocol RecipesListViewModelType: AnyObject, Observable {
