@@ -98,7 +98,7 @@ struct RecipeDetailView<ViewModel: RecipeDetailViewModelType>: View {
                     }) {
                         Image(systemName: recipe.isFavorite ? "heart.fill" : "heart")
                             .font(.system(size: 28))
-                            .foregroundColor(recipe.isFavorite ? .red : .gray)
+                            .foregroundColor(recipe.isFavorite ? .black : .gray)
                             .symbolEffect(.bounce, value: recipe.isFavorite)
                     }
                     Spacer()

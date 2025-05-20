@@ -62,7 +62,7 @@ public struct ScoreIndicator: View {
                 .trim(from: 0, to: CGFloat(score))
                 .stroke(
                     AngularGradient(
-                        gradient: Gradient(colors: [.green]),
+                        gradient: Gradient(colors: [.black]),
                         center: .center,
                         startAngle: .degrees(0),
                         endAngle: .degrees(360)

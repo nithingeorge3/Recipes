@@ -21,14 +21,14 @@ struct RatingsSectionView: View {
                     count: ratings.countPositive,
                     label: "Positive",
                     systemImage: "hand.thumbsup.fill",
-                    color: .green
+                    color: .black
                 )
                 
                 RatingBadge(
                     count: ratings.countNegative,
                     label: "Negative",
                     systemImage: "hand.thumbsdown.fill",
-                    color: .red
+                    color: .black
                 )
                 
                 if ratings.score >= 0 {
