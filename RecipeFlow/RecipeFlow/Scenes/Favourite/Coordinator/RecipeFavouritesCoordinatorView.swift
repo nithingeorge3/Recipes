@@ -8,12 +8,12 @@
 import SwiftUI
 import RecipeUI
 
-struct RecipeListCoordinatorView: View {
-    @ObservedObject var coordinator: RecipeListCoordinator
+struct RecipeFavouritesCoordinatorView: View {
+    @ObservedObject var coordinator: RecipeFavouritesCoordinator
     
     var body: some View {
         NavigationStack(path: $coordinator.navigationPath) {
-                coordinator.viewFactory.makeRecipesGridView(viewModel: coordinator.viewModel)
+                coordinator.viewFactory.make(viewModel: coordinator.viewModel)
                     .environmentObject(coordinator.tabBarVisibility)
                 .navigationDestination(for: RecipeAction.self) { action in
                     switch action {
@@ -23,6 +23,6 @@ struct RecipeListCoordinatorView: View {
                     }
                 }
             }
-            .navigationBarTitle("Recipe")
+            .navigationBarTitle("Favourite recipes")
         }
 }

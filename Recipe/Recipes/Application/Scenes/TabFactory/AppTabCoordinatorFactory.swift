@@ -19,10 +19,14 @@ final class AppTabCoordinatorFactory: AppTabCoordinatorFactoryType {
         let recipeCoordinatorFactory = RecipeListCoordinatorFactory()
         let recipeCoordinator = await recipeCoordinatorFactory.makeRecipeListCoordinator(container: container, tabBarVisibility: tabBarVisibility)
         
+        let favRecipeCoordinatorFactory = RecipeFavouritesCoordinatorFactory()
+        let favRecipeCoordinator = await favRecipeCoordinatorFactory.make(container: container, tabBarVisibility: tabBarVisibility)
+        
         let menuCoordinatorFactory = MenuCoordinatorFactory()
         let menuCoordinator = menuCoordinatorFactory.makeMenuCoordinator()
         
         let viewFactory = AppTabViewFactory(coordinators: [recipeCoordinator,
+                                                           favRecipeCoordinator,
                                                            menuCoordinator], tabBarVisibility: tabBarVisibility)
         
         return AppTabCoordinator(appTabViewFactory: viewFactory)

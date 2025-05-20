@@ -18,7 +18,7 @@ protocol RecipesViewModelType: AnyObject, Observable {
     var recipes: [Recipe] { get }
     var state: ResultState { get }
     
-    func send(_ action: RecipeListAction)
+    func send(_ action: RecipeAction)
 }
 
 //Actually we need only one viewmodel, as i am just showing listing with combine i used seperate viewmodel
@@ -33,7 +33,7 @@ class RecipesViewModel: RecipesViewModelType {
         self.service = service
     }
     
-    func send(_ action: RecipeListAction) {
+    func send(_ action: RecipeAction) {
         switch action {
         case .refresh:
             Task { try await fetchRemoteRecipes() }

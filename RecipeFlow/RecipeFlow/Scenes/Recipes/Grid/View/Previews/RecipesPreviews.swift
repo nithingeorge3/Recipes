@@ -44,7 +44,7 @@ private class PreviewRecipeListViewModel: RecipesListViewModelType {
     var otherRecipes: [Recipe] = []
     var remotePagination: RemotePaginationHandlerType
     var localPagination: LocalPaginationHandlerType
-    var recipeListActionSubject = PassthroughSubject<RecipeListAction, Never>()
+    var recipeActionSubject = PassthroughSubject<RecipeAction, Never>()
     
     var isEmpty: Bool {
         favoriteRecipes.isEmpty && otherRecipes.isEmpty && !remotePagination.isLoading && !localPagination.isLoading
@@ -108,7 +108,7 @@ private class PreviewRecipeListViewModel: RecipesListViewModelType {
         state = .failed(error: error)
     }
     
-    func send(_ action: RecipeListAction) async {
+    func send(_ action: RecipeAction) async {
         switch action {
         case .refresh:
             Task {
@@ -119,7 +119,7 @@ private class PreviewRecipeListViewModel: RecipesListViewModelType {
             }
         case .loadMore: break
         case .selectRecipe(let id):
-            recipeListActionSubject.send(.selectRecipe(id))
+            recipeActionSubject.send(.selectRecipe(id))
         }
     }
     

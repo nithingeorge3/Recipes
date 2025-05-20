@@ -89,7 +89,7 @@ private class PreviewRecipesViewModel: RecipesViewModelType {
         self.state = state
     }
     
-    func send(_ action: RecipeListAction) {
+    func send(_ action: RecipeAction) {
     }
 }
 #endif

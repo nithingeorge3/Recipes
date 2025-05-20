@@ -1,5 +1,5 @@
 //
-//  RecipeListCoordinator.swift
+//  RecipeFavouriteCoordinator.swift
 //  Recipes
 //
 //  Created by Nitin George on 01/03/2025.
@@ -14,17 +14,11 @@ import RecipeDomain
 import RecipeCore
 import RecipeUI
 
-enum RecipeAction: Hashable {
-    case refresh
-    case loadMore
-    case selectRecipe(Recipe.ID)
-}
-
 @MainActor
-public final class RecipeListCoordinator: ObservableObject, Coordinator, TabItemProviderType {
-    let viewFactory: RecipesViewFactoryType
-    private let modelFactory: RecipesViewModelFactoryType
-    var viewModel: RecipeListViewModel
+public final class RecipeFavouritesCoordinator: ObservableObject, Coordinator, TabItemProviderType {
+    let viewFactory: RecipeFavouritesViewFactoryType
+    private let modelFactory: RecipeFavouritesViewModelFactoryType
+    var viewModel: RecipeFavouritesViewModel
     private let _tabItem: TabItem
     let tabBarVisibility: TabBarVisibility
     private let service: RecipeServiceProvider
@@ -39,8 +33,8 @@ public final class RecipeListCoordinator: ObservableObject, Coordinator, TabItem
     init(
         tabItem: TabItem,
         tabBarVisibility: TabBarVisibility,
-        viewFactory: RecipesViewFactoryType,
-        modelFactory: RecipesViewModelFactoryType,
+        viewFactory: RecipeFavouritesViewFactoryType,
+        modelFactory: RecipeFavouritesViewModelFactoryType,
         paginationSDService: PaginationSDServiceType,
         recipeSDService: RecipeSDServiceType
     ) async {
@@ -54,10 +48,8 @@ public final class RecipeListCoordinator: ObservableObject, Coordinator, TabItem
         let localPagination: LocalPaginationHandlerType = LocalPaginationHandler()
         let favoritesPagination: LocalPaginationHandlerType = FavoritesPaginationHandler()
         
-        self.viewModel = await modelFactory.makeRecipeListViewModel(
+        self.viewModel = await modelFactory.make(
             service: service,
-            remotePagination: remotePagination,
-            localPagination: localPagination,
             favoritesPagination: favoritesPagination
         )
 
@@ -65,7 +57,7 @@ public final class RecipeListCoordinator: ObservableObject, Coordinator, TabItem
     }
     
     public func start() -> some View {
-        RecipeListCoordinatorView(coordinator: self)
+        RecipeFavouritesCoordinatorView(coordinator: self)
     }
     
     func addSubscriptions() {
@@ -83,7 +75,7 @@ public final class RecipeListCoordinator: ObservableObject, Coordinator, TabItem
     }
 }
 
-extension RecipeListCoordinator {
+extension RecipeFavouritesCoordinator {
     func navigateToRecipeDetail(for recipeID: Recipe.ID) -> some View {
         let detailedCoordinator = RecipeDetailCoordinatorFactory().makeRecipeDetailCoordinator(recipeID: recipeID, service: service, tabBarVisibility: tabBarVisibility)
         return detailedCoordinator.start()

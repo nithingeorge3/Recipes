@@ -20,10 +20,10 @@ protocol RecipesListViewModelType: AnyObject, Observable {
     var isEmpty: Bool { get }
     var remotePagination: RemotePaginationHandlerType { get }
     var localPagination: LocalPaginationHandlerType { get }
-    var recipeListActionSubject: PassthroughSubject<RecipeListAction, Never> { get  set }
+    var recipeActionSubject: PassthroughSubject<RecipeAction, Never> { get  set }
     var state: ResultState { get }
     
-    func send(_ action: RecipeListAction) async
+    func send(_ action: RecipeAction) async
     func loadInitialData() async
 }
 
@@ -34,7 +34,7 @@ class RecipeListViewModel: RecipesListViewModelType {
     var remotePagination: RemotePaginationHandlerType
     var localPagination: LocalPaginationHandlerType
     var favoritesPagination: LocalPaginationHandlerType
-    var recipeListActionSubject = PassthroughSubject<RecipeListAction, Never>()
+    var recipeActionSubject = PassthroughSubject<RecipeAction, Never>()
     
     private var updateTask: Task<Void, Never>?
     
@@ -65,12 +65,12 @@ class RecipeListViewModel: RecipesListViewModelType {
         listeningFavoritesChanges()
     }
     
-    func send(_ action: RecipeListAction) async {
+    func send(_ action: RecipeAction) async {
         switch action {
         case .refresh, .loadMore:
             await fetchRecipes()
         case .selectRecipe( let recipeID):
-            recipeListActionSubject.send(RecipeListAction.selectRecipe(recipeID))
+            recipeActionSubject.send(RecipeAction.selectRecipe(recipeID))
         }
     }
     
