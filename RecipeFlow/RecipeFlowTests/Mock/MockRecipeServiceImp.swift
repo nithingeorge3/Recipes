@@ -79,6 +79,10 @@ final class MockRecipeService: RecipeServiceProvider, @unchecked Sendable {
         
         return (stubbedRecipes, [])
     }
+    
+    func searchRecipes(query: String, startIndex: Int, pageSize: Int) async throws -> [RecipeModel] {
+        []
+    }
 }
 
 

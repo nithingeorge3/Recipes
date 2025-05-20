@@ -16,4 +16,5 @@ public protocol RecipeSDServiceType: Sendable {
     func fetchFavorites(startIndex: Int, pageSize: Int) async throws -> [RecipeModel]
     func saveRecipes(_ recipes: [RecipeModel]) async throws -> (inserted: [RecipeModel], updated: [RecipeModel])
     func updateFavouriteRecipe(_ recipeID: Int) async throws -> Bool
+    func searchRecipes(query: String, startIndex: Int, pageSize: Int) async throws -> [RecipeModel]
 }

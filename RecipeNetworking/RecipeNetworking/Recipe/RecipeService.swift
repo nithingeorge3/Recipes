@@ -34,6 +34,13 @@ final class RecipeService: RecipeServiceProvider, @unchecked Sendable {
     }
 }
 
+//search
+extension RecipeService {
+    func searchRecipes(query: String, startIndex: Int, pageSize: Int) async throws -> [RecipeModel] {
+        try await recipeRepository.searchRecipes(query: query, startIndex: startIndex, pageSize: pageSize)
+    }
+}
+
 //SwiftData
 extension RecipeService {
     func fetchRecipesCount() async throws -> Int {

@@ -31,6 +31,7 @@ public protocol RecipeLocalServiceType: Sendable {
     func fetchFavorites(startIndex: Int, pageSize: Int) async throws -> [RecipeModel]
     func updateFavouriteRecipe(_ recipeID: Int) async throws -> Bool
     func fetchPagination(_ type: EntityType) async throws -> PaginationDomain
+    func searchRecipes(query: String, startIndex: Int, pageSize: Int) async throws -> [RecipeModel]
 }
 
 //just added for showing combine

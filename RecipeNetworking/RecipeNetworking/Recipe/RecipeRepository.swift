@@ -19,6 +19,7 @@ public protocol RecipeRepositoryType: Sendable {
     func fetchFavorites(startIndex: Int, pageSize: Int) async throws -> [RecipeModel]
     func updateFavouriteRecipe(_ recipeID: Int) async throws -> Bool
     func fetchPagination(_ entityType: EntityType) async throws -> PaginationDomain
+    func searchRecipes(query: String, startIndex: Int, pageSize: Int) async throws -> [RecipeModel]
 }
 
 final class RecipeRepository: RecipeRepositoryType {
@@ -108,6 +109,12 @@ extension RecipeRepository {
     }
 }
 
+//search
+extension RecipeRepository {
+    func searchRecipes(query: String, startIndex: Int, pageSize: Int) async throws -> [RecipeModel] {
+        try await recipeSDService.searchRecipes(query: query, startIndex: startIndex, pageSize: pageSize)
+    }
+}
 
 //RecipeListRepository added for combine based operation. We can add combine with RecipeRepositoryType.
 public protocol RecipeListRepositoryType {

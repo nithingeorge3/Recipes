@@ -44,3 +44,10 @@ public final class RecipeSDService: RecipeSDServiceType {
         try await repository.updateFavouriteRecipe(recipeID)
     }
 }
+
+//search
+public extension RecipeSDService {
+    func searchRecipes(query: String, startIndex: Int, pageSize: Int) async throws -> [RecipeModel] {
+        try await repository.searchRecipes(query: query, startIndex: startIndex, pageSize: pageSize)
+    }
+}

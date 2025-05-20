@@ -46,7 +46,9 @@ class RecipeListViewModel: RecipesListViewModelType {
     var navTitle = "Recipes"
     
     var recipes: [Recipe] = []
-       
+    private var originalRecipes: [Recipe] = []
+    private var searchTask: Task<Void, Never>?
+    
     var isEmpty: Bool {
         recipes.isEmpty &&
         !remotePagination.isLoading &&
@@ -55,8 +57,11 @@ class RecipeListViewModel: RecipesListViewModelType {
     
     var searchQuery = "" {
         didSet {
-            if oldValue != searchQuery {
-                Task { await searchRecipes() }
+            searchTask?.cancel()
+            searchTask = Task {
+                try? await Task.sleep(for: .milliseconds(300))
+                guard !Task.isCancelled else { return }
+                await searchRecipes()
             }
         }
     }
@@ -95,26 +100,82 @@ class RecipeListViewModel: RecipesListViewModelType {
     }
     
     func searchRecipes() async {
+        guard !searchQuery.isEmpty else {
+            await resetSearch()
+            return
+        }
         
+        isSearching = true
+        
+        // First search in memory
+        let filtered = originalRecipes.filter {
+            $0.name.localizedCaseInsensitiveContains(searchQuery)
+        }
+        
+        if !filtered.isEmpty {
+            recipes = filtered
+            state = filtered.isEmpty ? .empty(message: "No matches found") : .success
+            isSearching = false
+            return
+        }
+        
+        // Fall back to SwiftData search
+        do {
+            let results = try await service.searchRecipes(
+                query: searchQuery,
+                startIndex: 0,
+                pageSize: localPagination.pageSize
+            )
+            
+            recipes = results.map { Recipe(from: $0) }
+            state = recipes.isEmpty ? .empty(message: "No matches found") : .success
+        } catch {
+            state = .failed(error: error)
+        }
+        
+        isSearching = false
     }
 }
 
 private extension RecipeListViewModel {
     private func fetchRecipes() async {
-        let hasMoreLocal = localPagination.hasMoreData
-        let hasMoreRemote = remotePagination.hasMoreData
-        
-        async let localOrRemote: Void? = hasMoreLocal
-                                        ? fetchLocalRecipes()
-                                        : (hasMoreRemote ? fetchRemoteRecipes() : nil)
+        if !searchQuery.isEmpty {
+            await fetchSearchResults()
+        } else {
+            let hasMoreLocal = localPagination.hasMoreData
+            let hasMoreRemote = remotePagination.hasMoreData
+            
+            async let localOrRemote: Void? = hasMoreLocal
+                                            ? fetchLocalRecipes()
+                                            : (hasMoreRemote ? fetchRemoteRecipes() : nil)
+            
+            do {
+                _ = try await (localOrRemote)
+            } catch {
+                if recipes.count == 0 {
+                    state = .failed(error: error)
+                }
+                print("error fetching recipes: \(error)")
+            }
+        }
+    }
+    
+    private func fetchSearchResults() async {
+        guard localPagination.hasMoreData else { return }
         
         do {
-            _ = try await (localOrRemote)
+            let results = try await service.searchRecipes(
+                query: searchQuery,
+                startIndex: localPagination.currentOffset, // need to handle search start and normal start fetch index
+                pageSize: localPagination.pageSize // need to handle search start and normal start fetch index
+            )
+            
+            let newRecipes = results.map { Recipe(from: $0) }
+            recipes.append(contentsOf: newRecipes)
+            localPagination.incrementOffset()
+            state = recipes.isEmpty ? .empty(message: "No matches found") : .success
         } catch {
-            if recipes.count == 0 {
-                state = .failed(error: error)
-            }
-            print("error fetching recipes: \(error)")
+            state = .failed(error: error)
         }
     }
     
@@ -143,6 +204,7 @@ private extension RecipeListViewModel {
 
         if storedRecipes.count > 0 {
             recipes.append(contentsOf: storedRecipes)
+            originalRecipes.append(contentsOf: storedRecipes)
             localPagination.isLoading = false
             localPagination.incrementOffset()
             state = .success
@@ -166,12 +228,18 @@ private extension RecipeListViewModel {
         try await updateRemotePagination()
     }
     
+    private func resetSearch() async {
+        recipes = originalRecipes
+        state = originalRecipes.isEmpty ? .empty(message: emptyRecipeMessage) : .success
+    }
+    
     private func updateRemoteRecipes(with fetchedRecipes: (inserted: [RecipeModel], updated: [RecipeModel])) {
         let newRecipes = fetchedRecipes.inserted.map { Recipe(from: $0) }
         let updatedRecipes = fetchedRecipes.updated.map { Recipe(from: $0) }
-        
+                
         recipes.append(contentsOf: newRecipes)
-        
+        originalRecipes.append(contentsOf: newRecipes)
+                
         for recipe in updatedRecipes {
             if let index = recipes.firstIndex(where: { $0.id == recipe.id }) {
                 recipes[index] = recipe

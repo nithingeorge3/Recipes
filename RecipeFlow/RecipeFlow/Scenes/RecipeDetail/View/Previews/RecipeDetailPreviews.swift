@@ -168,5 +168,9 @@ private class MockPreviewService: RecipeLocalServiceType, @unchecked Sendable {
     func updateFavouriteRecipe(_ id: Int) async throws -> Bool {
         true
     }
+    
+    func searchRecipes(query: String, startIndex: Int, pageSize: Int) async throws -> [RecipeModel] {
+        []
+    }
 }
 #endif

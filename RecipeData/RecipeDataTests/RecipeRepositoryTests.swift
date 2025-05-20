@@ -159,3 +159,162 @@ extension RecipeRepositoryTests {
         _ = try await repository.saveRecipes(recipes)
     }
 }
+
+//search
+extension RecipeRepositoryTests {
+    func testSearch_emptyQuery_returnsAllRecipes() async throws {
+        let recipes = [
+            RecipeModel(id: 1, name: "Chicken Curry"),
+            RecipeModel(id: 2, name: "Beef Stew")
+        ]
+        try await saveTestRecipes(recipes)
+        
+        let results = try await repository.searchRecipes(
+            query: "",
+            startIndex: 0,
+            pageSize: 10
+        )
+        
+        XCTAssertEqual(results.count, 2)
+    }
+    
+    func testSearch_exactMatch_returnsSingleRecipe() async throws {
+        let recipes = [
+            RecipeModel(id: 1, name: "Chicken Curry"),
+            RecipeModel(id: 2, name: "Beef Stew")
+        ]
+        try await saveTestRecipes(recipes)
+        
+        let results = try await repository.searchRecipes(
+            query: "Chicken Curry",
+            startIndex: 0,
+            pageSize: 10
+        )
+        
+        XCTAssertEqual(results.count, 1)
+        XCTAssertEqual(results.first?.name, "Chicken Curry")
+    }
+    
+    func testSearch_caseInsensitiveMatch() async throws {
+        let recipes = [
+            RecipeModel(id: 1, name: "Chicken Curry"),
+            RecipeModel(id: 2, name: "Beef Stew")
+        ]
+        try await saveTestRecipes(recipes)
+        
+        let results = try await repository.searchRecipes(
+            query: "chicken curry",
+            startIndex: 0,
+            pageSize: 10
+        )
+        
+        XCTAssertEqual(results.count, 1)
+    }
+    
+    func testSearch_partialMatch() async throws {
+        let recipes = [
+            RecipeModel(id: 1, name: "Chicken Curry"),
+            RecipeModel(id: 2, name: "Beef Stew")
+        ]
+        try await saveTestRecipes(recipes)
+        
+        let results = try await repository.searchRecipes(
+            query: "Chick",
+            startIndex: 0,
+            pageSize: 10
+        )
+        
+        XCTAssertEqual(results.count, 1)
+    }
+    
+    func testSearch_noMatch_returnsEmpty() async throws {
+        let recipes = [
+            RecipeModel(id: 1, name: "Chicken Curry"),
+            RecipeModel(id: 2, name: "Beef Stew")
+        ]
+        try await saveTestRecipes(recipes)
+        
+        let results = try await repository.searchRecipes(
+            query: "Pasta",
+            startIndex: 0,
+            pageSize: 10
+        )
+        
+        XCTAssertTrue(results.isEmpty)
+    }
+    
+    func testSearch_paginationWorks() async throws {
+        let recipes = (1...10).map {
+            RecipeModel(id: $0, name: "Recipe \($0)")
+        }
+        try await saveTestRecipes(recipes)
+        
+        let page1 = try await repository.searchRecipes(
+            query: "Recipe",
+            startIndex: 0,
+            pageSize: 3
+        )
+        let page2 = try await repository.searchRecipes(
+            query: "Recipe",
+            startIndex: 3,
+            pageSize: 3
+        )
+        
+        XCTAssertEqual(page1.count, 3)
+        XCTAssertEqual(page1.map(\.id), [1, 2, 3])
+        
+        XCTAssertEqual(page2.count, 3)
+        XCTAssertEqual(page2.map(\.id), [4, 5, 6])
+    }
+    
+    func testSearch_specialCharacters() async throws {
+        let recipes = [
+            RecipeModel(id: 1, name: "Crème"),
+            RecipeModel(id: 2, name: "Hamburger")
+        ]
+        try await saveTestRecipes(recipes)
+        
+        // Test exact match with special characters
+        let results = try await repository.searchRecipes(
+            query: "Crème",
+            startIndex: 0,
+            pageSize: 10
+        )
+        
+        XCTAssertEqual(results.count, 1)
+        XCTAssertEqual(results.first?.name, "Crème")
+    }
+
+    func testSearch_whitespaceHandling() async throws {
+        let recipes = [
+            RecipeModel(id: 1, name: "Chicken Curry"),
+            RecipeModel(id: 2, name: "Beef Stew")
+        ]
+        try await saveTestRecipes(recipes)
+        
+        let results = try await repository.searchRecipes(
+            query: "  Chicken   Curry  ",
+            startIndex: 0,
+            pageSize: 10
+        )
+        
+        XCTAssertEqual(results.count, 1)
+        XCTAssertEqual(results.first?.name, "Chicken Curry")
+    }
+    
+    func testSearch_favoriteAndNonFavorite() async throws {
+        let recipes = [
+            RecipeModel(id: 1, name: "Chicken Curry", isFavorite: true),
+            RecipeModel(id: 2, name: "Chicken Soup", isFavorite: false)
+        ]
+        try await saveTestRecipes(recipes)
+        
+        let results = try await repository.searchRecipes(
+            query: "Chicken",
+            startIndex: 0,
+            pageSize: 10
+        )
+        
+        XCTAssertEqual(results.count, 2)
+    }
+}

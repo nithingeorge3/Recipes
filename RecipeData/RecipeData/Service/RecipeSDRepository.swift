@@ -23,6 +23,7 @@ protocol RecipeSDRepositoryType: Sendable {
     func fetchFavorites(startIndex: Int, pageSize: Int) async throws -> [RecipeModel]
     func saveRecipes(_ recipes: [RecipeModel]) async throws -> (inserted: [RecipeModel], updated: [RecipeModel])
     func updateFavouriteRecipe(_ recipeID: Int) async throws -> Bool
+    func searchRecipes(query: String, startIndex: Int, pageSize: Int) async throws -> [RecipeModel]
 }
 
 
@@ -142,5 +143,84 @@ final class RecipeSDRepository: RecipeSDRepositoryType {
         let predicate = #Predicate<SDRecipe> { ids.contains($0.id) }
         let descriptor = FetchDescriptor<SDRecipe>(predicate: predicate)
         return try context.fetch(descriptor).reduce(into: [:]) { $0[$1.id] = $1 }
+    }
+}
+
+//search
+extension RecipeSDRepository {
+
+    func searchRecipes(
+        query: String,
+        startIndex: Int,
+        pageSize: Int
+    ) async throws -> [RecipeModel] {
+
+        let normalized = normalize(query)
+
+        return try await dataStore.performBackgroundTask { [self] context in
+            guard !normalized.isEmpty else {
+                return try fetchAllRecipes(
+                    startIndex: startIndex,
+                    pageSize: pageSize,
+                    context: context
+                )
+            }
+
+            //name CONTAINS[]
+            let predicate = #Predicate<SDRecipe> { recipe in
+                recipe.name.localizedStandardContains(normalized)
+            }
+
+            return try executeSearch(
+                predicate: predicate,
+                startIndex: startIndex,
+                pageSize: pageSize,
+                context: context
+            )
+        }
+    }
+
+    //Trims + collapses internal whitespace.
+    private func normalize(_ raw: String) -> String {
+        raw.trimmingCharacters(in: .whitespacesAndNewlines)
+           .components(separatedBy: .whitespacesAndNewlines)
+           .filter { !$0.isEmpty }
+           .joined(separator: " ")
+    }
+
+    private func fetchAllRecipes(
+        startIndex: Int,
+        pageSize: Int,
+        context: ModelContext
+    ) throws -> [RecipeModel] {
+        var descriptor = FetchDescriptor<SDRecipe>(
+            sortBy: [
+                SortDescriptor(\.name, order: .forward),
+                SortDescriptor(\.createdAt, order: .forward)
+            ]
+        )
+        descriptor.fetchLimit  = pageSize
+        descriptor.fetchOffset = startIndex
+
+        return try context.fetch(descriptor).map(RecipeModel.init)
+    }
+
+    private func executeSearch(
+        predicate: Predicate<SDRecipe>,
+        startIndex: Int,
+        pageSize: Int,
+        context: ModelContext
+    ) throws -> [RecipeModel] {
+        var descriptor = FetchDescriptor<SDRecipe>(
+            predicate: predicate,
+            sortBy: [
+                SortDescriptor(\.name, order: .forward),
+                SortDescriptor(\.createdAt, order: .forward)
+            ]
+        )
+        descriptor.fetchLimit  = pageSize
+        descriptor.fetchOffset = startIndex
+
+        return try context.fetch(descriptor).map(RecipeModel.init)
     }
 }

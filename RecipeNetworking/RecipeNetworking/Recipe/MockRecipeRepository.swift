@@ -98,4 +98,8 @@ extension MockRecipeRepository {
     func fetchPagination(_ entityType: EntityType) async throws -> PaginationDomain {
         pagination
     }
+    
+    func searchRecipes(query: String, startIndex: Int, pageSize: Int) async throws -> [RecipeDomain.RecipeModel] {
+        []
+    }
 }
