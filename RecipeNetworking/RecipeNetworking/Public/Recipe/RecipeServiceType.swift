@@ -23,7 +23,7 @@ public protocol RecipeServiceType: Sendable {
 
 //protocol specific for data from DB
 public protocol RecipeLocalServiceType: Sendable {
-    var  favoritesDidChange: AsyncStream<Int> { get }
+    var favoriteDidChange: AnyPublisher<Int, Never> { get }
     func fetchRecipe(for recipeID: Int) async throws -> RecipeModel
     func fetchRecipesCount() async throws -> Int
     func fetchFavoritesRecipesCount() async throws -> Int

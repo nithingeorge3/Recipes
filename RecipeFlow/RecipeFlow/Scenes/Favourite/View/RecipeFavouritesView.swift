@@ -15,7 +15,7 @@ struct RecipeFavouritesView<ViewModel: RecipeFavouritesViewModelType>: View {
     
     var body: some View {
         content
-            .withCustomNavigationTitle(title: "Recipes")
+            .withCustomNavigationTitle(title: "Favourites")
 //            .navigationAccessibility(title: "Recipes")
             .onAppear(perform: handleAppear)
             .accessibilityElement(children: .contain)
@@ -28,6 +28,9 @@ struct RecipeFavouritesView<ViewModel: RecipeFavouritesViewModelType>: View {
                 loadingView
             case .failed(let error):
                 errorView(error: error)
+            case .empty(let message):
+                EmptyStateView(message: message)
+                    .accessibilityLabel("Empty recipe favourite list")
             case .success:
                 successContent
             }
@@ -38,7 +41,7 @@ struct RecipeFavouritesView<ViewModel: RecipeFavouritesViewModelType>: View {
         ProgressView()
             .progressViewStyle(.circular)
             .scaleEffect(1.5)
-            .accessibilityLabel("Loading recipes")
+            .accessibilityLabel("Loading favourites")
             .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
     
@@ -58,30 +61,24 @@ struct RecipeFavouritesView<ViewModel: RecipeFavouritesViewModelType>: View {
     
     @ViewBuilder
     private var successContent: some View {
-        if viewModel.isEmpty {
-            EmptyStateView(message: "No recipes found. Please try again later.")
-                .accessibilityLabel("Empty recipe list")
-        } else {
-            RecipesGridView(
-                favorites: viewModel.recipes,
-                others: [],
-                hasMoreData: viewModel.favouritePagination.hasMoreData
-            ) { recipe in
-                Task {
-                    await viewModel.send(.selectRecipe(recipe.id))
-                }
-            } onReachBottom: {
-                Task {
-                    await viewModel.send(.loadMore)
-                }
+        RecipesGridView(
+            recipes: viewModel.recipes,
+            hasMoreData: viewModel.favouritePagination.hasMoreData
+        ) { recipe in
+            Task {
+                await viewModel.send(.selectRecipe(recipe.id))
             }
-            .accessibilityLabel("Recipes collection")
+        } onReachBottom: {
+            Task {
+                await viewModel.send(.loadMore)
+            }
         }
+        .accessibilityLabel("Favourite recipes collection")
     }
     
     private func handleAppear() {
         Task {
-            await viewModel.loadInitialData()
+//            await viewModel.loadInitialData()
             await viewModel.send(.refresh)
         }
         
@@ -89,7 +86,7 @@ struct RecipeFavouritesView<ViewModel: RecipeFavouritesViewModelType>: View {
         
         UIAccessibility.post(
             notification: .screenChanged,
-            argument: viewModel.isEmpty ? "No recipes found" : "Recipes loaded"
+            argument: viewModel.isEmpty ? "No favourite found" : "favourites loaded"
         )
     }
 }

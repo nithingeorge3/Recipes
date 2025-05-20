@@ -11,10 +11,17 @@ import RecipeDomain
 
 final class RecipeService: RecipeServiceProvider {
     private let recipeRepository: RecipeRepositoryType
-    private let (favoritesDidChangeStream, favoritesDidChangeContinuation) = AsyncStream.makeStream(of: Int.self)
-            
-    init(recipeRepository: RecipeRepositoryType) {
+    
+    private let favoritesEventService: FavoritesEventServiceType
+    
+    public lazy var favoriteDidChange = {
+        favoritesEventService.favoriteDidChange
+            .eraseToAnyPublisher()
+    }()
+    
+    init(recipeRepository: RecipeRepositoryType, favoritesEventService: FavoritesEventServiceType) {
         self.recipeRepository = recipeRepository
+        self.favoritesEventService = favoritesEventService
     }
 
     func fetchRecipes(endPoint: EndPoint) async throws(NetworkError) -> (inserted: [RecipeModel], updated: [RecipeModel]) {
@@ -28,9 +35,7 @@ final class RecipeService: RecipeServiceProvider {
 }
 
 //SwiftData
-extension RecipeService {        
-    var favoritesDidChange: AsyncStream<Int> { favoritesDidChangeStream }
-    
+extension RecipeService {
     func fetchRecipesCount() async throws -> Int {
         try await recipeRepository.fetchRecipesCount()
     }
@@ -53,7 +58,7 @@ extension RecipeService {
     
     func updateFavouriteRecipe(_ recipeID: Int) async throws -> Bool {
         let isUpdated = try await recipeRepository.updateFavouriteRecipe(recipeID)
-        favoritesDidChangeContinuation.yield(recipeID)
+        favoritesEventService.favoriteDidChange.send(recipeID) 
         return isUpdated
     }
     

@@ -46,7 +46,7 @@ struct RecipeDetailView<ViewModel: RecipeDetailViewModelType>: View {
             Button("Remove", role: .destructive) {
                 favTask?.cancel()
                 favTask = Task {
-                    await viewModel.send(.toggleFavorite)
+                    await viewModel.send(.toggleFavorite(0))
                 }
             }
         } message: {
@@ -92,7 +92,7 @@ struct RecipeDetailView<ViewModel: RecipeDetailViewModelType>: View {
                         }
                         else {
                             Task {
-                                await viewModel.send(.toggleFavorite)
+                                await viewModel.send(.toggleFavorite(0))
                             }
                         }
                     }) {

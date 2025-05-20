@@ -9,15 +9,16 @@ import Foundation
 import SwiftData
 import RecipeData
 import RecipeUI
+import RecipeNetworking
 
 public protocol RecipeFavouritesCoordinatorFactoryType {
-    @MainActor func make(container: ModelContainer, tabBarVisibility: TabBarVisibility) async -> RecipeFavouritesCoordinator
+    @MainActor func make(container: ModelContainer, tabBarVisibility: TabBarVisibility, favoritesEventService: FavoritesEventServiceType) async -> RecipeFavouritesCoordinator
 }
 
 public final class RecipeFavouritesCoordinatorFactory: RecipeFavouritesCoordinatorFactoryType {
     public init() { }
     
-    public func make(container: ModelContainer, tabBarVisibility: TabBarVisibility) async -> RecipeFavouritesCoordinator {
+    public func make(container: ModelContainer, tabBarVisibility: TabBarVisibility, favoritesEventService: FavoritesEventServiceType) async -> RecipeFavouritesCoordinator {
         let tabItem = TabItem(title: "Saved", icon: "heart.fill", badgeCount: 0, color: .black)
         let modelFactory = RecipeFavouritesViewModelFactory()
         let viewFactory = RecipeFavouritesViewFactory()
@@ -31,7 +32,8 @@ public final class RecipeFavouritesCoordinatorFactory: RecipeFavouritesCoordinat
             viewFactory: viewFactory,
             modelFactory: modelFactory,
             paginationSDService: paginationSDService,
-            recipeSDService: recipeSDService
+            recipeSDService: recipeSDService,
+            favoritesEventService: favoritesEventService
         )
     }
 }

@@ -10,14 +10,11 @@ import RecipeCore
 import RecipeUI
 
 struct RecipesGridView: View {
-    var favorites: [Recipe]
-    var others: [Recipe]
+    var recipes: [Recipe]
     var hasMoreData: Bool
     var onRecipeTap: (Recipe) -> Void
     var onReachBottom: () -> Void
     
-    @State private var isFavoritesCollapsed: Bool = true
-    @State private var isOtherCollapsed: Bool = false
     @State private var showProgress: Bool = false
     
     var body: some View {
@@ -32,26 +29,16 @@ struct RecipesGridView: View {
             
             ScrollView {
                 LazyVGrid(columns: columns) {
-                    if !favorites.isEmpty {
-                        CollapsibleSection(title: "Favourites", isCollapsed: $isFavoritesCollapsed) {
-                            recipeGrid(for: favorites, size: gridSize)
-                        }
-                    }
 
-                    if !favorites.isEmpty {
-                        CollapsibleSection(title: "Other Recipes", isCollapsed: $isOtherCollapsed) {
-                            recipeGrid(for: others, size: gridSize)
-                        }
-                    } else {
-                        recipeGrid(for: others, size: gridSize)
+                    if !recipes.isEmpty {
+                        recipeGrid(for: recipes, size: gridSize)
                     }
-
-                    if !others.isEmpty && hasMoreData {
+                    
+                    if !recipes.isEmpty && hasMoreData {
                         ProgressView()
                             .opacity(showProgress ? 1 : 0)
                             .frame(height: 50, alignment: .center)
                             .onAppear {
-                                showProgress = !isOtherCollapsed
                                 onReachBottom()
                             }
                             .onDisappear {

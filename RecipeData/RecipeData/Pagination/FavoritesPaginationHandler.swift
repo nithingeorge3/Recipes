@@ -38,6 +38,10 @@ public final class FavoritesPaginationHandler: LocalPaginationHandlerType {
         currentOffset += pageSize
     }
     
+    public func decrementTotalItems() {
+        totalItems -= 1
+    }
+    
     public func updateTotalItems(_ newValue: Int) {
         totalItems = newValue
     }

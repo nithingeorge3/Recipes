@@ -15,7 +15,7 @@ import RecipeCore
 
 enum RecipeDetailActions {
     case loadRecipe
-    case toggleFavorite
+    case toggleFavorite(Recipe.ID)
 }
 
 final class RecipeDetailCoordinator: Coordinator {
@@ -37,8 +37,8 @@ final class RecipeDetailCoordinator: Coordinator {
         self.viewFactory = viewFactory
         self.recipeID = recipeID
         self.service = service
-        self.viewModel = viewModelFactory.makeRecipeDetailViewModel(recipeID: recipeID, service: service)
         self.tabBarVisibility = tabBarVisibility
+        self.viewModel = viewModelFactory.makeRecipeDetailViewModel(recipeID: recipeID, service: service)
     }
     
     func start() -> some View {

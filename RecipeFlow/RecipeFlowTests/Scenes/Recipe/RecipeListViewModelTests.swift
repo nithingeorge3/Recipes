@@ -18,21 +18,18 @@ final class RecipeListViewModelTests: XCTestCase {
     private var service: RecipeServiceProvider!
     private var remotePagination: RemotePaginationHandlerType!
     private var localPagination: LocalPaginationHandlerType!
-    private var favoritesPagination: LocalPaginationHandlerType!
     
     override func setUp() {
         super.setUp()
         service = MockRecipeService()
         remotePagination = MockRemotePaginationHandler()
         localPagination = MockLocalPaginationHandler()
-        favoritesPagination = MockFavoritesPaginationHandler()
         
         viewModel = RecipeListViewModel(
             service: service,
             remotePagination: remotePagination,
-            localPagination: localPagination,
-            favoritesPagination: favoritesPagination
-        )        
+            localPagination: localPagination
+        )
     }
     
     override func tearDown() {
@@ -41,7 +38,6 @@ final class RecipeListViewModelTests: XCTestCase {
         service = nil
         remotePagination = nil
         localPagination = nil
-        favoritesPagination = nil
     }
     
 //    func testRecipeName() async {
@@ -55,7 +51,6 @@ final class RecipeListViewModelTests: XCTestCase {
     
     func testInitialStateIsLoading() {
         XCTAssertEqual(viewModel.state, .loading, "Initial state should be .loading")
-        XCTAssertTrue(viewModel.otherRecipes.isEmpty, "Initially, recipes should be empty")
-        XCTAssertTrue(viewModel.favoriteRecipes.isEmpty, "Initially, favorite recipes should be empty")
+        XCTAssertTrue(viewModel.recipes.isEmpty, "Initially, recipes should be empty")
     }
 }

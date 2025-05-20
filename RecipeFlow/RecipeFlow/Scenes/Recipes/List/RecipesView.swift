@@ -28,6 +28,9 @@ struct RecipesView<ViewModel: RecipesViewModelType>: View {
                 ErrorView(error: error) {
                     viewModel.send(.refresh)
                 }
+            case .empty(let message):
+                EmptyStateView(message: message)
+                    .accessibilityLabel("Empty recipe list")
             case .success:
                 if isEmpty {
                     EmptyStateView(message: "No recipes found. Please try again later.")

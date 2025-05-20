@@ -9,21 +9,19 @@ import RecipeNetworking
 import RecipeData
 
 protocol RecipesViewModelFactoryType {
-    @MainActor func makeRecipeListViewModel(service: RecipeServiceProvider, remotePagination: RemotePaginationHandlerType, localPagination: LocalPaginationHandlerType, favoritesPagination: LocalPaginationHandlerType) async -> RecipeListViewModel
+    @MainActor func makeRecipeListViewModel(service: RecipeServiceProvider, remotePagination: RemotePaginationHandlerType, localPagination: LocalPaginationHandlerType) async -> RecipeListViewModel
 }
 
 final class RecipesViewModelFactory: RecipesViewModelFactoryType {
     func makeRecipeListViewModel(
         service: RecipeServiceProvider,
         remotePagination: RemotePaginationHandlerType,
-        localPagination: LocalPaginationHandlerType,
-        favoritesPagination: LocalPaginationHandlerType
+        localPagination: LocalPaginationHandlerType
     ) async -> RecipeListViewModel {
         RecipeListViewModel(
             service: service,
             remotePagination: remotePagination,
-            localPagination: localPagination,
-            favoritesPagination: favoritesPagination
+            localPagination: localPagination
         )
     }
 }

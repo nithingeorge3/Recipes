@@ -10,6 +10,7 @@ import Foundation
 public enum ResultState: Equatable {
     case loading
     case failed(error: Error)
+    case empty(message: String)
     case success
     
     static public func == (lhs: ResultState, rhs: ResultState) -> Bool {
@@ -17,6 +18,8 @@ public enum ResultState: Equatable {
         case (.loading, .loading):
             return true
         case (.success, .success):
+            return true
+        case (.empty, .empty):
             return true
         case (.failed, .failed):
             return true

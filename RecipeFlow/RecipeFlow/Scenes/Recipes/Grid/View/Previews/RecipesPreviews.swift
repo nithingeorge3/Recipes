@@ -26,8 +26,7 @@ import RecipeData
 
 #Preview("Empty State") {
     let vm = PreviewRecipeListViewModel(state: .success)
-    vm.favoriteRecipes = []
-    vm.otherRecipes = []
+    vm.recipes = []
     return RecipesListView(viewModel: vm)
         .environmentObject(TabBarVisibility())
 }
@@ -39,15 +38,15 @@ import RecipeData
 
 @MainActor @Observable
 private class PreviewRecipeListViewModel: RecipesListViewModelType {
+    var emptyRecipeMessage = "No recipes found. Please try again later."
     var state: ResultState
-    var favoriteRecipes: [Recipe] = []
-    var otherRecipes: [Recipe] = []
+    var recipes: [Recipe] = []
     var remotePagination: RemotePaginationHandlerType
     var localPagination: LocalPaginationHandlerType
     var recipeActionSubject = PassthroughSubject<RecipeAction, Never>()
     
     var isEmpty: Bool {
-        favoriteRecipes.isEmpty && otherRecipes.isEmpty && !remotePagination.isLoading && !localPagination.isLoading
+        recipes.isEmpty && !remotePagination.isLoading && !localPagination.isLoading
     }
     
     init(state: ResultState) {
@@ -66,11 +65,12 @@ private class PreviewRecipeListViewModel: RecipesListViewModelType {
             setupLoadingState()
         case .failed(let error):
             setupErrorState(error: error)
+        default: break
         }
     }
     
     private func setupSuccessState() {
-        otherRecipes = (1...10).map { index in
+        recipes = (1...10).map { index in
             Recipe(
                 id: index,
                 name: "Recipe \(index)",
@@ -80,29 +80,18 @@ private class PreviewRecipeListViewModel: RecipesListViewModelType {
             )
         }
         
-        favoriteRecipes = [
-            Recipe(
-                id: 99,
-                name: "Favorite Recipe",
-                country: .ind,
-                isFavorite: true,
-                ratings: UserRatings(id: 99)
-            )
-        ]
-        
         remotePagination.totalItems = 50
         localPagination.totalItems = 25
     }
     
     private func setupLoadingState() {
-        otherRecipes = (1...5).map { index in Recipe(id: index, name: "Salad \(index)", ratings: UserRatings(id: index)) }
+        recipes = (1...5).map { index in Recipe(id: index, name: "Salad \(index)", ratings: UserRatings(id: index)) }
         remotePagination.isLoading = true
         localPagination.isLoading = true
     }
     
     private func setupErrorState(error: Error) {
-        otherRecipes = []
-        favoriteRecipes = []
+        recipes = []
         remotePagination.isLoading = false
         localPagination.isLoading = false
         state = .failed(error: error)
@@ -112,7 +101,7 @@ private class PreviewRecipeListViewModel: RecipesListViewModelType {
         switch action {
         case .refresh:
             Task {
-                if !favoriteRecipes.isEmpty && !otherRecipes.isEmpty {
+                if !recipes.isEmpty {
                     try? await Task.sleep(nanoseconds: 1_000_000_000)
                     configureForState(.success)
                 }

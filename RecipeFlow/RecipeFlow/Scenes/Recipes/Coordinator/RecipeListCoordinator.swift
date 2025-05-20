@@ -32,6 +32,8 @@ public final class RecipeListCoordinator: ObservableObject, Coordinator, TabItem
     
     @Published var navigationPath = NavigationPath()
     
+    private let favoritesEventService: FavoritesEventServiceType
+    
     public var tabItem: TabItem {
         _tabItem
     }
@@ -42,23 +44,28 @@ public final class RecipeListCoordinator: ObservableObject, Coordinator, TabItem
         viewFactory: RecipesViewFactoryType,
         modelFactory: RecipesViewModelFactoryType,
         paginationSDService: PaginationSDServiceType,
-        recipeSDService: RecipeSDServiceType
+        recipeSDService: RecipeSDServiceType,
+        favoritesEventService: FavoritesEventServiceType
     ) async {
         _tabItem = tabItem
         self.tabBarVisibility = tabBarVisibility
         self.viewFactory = viewFactory
         self.modelFactory = modelFactory
-        self.service = RecipeServiceFactory.makeRecipeService(recipeSDService: recipeSDService, paginationSDService: paginationSDService)
+        self.favoritesEventService = favoritesEventService
         
+        self.service = RecipeServiceFactory.makeRecipeService(
+            recipeSDService: recipeSDService,
+            paginationSDService: paginationSDService,
+            favoritesEventService: favoritesEventService
+        )
+
         let remotePagination: RemotePaginationHandlerType = RemotePaginationHandler()
         let localPagination: LocalPaginationHandlerType = LocalPaginationHandler()
-        let favoritesPagination: LocalPaginationHandlerType = FavoritesPaginationHandler()
         
         self.viewModel = await modelFactory.makeRecipeListViewModel(
             service: service,
             remotePagination: remotePagination,
-            localPagination: localPagination,
-            favoritesPagination: favoritesPagination
+            localPagination: localPagination
         )
 
         addSubscriptions()

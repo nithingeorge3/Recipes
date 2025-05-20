@@ -29,6 +29,9 @@ struct RecipesListView<ViewModel: RecipesListViewModelType>: View {
                 loadingView
             case .failed(let error):
                 errorView(error: error)
+            case .empty(let message):
+                EmptyStateView(message: message)
+                    .accessibilityLabel("Empty recipe list")
             case .success:
                 successContent
             }
@@ -59,25 +62,19 @@ struct RecipesListView<ViewModel: RecipesListViewModelType>: View {
     
     @ViewBuilder
     private var successContent: some View {
-        if viewModel.isEmpty {
-            EmptyStateView(message: "No recipes found. Please try again later.")
-                .accessibilityLabel("Empty recipe list")
-        } else {
-            RecipesGridView(
-                favorites: viewModel.favoriteRecipes,
-                others: viewModel.otherRecipes,
-                hasMoreData: viewModel.remotePagination.hasMoreData
-            ) { recipe in
-                Task {
-                    await viewModel.send(.selectRecipe(recipe.id))
-                }
-            } onReachBottom: {
-                Task {
-                    await viewModel.send(.loadMore)
-                }
+        RecipesGridView(
+            recipes: viewModel.recipes,
+            hasMoreData: viewModel.remotePagination.hasMoreData
+        ) { recipe in
+            Task {
+                await viewModel.send(.selectRecipe(recipe.id))
             }
-            .accessibilityLabel("Recipes collection")
+        } onReachBottom: {
+            Task {
+                await viewModel.send(.loadMore)
+            }
         }
+        .accessibilityLabel("Recipes collection")
     }
     
     private func handleAppear() {

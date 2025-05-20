@@ -62,7 +62,7 @@ class RecipeDetailViewModel: RecipeDetailViewModelType {
     
     private let recipeID: Recipe.ID
     private let service: RecipeLocalServiceType
-    
+        
     var mediaItems: [PresentedMedia] {
         guard case let .loaded(recipe) = state else { return [] }
         return createMediaItems(for: recipe)

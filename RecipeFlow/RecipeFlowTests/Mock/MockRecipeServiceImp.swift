@@ -14,21 +14,18 @@ import RecipeDomain
 @testable import RecipeFlow
 
 final class MockRecipeService: RecipeServiceProvider, @unchecked Sendable {
+    var favoriteDidChange: AnyPublisher<Int, Never> = Empty().eraseToAnyPublisher()
     var resultsJSON: String
     var stubbedRecipes: [RecipeModel] = []
     var shouldThrowError: Bool = false
-        
-    private let (stream, continuation) = AsyncStream.makeStream(of: Int.self)
-    
+            
     init(mockJSON: String = JSONData.recipeValidJSON) {
         self.resultsJSON = mockJSON
     }
     
     func triggerFavoriteChange(recipeID: Int) {
     }
-    
-    var favoritesDidChange: AsyncStream<Int> { stream }
-    
+        
     func fetchRecipesCount() async throws -> Int {
         stubbedRecipes.count
     }

@@ -10,6 +10,7 @@ import RecipeDomain
 import RecipeNetworking
 import RecipeUI
 import RecipeCore
+import Combine
 
 // MARK: - Previews
 #if DEBUG
@@ -134,9 +135,7 @@ extension PreviewDetailViewModel {
 
 // MARK: - Mock Service
 private class MockPreviewService: RecipeLocalServiceType, @unchecked Sendable {
-    var favoritesDidChange: AsyncStream<Int> {
-        AsyncStream { _ in }
-    }
+    var favoriteDidChange: AnyPublisher<Int, Never> = Empty().eraseToAnyPublisher()
     
     func fetchRecipesCount() async throws -> Int {
         0

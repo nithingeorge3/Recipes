@@ -23,6 +23,10 @@ public protocol LocalPaginationHandlerType: AnyObject {
     func updateTotalItems(_ newValue: Int)
 }
 
+public extension LocalPaginationHandlerType {
+    func decrementTotalItems() { }
+}
+
 @Observable
 public final class LocalPaginationHandler: LocalPaginationHandlerType {
     public var currentOffset: Int
@@ -52,7 +56,7 @@ public final class LocalPaginationHandler: LocalPaginationHandlerType {
     public func incrementOffset() {
         currentOffset += pageSize
     }
-    
+        
     public func updateTotalItems(_ newValue: Int) {
         totalItems = newValue
     }
