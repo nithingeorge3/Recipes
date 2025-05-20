@@ -38,6 +38,8 @@ import RecipeData
 
 @MainActor @Observable
 private class PreviewRecipeListViewModel: RecipesListViewModelType {
+    var navTitle = "Recipes"
+    
     var emptyRecipeMessage = "No recipes found. Please try again later."
     var state: ResultState
     var recipes: [Recipe] = []

@@ -9,15 +9,15 @@ import Combine
 import Foundation
 import RecipeDomain
 
-final class RecipeService: RecipeServiceProvider {
+final class RecipeService: RecipeServiceProvider, @unchecked Sendable {
     private let recipeRepository: RecipeRepositoryType
     
     private let favoritesEventService: FavoritesEventServiceType
     
-    public lazy var favoriteDidChange = {
+    public var favoriteDidChange: AnyPublisher<Int, Never> {
         favoritesEventService.favoriteDidChange
             .eraseToAnyPublisher()
-    }()
+    }
     
     init(recipeRepository: RecipeRepositoryType, favoritesEventService: FavoritesEventServiceType) {
         self.recipeRepository = recipeRepository
@@ -66,7 +66,6 @@ extension RecipeService {
         return try await recipeRepository.fetchPagination(entityType)
     }
 }
-
 
 //just added for showing combine
 final class RecipeListServiceImp: RecipeListServiceType {
