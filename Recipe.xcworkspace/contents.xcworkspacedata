@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "container:Recipe/Recipes.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:RecipeFlow/RecipeFlow.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "container:RecipeUI/RecipeUI.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "container:RecipeCore/RecipeCore.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "container:RecipeNetworking/RecipeNetworking.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "container:RecipeDomain/RecipeDomain.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "container:RecipeData/RecipeData.xcodeproj">
+   </FileRef>
+</Workspace>
