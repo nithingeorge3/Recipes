@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		2845C0B72DDB3E76007EA66D /* RecipeFlow.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2845C0AC2DDB3E76007EA66D /* RecipeFlow.framework */; };
 		286812B72DDB8BEA009CB591 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 286812B62DDB8BEA009CB591 /* Kingfisher */; };
+		2886A2962DDC8864000ABF6E /* RecipeCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2886A2952DDC8864000ABF6E /* RecipeCore.framework */; };
+		2886A2972DDC8864000ABF6E /* RecipeCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2886A2952DDC8864000ABF6E /* RecipeCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		28DB88822DDB4D6B00FD3253 /* RecipeUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28DB88812DDB4D6B00FD3253 /* RecipeUI.framework */; };
 		28DB88832DDB4D6B00FD3253 /* RecipeUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 28DB88812DDB4D6B00FD3253 /* RecipeUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		28DB8A262DDB67C700FD3253 /* RecipeData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28DB8A232DDB67C700FD3253 /* RecipeData.framework */; };
@@ -37,6 +39,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				28DB8A272DDB67C700FD3253 /* RecipeData.framework in Embed Frameworks */,
+				2886A2972DDC8864000ABF6E /* RecipeCore.framework in Embed Frameworks */,
 				28DB88832DDB4D6B00FD3253 /* RecipeUI.framework in Embed Frameworks */,
 				28DB8A2B2DDB67C700FD3253 /* RecipeNetworking.framework in Embed Frameworks */,
 				28DB8A292DDB67C700FD3253 /* RecipeDomain.framework in Embed Frameworks */,
@@ -49,6 +52,7 @@
 /* Begin PBXFileReference section */
 		2845C0AC2DDB3E76007EA66D /* RecipeFlow.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RecipeFlow.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2845C0B62DDB3E76007EA66D /* RecipeFlowTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RecipeFlowTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2886A2952DDC8864000ABF6E /* RecipeCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RecipeCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		28DB88812DDB4D6B00FD3253 /* RecipeUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RecipeUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		28DB8A232DDB67C700FD3253 /* RecipeData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RecipeData.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		28DB8A242DDB67C700FD3253 /* RecipeDomain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RecipeDomain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -89,6 +93,7 @@
 				28DB8A262DDB67C700FD3253 /* RecipeData.framework in Frameworks */,
 				28DB88822DDB4D6B00FD3253 /* RecipeUI.framework in Frameworks */,
 				28DB8A2A2DDB67C700FD3253 /* RecipeNetworking.framework in Frameworks */,
+				2886A2962DDC8864000ABF6E /* RecipeCore.framework in Frameworks */,
 				28DB8A282DDB67C700FD3253 /* RecipeDomain.framework in Frameworks */,
 				286812B72DDB8BEA009CB591 /* Kingfisher in Frameworks */,
 			);
@@ -127,6 +132,7 @@
 		28DB88802DDB4D6B00FD3253 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2886A2952DDC8864000ABF6E /* RecipeCore.framework */,
 				28DB8A232DDB67C700FD3253 /* RecipeData.framework */,
 				28DB8A242DDB67C700FD3253 /* RecipeDomain.framework */,
 				28DB8A252DDB67C700FD3253 /* RecipeNetworking.framework */,
