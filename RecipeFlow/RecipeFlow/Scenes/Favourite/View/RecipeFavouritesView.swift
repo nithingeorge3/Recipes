@@ -16,7 +16,7 @@ struct RecipeFavouritesView<ViewModel: RecipeFavouritesViewModelType>: View {
     var body: some View {
         content
             .withCustomNavigationTitle(title: "Favourites")
-//            .navigationAccessibility(title: "Recipes")
+            .navigationAccessibility(title: "Recipes")
             .onAppear(perform: handleAppear)
             .accessibilityElement(children: .contain)
     }

@@ -13,11 +13,10 @@ struct RecipesListView<ViewModel: RecipesListViewModelType>: View {
     var viewModel: ViewModel
     @EnvironmentObject private var tabBarVisibility: TabBarVisibility
     
-#warning("add .navigationAccessibility(title: Recipes")
     var body: some View {
         content
-            .withCustomNavigationTitle(title: "Recipes")
-//            .navigationAccessibility(title: "Recipes")
+            .withCustomNavigationTitle(title: viewModel.navTitle)
+            .navigationAccessibility(title: viewModel.navTitle)
             .onAppear(perform: handleAppear)
             .accessibilityElement(children: .contain)
     }

@@ -17,6 +17,7 @@ import RecipeData
 protocol RecipesListViewModelType: AnyObject, Observable {
     var recipes: [Recipe] { get }
     var isEmpty: Bool { get }
+    var navTitle: String { get set }
     var remotePagination: RemotePaginationHandlerType { get }
     var localPagination: LocalPaginationHandlerType { get }
     var recipeActionSubject: PassthroughSubject<RecipeAction, Never> { get  set }
@@ -36,6 +37,7 @@ class RecipeListViewModel: RecipesListViewModelType {
     
     private var updateTask: Task<Void, Never>?
     private var emptyRecipeMessage = "No recipes found. Please try again later."
+    var navTitle = "Recipes"
     
     var recipes: [Recipe] = []
        
