@@ -38,6 +38,14 @@ import RecipeData
 
 @MainActor @Observable
 private class PreviewRecipeListViewModel: RecipesListViewModelType {
+    var searchQuery = ""
+    
+    var isSearching = false
+    
+    func searchRecipes() async {
+        
+    }
+    
     var navTitle = "Recipes"
     
     var emptyRecipeMessage = "No recipes found. Please try again later."

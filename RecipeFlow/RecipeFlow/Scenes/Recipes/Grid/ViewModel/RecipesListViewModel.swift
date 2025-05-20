@@ -23,6 +23,12 @@ protocol RecipesListViewModelType: AnyObject, Observable {
     var recipeActionSubject: PassthroughSubject<RecipeAction, Never> { get  set }
     var state: ResultState { get }
     
+    //search
+    var searchQuery: String { get set }
+    var isSearching: Bool { get }
+    
+    func searchRecipes() async
+    
     func send(_ action: RecipeAction) async
     func loadInitialData() async
 }
@@ -46,6 +52,16 @@ class RecipeListViewModel: RecipesListViewModelType {
         !remotePagination.isLoading &&
         !localPagination.isLoading
     }
+    
+    var searchQuery = "" {
+        didSet {
+            if oldValue != searchQuery {
+                Task { await searchRecipes() }
+            }
+        }
+    }
+    
+    var isSearching: Bool = false
     
     init(
         service: RecipeServiceProvider,
@@ -76,6 +92,10 @@ class RecipeListViewModel: RecipesListViewModelType {
         } catch {
             print("error while updating pagination \(error)")
         }
+    }
+    
+    func searchRecipes() async {
+        
     }
 }
 

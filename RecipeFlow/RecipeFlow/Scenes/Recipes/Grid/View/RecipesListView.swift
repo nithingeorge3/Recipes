@@ -10,11 +10,19 @@ import Combine
 import RecipeUI
 
 struct RecipesListView<ViewModel: RecipesListViewModelType>: View {
-    var viewModel: ViewModel
+    @Bindable var viewModel: ViewModel
     @EnvironmentObject private var tabBarVisibility: TabBarVisibility
+    
+    @State private var showSearch = false
+    @FocusState private var isSearchFieldFocused: Bool
     
     var body: some View {
         content
+            .searchable(
+                text: $viewModel.searchQuery,
+                isPresented: $showSearch,
+                placement: .toolbar
+            )
             .withCustomNavigationTitle(title: viewModel.navTitle)
             .navigationAccessibility(title: viewModel.navTitle)
             .onAppear(perform: handleAppear)
