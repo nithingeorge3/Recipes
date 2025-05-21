@@ -22,6 +22,8 @@ final class AppTabCoordinatorFactory: AppTabCoordinatorFactoryType {
         let favoritesEventService = FavoritesEventService()
         let config = AppConfiguration()
         
+        print(config.recipeBaseURL)
+        
         let recipeCoordinatorFactory = RecipeListCoordinatorFactory()
         let recipeCoordinator = await recipeCoordinatorFactory.makeRecipeListCoordinator(
             container: container,

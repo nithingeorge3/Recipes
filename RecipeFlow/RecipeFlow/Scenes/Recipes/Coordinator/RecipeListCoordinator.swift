@@ -74,7 +74,7 @@ public final class RecipeListCoordinator: ObservableObject, Coordinator, TabItem
     }
     
     public func start() -> some View {
-        RecipeListCoordinatorView(coordinator: self)
+        AnyView( RecipeListCoordinatorView(coordinator: self))
     }
     
     func addSubscriptions() {

@@ -10,3 +10,4 @@
 
 RECIPE_BASE_URL = tasty.p.rapidapi.com
 RECIPE_END_POINT = /recipes/list
+BUNDLE_IDENTIFIER = com.recipe.staging
