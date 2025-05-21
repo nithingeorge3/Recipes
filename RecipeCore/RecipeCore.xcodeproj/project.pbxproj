@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		280397B22DDE155A00C6E6D0 /* RecipeData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28DB89DF2DDB61AF00FD3253 /* RecipeData.framework */; };
+		280397B32DDE155A00C6E6D0 /* RecipeData.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 28DB89DF2DDB61AF00FD3253 /* RecipeData.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		28DB88DE2DDB4DE300FD3253 /* RecipeCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28DB88D32DDB4DE300FD3253 /* RecipeCore.framework */; };
-		28DB89E02DDB61AF00FD3253 /* RecipeData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28DB89DF2DDB61AF00FD3253 /* RecipeData.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -20,6 +21,20 @@
 			remoteInfo = RecipeCore;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		280397B42DDE155A00C6E6D0 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				280397B32DDE155A00C6E6D0 /* RecipeData.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		28DB88D32DDB4DE300FD3253 /* RecipeCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RecipeCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -58,7 +73,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				28DB89E02DDB61AF00FD3253 /* RecipeData.framework in Frameworks */,
+				280397B22DDE155A00C6E6D0 /* RecipeData.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -121,6 +136,7 @@
 				28DB88CF2DDB4DE300FD3253 /* Sources */,
 				28DB88D02DDB4DE300FD3253 /* Frameworks */,
 				28DB88D12DDB4DE300FD3253 /* Resources */,
+				280397B42DDE155A00C6E6D0 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
