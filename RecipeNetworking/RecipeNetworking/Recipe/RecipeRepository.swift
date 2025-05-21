@@ -8,6 +8,7 @@
 import Combine
 import Foundation
 import RecipeDomain
+import RecipeCore
 
 //we can split protocol. backend and SwiftData fetch
 public protocol RecipeRepositoryType: Sendable {
@@ -28,26 +29,31 @@ final class RecipeRepository: RecipeRepositoryType {
     private let apiKeyProvider: APIKeyProviderType
     private let recipeSDService: RecipeSDServiceType
     private let paginationSDService: PaginationSDServiceType
+    private let configuration: AppConfigurableRecipeType
     
     init(
         parser: ServiceParserType,
         requestBuilder: RequestBuilderType,
         apiKeyProvider: APIKeyProviderType,
         recipeSDService: RecipeSDServiceType,
-        paginationSDService: PaginationSDServiceType
+        paginationSDService: PaginationSDServiceType,
+        configuration: AppConfigurableRecipeType
     ) {
         self.parser = parser
         self.requestBuilder = requestBuilder
         self.apiKeyProvider = apiKeyProvider
         self.recipeSDService = recipeSDService
         self.paginationSDService = paginationSDService
+        self.configuration = configuration
     }
     
     func fetchRecipes(endPoint: EndPoint) async throws -> (inserted: [RecipeModel], updated: [RecipeModel]) {
         do {
             let apiKey = try await apiKeyProvider.getRecipeAPIKey()
             
-            let (data, response) = try await URLSession.shared.data(for: requestBuilder.buildRequest(url: endPoint.url(), apiKey: apiKey))
+            let url = try endPoint.url(baseURL: configuration.recipeBaseURL, endPoint: configuration.recipeEndPoint)
+            
+            let (data, response) = try await URLSession.shared.data(for: requestBuilder.buildRequest(url: url, apiKey: apiKey))
             
             let dtos = try await parser.parse(
                 data: data,
@@ -113,60 +119,5 @@ extension RecipeRepository {
 extension RecipeRepository {
     func searchRecipes(query: String, startIndex: Int, pageSize: Int) async throws -> [RecipeModel] {
         try await recipeSDService.searchRecipes(query: query, startIndex: startIndex, pageSize: pageSize)
-    }
-}
-
-//RecipeListRepository added for combine based operation. We can add combine with RecipeRepositoryType.
-public protocol RecipeListRepositoryType {
-    func fetchRecipes(endPoint: EndPoint) -> Future<[RecipeModel], Error>
-}
-
-final class RecipeListRepository: RecipeListRepositoryType {
-    private let parser: ServiceParserType
-    private let requestBuilder: RequestBuilderType
-    private var cancellables: Set<AnyCancellable> = []
-    
-    init(
-        parser: ServiceParserType,
-        requestBuilder: RequestBuilderType
-    ) {
-        self.parser = parser
-        self.requestBuilder = requestBuilder
-    }
-    
-    func fetchRecipes(endPoint: EndPoint) -> Future<[RecipeModel], Error> {
-        Future<[RecipeModel], Error> { [weak self] promise in
-            guard let self = self else {
-                return promise(.failure(NetworkError.contextDeallocated))
-            }
-            
-            do {
-                //We ned to save this in keychain. same as Async/await impliemntataion
-                let apiKey = "53053d2c99msha938f9283114fdep1f1931jsn24fc750558f7"
-                let url = try endPoint.url()
-                URLSession.shared.dataTaskPublisher(for: requestBuilder.buildRequest(url: url, apiKey: apiKey))
-                    .mapError { error -> Error in
-                        return NetworkError.responseError
-                    }
-                    .flatMap { [weak self] output -> AnyPublisher<RecipeResponseDTO, Error> in
-                        guard let self = self else {
-                            return Fail(error: NetworkError.contextDeallocated)
-                                .eraseToAnyPublisher()
-                        }
-                        let parseResult = self.parser.parse(data: output.data, response: output.response, type: RecipeResponseDTO.self)
-                        return parseResult
-                    }
-                    .sink(receiveCompletion: { completion in
-                        if case .failure(let error) = completion { promise(.failure(error))
-                        }
-                    }, receiveValue:  { decodedData in
-                        let domains = decodedData.results.map { RecipeModel(from: $0) }
-                        promise(.success(domains))
-                    })
-                    .store(in: &self.cancellables)
-            } catch  {
-                return promise(.failure(NetworkError.unKnown))
-            }
-        }
     }
 }

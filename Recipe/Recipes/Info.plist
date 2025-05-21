@@ -2,13 +2,9 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>SchemeUserState</key>
-	<dict>
-		<key>RecipeCore.xcscheme_^#shared#^_</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>6</integer>
-		</dict>
-	</dict>
+	<key>RECIPE_BASE_URL</key>
+	<string>${RECIPE_BASE_URL}</string>
+	<key>RECIPE_END_POINT</key>
+	<string>${RECIPE_END_POINT}</string>
 </dict>
 </plist>

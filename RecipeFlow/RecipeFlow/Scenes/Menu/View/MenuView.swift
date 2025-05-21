@@ -17,30 +17,21 @@ struct MenuView: View {
     }
     
     var body: some View {
-        NavigationSplitView {
-            List(viewModel.items, selection: $selectedItem) { item in
-                switch item.type {
-                case .navigation:
-                    NavigationLink(item.title, value: item)
-                        .font(.headline)
-                        .padding(.vertical, 8)
-                case .action:
-                    SideBarActionButton(title: item.title) {
-                        viewModel.showDeleteConfirmation = true
-                    }
+        List(viewModel.items, selection: $selectedItem) { item in
+            switch item.type {
+            case .navigation:
+                NavigationLink(item.title, value: item)
+                    .font(.headline)
+                    .padding(.vertical, 8)
+            case .action:
+                SideBarActionButton(title: item.title) {
+                    viewModel.showDeleteConfirmation = true
                 }
             }
-            .navigationTitle("More")
-            .listStyle(.sidebar)
-            .navigationSplitViewColumnWidth(200)
-        } detail: {
-            if let selectedItem {
-                destinationView(for: selectedItem)
-            } else {
-                Text("Select an item")
-                    .foregroundStyle(.secondary)
-            }
         }
+        .navigationTitle("More")
+        .listStyle(.sidebar)
+        .navigationSplitViewColumnWidth(200)
         .alert("Delete API Key?", isPresented: $viewModel.showDeleteConfirmation) {
             Button("Cancel", role: .cancel) { }
             Button("Delete", role: .destructive) {
@@ -70,28 +61,12 @@ struct MenuView: View {
             .foregroundColor(title == "Delete API Key" ? .red : .primary)
         }
     }
-    
-    @ViewBuilder
-    private func destinationView(for item: SidebarItem) -> some View {
-        switch item.title {
-        case "Recipe List":
-            recipesListView()
-        default:
-            EmptyView()
-        }
-    }
-    //added this code for showing combine. This is not a production code. I need to move the code to coordinator and creation from factory
-    private func recipesListView() -> some View {
-        let service = RecipeListServiceFactory.makeRecipeListService()
-        let viewModel = RecipesViewModel(service: service)
-        return RecipesViewFactory().makeRecipesListView(viewModel: viewModel)
-    }
 }
 
 // MARK: - Previews
 #if DEBUG
 #Preview {
-    let items = [SidebarItem(title: "Recipe List", type: .navigation)]
+    let items = [SidebarItem(title: "Delete Key", type: .action)]
     MenuView(viewModel: MenuViewModel(service: RecipeServiceFactory.makeRecipeKeyService(), items: items))
 }
 #endif

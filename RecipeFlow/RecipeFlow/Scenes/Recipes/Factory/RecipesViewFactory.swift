@@ -11,10 +11,6 @@ protocol RecipesViewFactoryType {
     @MainActor func makeRecipesGridView<ViewModel: RecipesListViewModelType>(
         viewModel: ViewModel
     ) -> RecipesListView<ViewModel>
-    
-    @MainActor func makeRecipesListView<ViewModel: RecipesViewModelType>(
-        viewModel: ViewModel
-    ) -> RecipesView<ViewModel>
 }
 
 final class RecipesViewFactory: RecipesViewFactoryType {
@@ -22,11 +18,5 @@ final class RecipesViewFactory: RecipesViewFactoryType {
         viewModel: ViewModel
     ) -> RecipesListView<ViewModel> {
         RecipesListView(viewModel: viewModel)
-    }
-    
-    @MainActor func makeRecipesListView<ViewModel: RecipesViewModelType>(
-        viewModel: ViewModel
-    ) -> RecipesView<ViewModel> {
-        RecipesView(viewModel: viewModel)
     }
 }

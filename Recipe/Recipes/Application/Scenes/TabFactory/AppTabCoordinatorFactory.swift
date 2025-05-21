@@ -9,6 +9,7 @@ import SwiftData
 import RecipeUI
 import RecipeFlow
 import RecipeNetworking
+import RecipeCore
 
 @MainActor
 protocol AppTabCoordinatorFactoryType {
@@ -19,19 +20,22 @@ final class AppTabCoordinatorFactory: AppTabCoordinatorFactoryType {
     func makeAppTabCoordinator(container: ModelContainer, tabBarVisibility: TabBarVisibility) async -> AppTabCoordinator {
         
         let favoritesEventService = FavoritesEventService()
+        let config = AppConfiguration()
         
         let recipeCoordinatorFactory = RecipeListCoordinatorFactory()
         let recipeCoordinator = await recipeCoordinatorFactory.makeRecipeListCoordinator(
             container: container,
             tabBarVisibility: tabBarVisibility,
-            favoritesEventService: favoritesEventService
+            favoritesEventService: favoritesEventService,
+            configuration: config
         )
         
         let favRecipeCoordinatorFactory = RecipeFavouritesCoordinatorFactory()
         let favRecipeCoordinator = await favRecipeCoordinatorFactory.make(
             container: container,
             tabBarVisibility: tabBarVisibility,
-            favoritesEventService: favoritesEventService
+            favoritesEventService: favoritesEventService,
+            configuration: config
         )
         
         let menuCoordinatorFactory = MenuCoordinatorFactory()

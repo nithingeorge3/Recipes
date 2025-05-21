@@ -7,13 +7,14 @@
 
 import Foundation
 import RecipeDomain
+import RecipeCore
 
 public protocol RecipeKeyServiceFactoryType {
     static func makeRecipeKeyService() -> RecipeKeyServiceType
 }
 
 public protocol RecipeServiceFactoryType {
-    static func makeRecipeService(recipeSDService: RecipeSDServiceType, paginationSDService: PaginationSDServiceType, favoritesEventService: FavoritesEventServiceType) -> RecipeServiceProvider
+    static func makeRecipeService(recipeSDService: RecipeSDServiceType, paginationSDService: PaginationSDServiceType, favoritesEventService: FavoritesEventServiceType, configuration: AppConfigurableRecipeType) -> RecipeServiceProvider
 }
 
 public final class RecipeServiceFactory: RecipeServiceFactoryType, RecipeKeyServiceFactoryType, @unchecked Sendable {
@@ -21,13 +22,19 @@ public final class RecipeServiceFactory: RecipeServiceFactoryType, RecipeKeyServ
     private static let serviceParser: ServiceParserType = ServiceParser()
     private static let requestBuilder: RequestBuilderType = RequestBuilder()
     
-    public static func makeRecipeService(recipeSDService: RecipeSDServiceType, paginationSDService: PaginationSDServiceType, favoritesEventService: FavoritesEventServiceType) -> RecipeServiceProvider {
+    public static func makeRecipeService(
+        recipeSDService: RecipeSDServiceType,
+        paginationSDService: PaginationSDServiceType,
+        favoritesEventService: FavoritesEventServiceType,
+        configuration: AppConfigurableRecipeType
+    ) -> RecipeServiceProvider {
         let recipeRepository: RecipeRepositoryType = RecipeRepository(
             parser: serviceParser,
             requestBuilder: requestBuilder,
             apiKeyProvider: apiKeyProvider,
             recipeSDService: recipeSDService,
-            paginationSDService: paginationSDService
+            paginationSDService: paginationSDService,
+            configuration: configuration
         )
         return RecipeService(recipeRepository: recipeRepository, favoritesEventService: favoritesEventService)
     }
@@ -35,24 +42,5 @@ public final class RecipeServiceFactory: RecipeServiceFactoryType, RecipeKeyServ
     public static func makeRecipeKeyService() -> any RecipeKeyServiceType {
         let recipeKeyRepo: RecipeKeyRepositoryType = RecipeKeyRepository(keyChainManager: KeyChainManager.shared)
         return RecipeKeyService(recipeKeyRepo: recipeKeyRepo)
-    }
-}
-
-//just added for showing combine. In production I will only use Async/await or combine based on the decision
-public protocol RecipeServiceListFactoryType {
-    static func makeRecipeListService() -> RecipeListServiceType
-}
-
-public final class RecipeListServiceFactory: RecipeServiceListFactoryType {
-    //Need to inject same as above function RecipeServiceFactory.makeRecipeService
-    private static let serviceParser: ServiceParserType = ServiceParser()
-    private static let requestBuilder: RequestBuilderType = RequestBuilder()
-    
-    public static func makeRecipeListService() -> RecipeListServiceType {
-        let recipeRepository: RecipeListRepositoryType = RecipeListRepository(
-            parser: serviceParser,
-            requestBuilder: requestBuilder
-        )
-        return RecipeListServiceImp(recipeRepository: recipeRepository)
     }
 }

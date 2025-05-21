@@ -1,0 +1,12 @@
+//
+//  Recipe-Debug.xcconfig
+//  Recipes
+//
+//  Created by Nitin George on 21/05/2025.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+RECIPE_BASE_URL = tasty.p.rapidapi.com
+RECIPE_END_POINT = /recipes/list

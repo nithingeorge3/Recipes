@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2840AD6D2DDDE21C000B20A5 /* RecipeCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2840AD6C2DDDE21C000B20A5 /* RecipeCore.framework */; };
+		2840AD6E2DDDE21C000B20A5 /* RecipeCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2840AD6C2DDDE21C000B20A5 /* RecipeCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2845C0232DDB3E23007EA66D /* RecipeNetworking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2845C0182DDB3E23007EA66D /* RecipeNetworking.framework */; };
 		28DB8A2E2DDB67E200FD3253 /* RecipeDomain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28DB8A2D2DDB67E200FD3253 /* RecipeDomain.framework */; };
 		28DB8A2F2DDB67E200FD3253 /* RecipeDomain.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 28DB8A2D2DDB67E200FD3253 /* RecipeDomain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -30,6 +32,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				28DB8A2F2DDB67E200FD3253 /* RecipeDomain.framework in Embed Frameworks */,
+				2840AD6E2DDDE21C000B20A5 /* RecipeCore.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -37,6 +40,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2840AD6C2DDDE21C000B20A5 /* RecipeCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RecipeCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2845C0182DDB3E23007EA66D /* RecipeNetworking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RecipeNetworking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2845C0222DDB3E23007EA66D /* RecipeNetworkingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RecipeNetworkingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		28DB8A2D2DDB67E200FD3253 /* RecipeDomain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RecipeDomain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -74,6 +78,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				28DB8A2E2DDB67E200FD3253 /* RecipeDomain.framework in Frameworks */,
+				2840AD6D2DDDE21C000B20A5 /* RecipeCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -110,6 +115,7 @@
 		28DB8A2C2DDB67E200FD3253 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2840AD6C2DDDE21C000B20A5 /* RecipeCore.framework */,
 				28DB8A2D2DDB67E200FD3253 /* RecipeDomain.framework */,
 			);
 			name = Frameworks;
@@ -259,7 +265,7 @@
 		2845C02C2DDB3E23007EA66D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -291,7 +297,7 @@
 		2845C02D2DDB3E23007EA66D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
