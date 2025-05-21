@@ -162,50 +162,118 @@
             endingLineNumber = "47"
             landmarkName = "testInvalidRecipeFetch()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "78B15E15-B13E-49FA-A718-CE95901954B9 - 9b83c3fa4d560dd4"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for RecipeFlowTests.RecipeDetailViewModelTests.testInvalidRecipeFetch() async -&gt; ()"
-                  moduleName = "RecipeFlowTests"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/nitingeorge/Documents/SourceCode/Projects2025/Recipe/RecipeFlow/RecipeFlowTests/Scenes/Recipe/RecipeDetailViewModelTests.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "47"
-                  endingLineNumber = "47">
-               </Location>
-               <Location
-                  uuid = "78B15E15-B13E-49FA-A718-CE95901954B9 - 8779205d7f3798eb"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(4) await resume partial function for RecipeFlowTests.RecipeDetailViewModelTests.testInvalidRecipeFetch() async -&gt; ()"
-                  moduleName = "RecipeFlowTests"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/nitingeorge/Documents/SourceCode/Projects2025/Recipe/RecipeFlow/RecipeFlowTests/Scenes/Recipe/RecipeDetailViewModelTests.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "47"
-                  endingLineNumber = "47">
-               </Location>
-               <Location
-                  uuid = "78B15E15-B13E-49FA-A718-CE95901954B9 - 4475d37ca278d1d6"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(5) suspend resume partial function for RecipeFlowTests.RecipeDetailViewModelTests.testInvalidRecipeFetch() async -&gt; ()"
-                  moduleName = "RecipeFlowTests"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/nitingeorge/Documents/SourceCode/Projects2025/Recipe/RecipeFlow/RecipeFlowTests/Scenes/Recipe/RecipeDetailViewModelTests.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "47"
-                  endingLineNumber = "47">
-               </Location>
-            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3E4AE341-198A-4A50-BA85-FC3377C478E1"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RecipeFlow/RecipeSnapshotTests/RecipeDetailViewSnapTests.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "35"
+            endingLineNumber = "35"
+            landmarkName = "testDefaultDetailView()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "BB459D67-8D23-471F-A2E3-846DFA1FE303"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RecipeFlow/RecipeFlow/Scenes/RecipeDetail/View/RecipeDetailView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "28"
+            endingLineNumber = "28"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "8AE7563E-EF7B-419C-AA6C-247DEDA8232E"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RecipeFlow/RecipeFlow/Scenes/RecipeDetail/View/RecipeDetailView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "31"
+            endingLineNumber = "31"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C8172393-0DE7-46CF-96DF-2911E29BAB85"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RecipeFlow/RecipeFlow/Scenes/RecipeDetail/View/RecipeDetailView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "26"
+            endingLineNumber = "26"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "EAF2D142-7E22-4C7E-AA6C-D31C17134570"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RecipeFlow/RecipeFlow/Scenes/RecipeDetail/ViewModel/RecipeDetailViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "94"
+            endingLineNumber = "94"
+            landmarkName = "send(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "35D12CB0-6C5B-472A-93B4-22A540B3F1CE"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RecipeFlow/RecipeFlow/Scenes/RecipeDetail/ViewModel/RecipeDetailViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "96"
+            endingLineNumber = "96"
+            landmarkName = "send(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F8B66A32-21C3-404B-836F-4CBCF1F48CCD"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RecipeFlow/RecipeSnapshotTests/RecipeDetailViewSnapTests.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "39"
+            endingLineNumber = "39"
+            landmarkName = "testDefaultDetailView()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

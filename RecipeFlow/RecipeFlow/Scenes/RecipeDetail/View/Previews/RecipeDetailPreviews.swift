@@ -30,8 +30,7 @@ import Combine
 }
 
 #Preview("Favorite State") {
-    let vm = PreviewDetailViewModel.fullRecipe
-    vm.recipe?.isFavorite.toggle()
+    let vm = PreviewDetailViewModel.fullFavRecipe
     return RecipeDetailView(viewModel: vm)
             .environmentObject(TabBarVisibility())
 }
@@ -64,6 +63,8 @@ public class PreviewDetailViewModel: RecipeDetailViewModelType {
         self.recipe = recipe
         self.recipeID = recipe.id
         self.service = MockPreviewService()
+        
+        self.state = .loaded(recipe)
     }
     
     @MainActor
@@ -105,6 +106,22 @@ extension PreviewDetailViewModel {
                 originalVideoURL: "https://s3.amazonaws.com/video-api-prod/assets/a0e1b07dc71c4ac6b378f24493ae2d85/FixedFBFinal.mp4",
                 yields: "Serve 4",
                 isFavorite: false,
+                ratings: UserRatings(id: 1, countNegative: 169, countPositive: 3525, score: 0.95)
+            )
+        )
+    }
+    
+    static var fullFavRecipe: PreviewDetailViewModel {
+        PreviewDetailViewModel(
+            recipe: Recipe(
+                id: 1,
+                name: "Indian Chicken Curry",
+                description: "Indian Chicken Curry is a rich, flavorful dish made with tender chicken simmered in a spiced tomato and onion gravy. It’s infused with aromatic Indian spices, garlic, ginger, and creamy textures, making it perfect to pair with rice or naan bread.",
+                country: .ind,
+                thumbnailURL: "https://img.buzzfeed.com/thumbnailer-prod-us-east-1/45b4efeb5d2c4d29970344ae165615ab/FixedFBFinal.jpg",
+                originalVideoURL: "https://s3.amazonaws.com/video-api-prod/assets/a0e1b07dc71c4ac6b378f24493ae2d85/FixedFBFinal.mp4",
+                yields: "Serve 4",
+                isFavorite: true,
                 ratings: UserRatings(id: 1, countNegative: 169, countPositive: 3525, score: 0.95)
             )
         )
