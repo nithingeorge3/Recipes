@@ -69,6 +69,20 @@
 			);
 			target = 2845C0AB2DDB3E76007EA66D /* RecipeFlow */;
 		};
+		28B2B3A72DDE450D001AB4C7 /* Exceptions for "RecipeSnapshotTests" folder in "RecipeFlow" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				RecipeListViewSnapTests.swift,
+			);
+			target = 2845C0AB2DDB3E76007EA66D /* RecipeFlow */;
+		};
+		28B2B3A92DDE4510001AB4C7 /* Exceptions for "RecipeSnapshotTests" folder in "RecipeFlowTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				RecipeListViewSnapTests.swift,
+			);
+			target = 2845C0B52DDB3E76007EA66D /* RecipeFlowTests */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -83,6 +97,15 @@
 		2845C0BA2DDB3E76007EA66D /* RecipeFlowTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = RecipeFlowTests;
+			sourceTree = "<group>";
+		};
+		28B2B22D2DDE4462001AB4C7 /* RecipeSnapshotTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				28B2B3A72DDE450D001AB4C7 /* Exceptions for "RecipeSnapshotTests" folder in "RecipeFlow" target */,
+				28B2B3A92DDE4510001AB4C7 /* Exceptions for "RecipeSnapshotTests" folder in "RecipeFlowTests" target */,
+			);
+			path = RecipeSnapshotTests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -119,6 +142,7 @@
 			children = (
 				2845C0AE2DDB3E76007EA66D /* RecipeFlow */,
 				2845C0BA2DDB3E76007EA66D /* RecipeFlowTests */,
+				28B2B22D2DDE4462001AB4C7 /* RecipeSnapshotTests */,
 				28DB88802DDB4D6B00FD3253 /* Frameworks */,
 				2845C0AD2DDB3E76007EA66D /* Products */,
 			);
@@ -174,6 +198,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				2845C0AE2DDB3E76007EA66D /* RecipeFlow */,
+				28B2B22D2DDE4462001AB4C7 /* RecipeSnapshotTests */,
 			);
 			name = RecipeFlow;
 			packageProductDependencies = (

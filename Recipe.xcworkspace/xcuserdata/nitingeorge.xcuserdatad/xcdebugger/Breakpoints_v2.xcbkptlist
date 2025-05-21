@@ -148,5 +148,65 @@
             landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "78B15E15-B13E-49FA-A718-CE95901954B9"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RecipeFlow/RecipeFlowTests/Scenes/Recipe/RecipeDetailViewModelTests.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "47"
+            endingLineNumber = "47"
+            landmarkName = "testInvalidRecipeFetch()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "78B15E15-B13E-49FA-A718-CE95901954B9 - 9b83c3fa4d560dd4"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for RecipeFlowTests.RecipeDetailViewModelTests.testInvalidRecipeFetch() async -&gt; ()"
+                  moduleName = "RecipeFlowTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nitingeorge/Documents/SourceCode/Projects2025/Recipe/RecipeFlow/RecipeFlowTests/Scenes/Recipe/RecipeDetailViewModelTests.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "47"
+                  endingLineNumber = "47">
+               </Location>
+               <Location
+                  uuid = "78B15E15-B13E-49FA-A718-CE95901954B9 - 8779205d7f3798eb"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) await resume partial function for RecipeFlowTests.RecipeDetailViewModelTests.testInvalidRecipeFetch() async -&gt; ()"
+                  moduleName = "RecipeFlowTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nitingeorge/Documents/SourceCode/Projects2025/Recipe/RecipeFlow/RecipeFlowTests/Scenes/Recipe/RecipeDetailViewModelTests.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "47"
+                  endingLineNumber = "47">
+               </Location>
+               <Location
+                  uuid = "78B15E15-B13E-49FA-A718-CE95901954B9 - 4475d37ca278d1d6"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(5) suspend resume partial function for RecipeFlowTests.RecipeDetailViewModelTests.testInvalidRecipeFetch() async -&gt; ()"
+                  moduleName = "RecipeFlowTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nitingeorge/Documents/SourceCode/Projects2025/Recipe/RecipeFlow/RecipeFlowTests/Scenes/Recipe/RecipeDetailViewModelTests.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "47"
+                  endingLineNumber = "47">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>
