@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		28039AD52DDE1AEC00C6E6D0 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 28039AD42DDE1AEC00C6E6D0 /* Kingfisher */; };
+		28290BE32DDE3D4B00CB3F14 /* InlineSnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 28290BE22DDE3D4B00CB3F14 /* InlineSnapshotTesting */; };
+		28290BE52DDE3D4B00CB3F14 /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 28290BE42DDE3D4B00CB3F14 /* SnapshotTesting */; };
 		286812762DDB713A009CB591 /* RecipeFlow.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 286812752DDB713A009CB591 /* RecipeFlow.framework */; };
 		286812772DDB713A009CB591 /* RecipeFlow.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 286812752DDB713A009CB591 /* RecipeFlow.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2886A2902DDC7E8A000ABF6E /* RecipeData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2868125E2DDB694F009CB591 /* RecipeData.framework */; };
@@ -72,14 +74,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		2858F41E2D7C4C6200F211D0 /* Exceptions for "SnapshotTests" folder in "RecipesTests" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				"Extensions/SwiftUI+Snapshot.swift",
-				Recipe/RecipeDetailViewTests.swift,
-			);
-			target = 282279BA2D73DE5700583E2C /* RecipesTests */;
-		};
 		289615792DDDD497007A77AD /* Exceptions for "Recipes" folder in "Recipes" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -90,14 +84,6 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		281E0A132D7C47D900217DE5 /* SnapshotTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				2858F41E2D7C4C6200F211D0 /* Exceptions for "SnapshotTests" folder in "RecipesTests" target */,
-			);
-			path = SnapshotTests;
-			sourceTree = "<group>";
-		};
 		282279AD2D73DE5500583E2C /* Recipes */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -136,6 +122,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28290BE32DDE3D4B00CB3F14 /* InlineSnapshotTesting in Frameworks */,
+				28290BE52DDE3D4B00CB3F14 /* SnapshotTesting in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -155,7 +143,6 @@
 				282279AD2D73DE5500583E2C /* Recipes */,
 				282279BE2D73DE5700583E2C /* RecipesTests */,
 				282279C82D73DE5700583E2C /* RecipesUITests */,
-				281E0A132D7C47D900217DE5 /* SnapshotTests */,
 				28227A492D73E8E200583E2C /* Frameworks */,
 				282279AC2D73DE5500583E2C /* Products */,
 			);
@@ -233,6 +220,8 @@
 			);
 			name = RecipesTests;
 			packageProductDependencies = (
+				28290BE22DDE3D4B00CB3F14 /* InlineSnapshotTesting */,
+				28290BE42DDE3D4B00CB3F14 /* SnapshotTesting */,
 			);
 			productName = RecipesTests;
 			productReference = 282279BB2D73DE5700583E2C /* RecipesTests.xctest */;
@@ -252,7 +241,6 @@
 				282279C72D73DE5700583E2C /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				281E0A132D7C47D900217DE5 /* SnapshotTests */,
 				282279C82D73DE5700583E2C /* RecipesUITests */,
 			);
 			name = RecipesUITests;
@@ -298,6 +286,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				28039AD32DDE1AEC00C6E6D0 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				28290BE12DDE3D4B00CB3F14 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 282279AC2D73DE5500583E2C /* Products */;
@@ -818,6 +807,14 @@
 				minimumVersion = 8.3.2;
 			};
 		};
+		28290BE12DDE3D4B00CB3F14 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-snapshot-testing.git";
+			requirement = {
+				kind = exactVersion;
+				version = 1.16.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -825,6 +822,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 28039AD32DDE1AEC00C6E6D0 /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
+		};
+		28290BE22DDE3D4B00CB3F14 /* InlineSnapshotTesting */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 28290BE12DDE3D4B00CB3F14 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */;
+			productName = InlineSnapshotTesting;
+		};
+		28290BE42DDE3D4B00CB3F14 /* SnapshotTesting */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 28290BE12DDE3D4B00CB3F14 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */;
+			productName = SnapshotTesting;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
