@@ -39,6 +39,8 @@ class RecipeListViewModel: RecipesListViewModelType {
     let service: RecipeServiceProvider
     var remotePagination: RemotePaginationHandlerType
     var localPagination: LocalPaginationHandlerType
+    var searchPagination: LocalPaginationHandlerType
+    
     var recipeActionSubject = PassthroughSubject<RecipeAction, Never>()
     
     private var updateTask: Task<Void, Never>?
@@ -61,6 +63,8 @@ class RecipeListViewModel: RecipesListViewModelType {
             searchTask = Task {
                 try? await Task.sleep(for: .milliseconds(300))
                 guard !Task.isCancelled else { return }
+                searchPagination.newQuery(searchQuery)
+                recipes.removeAll()
                 await searchRecipes()
             }
         }
@@ -71,12 +75,13 @@ class RecipeListViewModel: RecipesListViewModelType {
     init(
         service: RecipeServiceProvider,
         remotePagination: RemotePaginationHandlerType,
-        localPagination: LocalPaginationHandlerType
+        localPagination: LocalPaginationHandlerType,
+        searchPagination: LocalPaginationHandlerType
     ) {
         self.service = service
         self.remotePagination = remotePagination
         self.localPagination = localPagination
-        print("*** service: \(service)")
+        self.searchPagination = searchPagination
     }
     
     func send(_ action: RecipeAction) async {
@@ -121,13 +126,19 @@ class RecipeListViewModel: RecipesListViewModelType {
         
         // Fall back to SwiftData search
         do {
+            let start = searchPagination.currentOffset
+            let size  = searchPagination.pageSize
+
             let results = try await service.searchRecipes(
                 query: searchQuery,
-                startIndex: 0,
-                pageSize: localPagination.pageSize
+                startIndex: start,
+                pageSize: size
             )
             
-            recipes = results.map { Recipe(from: $0) }
+//            recipes = results.map { Recipe(from: $0) }
+            recipes.append(contentsOf: results.map(Recipe.init))
+            searchPagination.incrementOffset()
+            searchPagination.updateHasMoreData(receivedCount: results.count)
             state = recipes.isEmpty ? .empty(message: "No matches found") : .success
         } catch {
             state = .failed(error: error)

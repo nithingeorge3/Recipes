@@ -63,11 +63,13 @@ public final class RecipeListCoordinator: ObservableObject, Coordinator, TabItem
 
         let remotePagination: RemotePaginationHandlerType = RemotePaginationHandler()
         let localPagination: LocalPaginationHandlerType = LocalPaginationHandler()
+        let searchPagination: LocalPaginationHandlerType =  SearchPaginationHandler()
         
         self.viewModel = await modelFactory.makeRecipeListViewModel(
             service: service,
             remotePagination: remotePagination,
-            localPagination: localPagination
+            localPagination: localPagination,
+            searchPagination: searchPagination
         )
 
         addSubscriptions()
