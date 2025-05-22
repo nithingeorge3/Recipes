@@ -114,36 +114,6 @@
             endingLineNumber = "79"
             landmarkName = "start()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "44F4ECB7-C58B-4D31-86BB-0DCB4EBA67D7 - 7647284eb3132bb4"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "RecipeFlow.RecipeListCoordinator.start() -&gt; some"
-                  moduleName = "RecipeFlow"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/nitingeorge/Documents/SourceCode/Projects2025/Recipe/RecipeFlow/RecipeFlow/Scenes/Recipes/Coordinator/RecipeListCoordinator.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "79"
-                  endingLineNumber = "79">
-               </Location>
-               <Location
-                  uuid = "44F4ECB7-C58B-4D31-86BB-0DCB4EBA67D7 - 3cc386440ce5c0aa"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "protocol witness for RecipeUI.Coordinator.start() -&gt; &#x3c4;_0_0.ContentViewType in conformance RecipeFlow.RecipeListCoordinator : RecipeUI.Coordinator in RecipeFlow"
-                  moduleName = "RecipeFlow"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/nitingeorge/Documents/SourceCode/Projects2025/Recipe/RecipeFlow/RecipeFlow/Scenes/Recipes/Coordinator/RecipeListCoordinator.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "79"
-                  endingLineNumber = "79">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -240,36 +210,6 @@
             endingLineNumber = "31"
             landmarkName = "body"
             landmarkType = "24">
-            <Locations>
-               <Location
-                  uuid = "8AE7563E-EF7B-419C-AA6C-247DEDA8232E - d8f14f41c5c8e856"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; SwiftUI._ConditionalContent&lt;SwiftUI._ConditionalContent&lt;SwiftUI.ProgressView&lt;SwiftUI.EmptyView, SwiftUI.EmptyView&gt;, &lt;&lt;opaque return type of RecipeFlow.RecipeDetailView.contentView(for: RecipeCore.Recipe) -&gt; some&gt;&gt;.0&gt;, RecipeUI.ErrorView&gt; in RecipeFlow.RecipeDetailView.body.getter : some"
-                  moduleName = "RecipeFlow"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/nitingeorge/Documents/SourceCode/Projects2025/Recipe/RecipeFlow/RecipeFlow/Scenes/RecipeDetail/View/RecipeDetailView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "31"
-                  endingLineNumber = "31">
-               </Location>
-               <Location
-                  uuid = "8AE7563E-EF7B-419C-AA6C-247DEDA8232E - 6d9d20069bc656d6"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; () in closure #1 () -&gt; SwiftUI._ConditionalContent&lt;SwiftUI._ConditionalContent&lt;SwiftUI.ProgressView&lt;SwiftUI.EmptyView, SwiftUI.EmptyView&gt;, &lt;&lt;opaque return type of RecipeFlow.RecipeDetailView.contentView(for: RecipeCore.Recipe) -&gt; some&gt;&gt;.0&gt;, RecipeUI.ErrorView&gt; in RecipeFlow.RecipeDetailView.body.getter : some"
-                  moduleName = "RecipeFlow"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/nitingeorge/Documents/SourceCode/Projects2025/Recipe/RecipeFlow/RecipeFlow/Scenes/RecipeDetail/View/RecipeDetailView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "32"
-                  endingLineNumber = "32">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -318,36 +258,6 @@
             endingLineNumber = "96"
             landmarkName = "send(_:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "35D12CB0-6C5B-472A-93B4-22A540B3F1CE - 122f2e1ef2ed2c1f"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "protocol witness for RecipeFlow.RecipeDetailViewModelType.send(RecipeFlow.RecipeDetailActions) async -&gt; () in conformance RecipeFlow.RecipeDetailViewModel : RecipeFlow.RecipeDetailViewModelType in RecipeFlow"
-                  moduleName = "RecipeFlow"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/nitingeorge/Documents/SourceCode/Projects2025/Recipe/RecipeFlow/RecipeFlow/Scenes/RecipeDetail/ViewModel/RecipeDetailViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "96"
-                  endingLineNumber = "96">
-               </Location>
-               <Location
-                  uuid = "35D12CB0-6C5B-472A-93B4-22A540B3F1CE - 95a9216a172f6dec"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) await resume partial function for protocol witness for RecipeFlow.RecipeDetailViewModelType.send(RecipeFlow.RecipeDetailActions) async -&gt; () in conformance RecipeFlow.RecipeDetailViewModel : RecipeFlow.RecipeDetailViewModelType in RecipeFlow"
-                  moduleName = "RecipeFlow"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/nitingeorge/Documents/SourceCode/Projects2025/Recipe/RecipeFlow/RecipeFlow/Scenes/RecipeDetail/ViewModel/RecipeDetailViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "96"
-                  endingLineNumber = "96">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

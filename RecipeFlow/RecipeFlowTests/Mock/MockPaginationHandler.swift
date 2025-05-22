@@ -68,3 +68,37 @@ final class MockFavoritesPaginationHandler: LocalPaginationHandlerType {
         totalItems = newValue
     }
 }
+
+final class MockSearchPaginationHandler: LocalPaginationHandlerType {
+    var currentOffset: Int = 0
+    var pageSize: Int = 20
+    var totalItems: Int = 40
+    var isLoading: Bool = false
+    var lastUpdated: Date = Date()
+    
+    var hasMoreData: Bool = true
+    var query: String = ""
+
+    func reset() {
+        currentOffset = 0
+        isLoading = false
+        hasMoreData = true
+    }
+
+    func incrementOffset() {
+        currentOffset += pageSize
+    }
+
+    func updateTotalItems(_ newValue: Int) {
+        totalItems = newValue
+    }
+
+    func newQuery(_ newValue: String) {
+        query = newValue
+        reset()
+    }
+
+    func updateHasMoreData(receivedCount: Int) {
+        hasMoreData = receivedCount == pageSize
+    }
+}

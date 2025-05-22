@@ -18,17 +18,20 @@ final class RecipeListViewModelTests: XCTestCase {
     private var service: RecipeServiceProvider!
     private var remotePagination: RemotePaginationHandlerType!
     private var localPagination: LocalPaginationHandlerType!
+    private var searchPagination: LocalPaginationHandlerType!
     
     override func setUp() {
         super.setUp()
         service = MockRecipeService()
         remotePagination = MockRemotePaginationHandler()
         localPagination = MockLocalPaginationHandler()
+        searchPagination = MockSearchPaginationHandler()
         
         viewModel = RecipeListViewModel(
             service: service,
             remotePagination: remotePagination,
-            localPagination: localPagination
+            localPagination: localPagination,
+            searchPagination: searchPagination
         )
     }
     
@@ -39,15 +42,6 @@ final class RecipeListViewModelTests: XCTestCase {
         remotePagination = nil
         localPagination = nil
     }
-    
-//    func testRecipeName() async {
-//        Task {
-////            await viewModel.loadInitialData()
-//            await viewModel.send(.refresh)
-//            print(viewModel.otherRecipes.count)
-//            print(viewModel.favoriteRecipes.count)
-//        }
-//    }
     
     func testInitialStateIsLoading() {
         XCTAssertEqual(viewModel.state, .loading, "Initial state should be .loading")
