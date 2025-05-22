@@ -7,12 +7,12 @@
 
 import Foundation
 
-public protocol AppConfigurableRecipeType {
+public protocol AppConfigurableRecipeType: Sendable {
     var recipeBaseURL: String { get }
     var recipeEndPoint: String { get }
 }
 
-public struct AppConfiguration: AppConfigurableRecipeType {
+public struct AppConfiguration: AppConfigurableRecipeType, @unchecked Sendable  {
     private enum ConfigurationKey: String {
         case recipeBaseURL = "RECIPE_BASE_URL"
         case recipeEndPoint = "RECIPE_END_POINT"
