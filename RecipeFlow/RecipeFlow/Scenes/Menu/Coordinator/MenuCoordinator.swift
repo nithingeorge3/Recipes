@@ -33,6 +33,6 @@ public final class MenuCoordinator: Coordinator, TabItemProviderType {
     }
     
     public func start() -> some View {
-        viewFactory.make(viewModel: viewModel)
+        AnyView(viewFactory.make(viewModel: viewModel))
     }
 }
