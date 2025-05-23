@@ -94,3 +94,21 @@ This ensures you're using the most up-to-date API key and avoids issues caused b
 3. RecipeDomain: Provides bridge between RecipeNetworking and RecipeDataStore. It avoiding teh circular dependency.
 4. RecipeFlow: Provide Recipe listing, detail, favourite and menu
 5. RecipeUI: provide tababar customisation and other reusable UI components.
+
+## Environment Configuration (.xcconfig)
+
+The app supports multiple environments using `.xcconfig` files for clean configuration management:
+
+| Target        | Config File                | Description               |
+|---------------|----------------------------|---------------------------|
+| `recipe`      | `Recipe-Release.xcconfig`  | Production environment    |
+| `recipeDev`   | `Recipe-Debug.xcconfig`    | Development environment   |
+| `recipeStg`   | `Recipe-Staging.xcconfig`  | Staging / QA environment  |
+
+Each configuration file defines:
+
+```xcconfig
+RECIPE_BASE_URL = tasty.p.rapidapi.com
+RECIPE_END_POINT = /recipes/list
+BUNDLE_IDENTIFIER = com.recipe.staging
+APP_NAME = RecipeStg
