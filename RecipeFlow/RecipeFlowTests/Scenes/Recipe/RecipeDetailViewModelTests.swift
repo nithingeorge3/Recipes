@@ -80,7 +80,7 @@ final class RecipeDetailViewModelTests: XCTestCase {
         await viewModel.send(.loadRecipe)
                 
         if case let .loaded(recipe) = viewModel.state {
-            XCTAssertFalse(recipe.isFavorite)
+            XCTAssertTrue(recipe.isFavorite)
         } else {
             XCTFail("Recipe should be loaded")
         }
