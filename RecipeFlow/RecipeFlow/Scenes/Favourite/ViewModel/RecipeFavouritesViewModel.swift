@@ -108,7 +108,6 @@ private extension RecipeFavouritesViewModel {
         service.favoriteDidChange
             .receive(on: DispatchQueue.main)
             .sink { [weak self] recipeID in
-                print(self?.recipes.count)
                 self?.updateRecipeFavoriteStatus(recipeID: recipeID)
             }
             .store(in: &cancellables)

@@ -43,9 +43,17 @@ final class RecipeFavouritesViewModelTests: XCTestCase {
     }
     
     func testAddFavorite_InsertsSorted() async {
-        _ = try? await service.updateFavouriteRecipe(1)
+        let mockService = service as! MockRecipeService
+        mockService.stubbedRecipes = [RecipeModel(id: 123, name: "Test")]
         
-        XCTAssertEqual(self.viewModel.recipes.first?.id, 1)
+        _ = try? await service.updateFavouriteRecipe(123)
+        
+        let expectation = XCTestExpectation()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            XCTAssertEqual(self.viewModel.recipes.first?.id, 123)
+            expectation.fulfill()
+        }
+        await fulfillment(of: [expectation], timeout: 1.0)
     }
 
     func testRemoveFavorite_UpdatesUIInstantly() async {
@@ -57,6 +65,11 @@ final class RecipeFavouritesViewModelTests: XCTestCase {
         
         _ = try? await service.updateFavouriteRecipe(123)
         
-        XCTAssertTrue(viewModel.recipes.isEmpty)
+        let expectation = XCTestExpectation()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            XCTAssertTrue(self.viewModel.recipes.isEmpty)
+            expectation.fulfill()
+        }
+        await fulfillment(of: [expectation], timeout: 1.0)
     }
 }
