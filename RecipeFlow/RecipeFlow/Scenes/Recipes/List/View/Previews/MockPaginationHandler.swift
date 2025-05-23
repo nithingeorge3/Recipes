@@ -5,10 +5,7 @@
 //  Created by Nitin George on 06/03/2025.
 //
 
-import XCTest
 import RecipeData
-
-@testable import RecipeFlow
 
 final class MockRemotePaginationHandler: RemotePaginationHandlerType {
     var currentPage: Int = 0
@@ -29,7 +26,7 @@ final class MockRemotePaginationHandler: RemotePaginationHandlerType {
 
 final class MockLocalPaginationHandler: LocalPaginationHandlerType {
     var currentOffset: Int = 0
-    var pageSize: Int = 0
+    var pageSize: Int = 20
     var totalItems: Int = 0
     var isLoading: Bool = false
     var lastUpdated: Date = Date()

@@ -12,6 +12,5 @@ enum Constants {
         static let listSpacing: CGFloat = 4
         static let listItemSize: CGFloat = 120
         static let fetchLimit: Int = 40
-        static let placeholderImage = "recipePlaceholder"
     }
 }

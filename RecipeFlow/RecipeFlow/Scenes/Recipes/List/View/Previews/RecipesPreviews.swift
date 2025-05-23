@@ -55,6 +55,7 @@ private class PreviewRecipeListViewModel: RecipesListViewModelType {
     var recipes: [Recipe] = []
     var remotePagination: RemotePaginationHandlerType
     var localPagination: LocalPaginationHandlerType
+    var searchPagination: LocalPaginationHandlerType
     var recipeActionSubject = PassthroughSubject<RecipeAction, Never>()
     
     var isEmpty: Bool {
@@ -63,8 +64,9 @@ private class PreviewRecipeListViewModel: RecipesListViewModelType {
     
     init(state: ResultState) {
         self.state = state
-        self.remotePagination = PreviewRemotePaginationHandler()
-        self.localPagination = PreviewLocalPaginationHandler()
+        self.remotePagination = MockRemotePaginationHandler()
+        self.localPagination = MockLocalPaginationHandler()
+        self.searchPagination = MockSearchPaginationHandler()
         
         configureForState(state)
     }
@@ -125,48 +127,6 @@ private class PreviewRecipeListViewModel: RecipesListViewModelType {
     }
     
     func loadInitialData() {
-    }
-}
-
-private class PreviewRemotePaginationHandler: RemotePaginationHandlerType {
-    var currentPage: Int = 1
-    var totalItems: Int = 50
-    var hasMoreData: Bool = true
-    var isLoading: Bool = false
-    var lastUpdated: Date = Date()
-    
-    func reset() {
-        currentPage = 1
-        totalItems = 50
-        isLoading = false
-    }
-        
-    func updateFromDomain(_ pagination: Pagination) {
-        totalItems = pagination.totalCount
-        currentPage = pagination.currentPage
-        lastUpdated = pagination.lastUpdated
-    }
-}
-
-private class PreviewLocalPaginationHandler: LocalPaginationHandlerType {
-    var currentOffset: Int = 0
-    var pageSize: Int = 10
-    var totalItems: Int = 25
-    var hasMoreData: Bool { currentOffset + pageSize < totalItems }
-    var isLoading: Bool = false
-    var lastUpdated: Date = Date()
-    
-    func reset() {
-        currentOffset = 0
-        isLoading = false
-    }
-    
-    func incrementOffset() {
-        currentOffset += pageSize
-    }
-    
-    func updateTotalItems(_ newValue: Int) {
-        totalItems = newValue
     }
 }
 #endif

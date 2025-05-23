@@ -29,7 +29,7 @@ struct RecipeGridImageView: View {
             if let url = recipe.thumbnailURL.validatedURL {
                 RecipeImageView(imageURL: url, width: gridSize, height: gridSize)
             } else {
-                Image(Constants.Recipe.placeholderImage)
+            Image(Constants.Recipe.placeholderImage, bundle: RecipeFlowBundle.bundle)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: gridSize, height: gridSize)

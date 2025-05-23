@@ -40,14 +40,8 @@ final class RecipeDetailViewModelTests: XCTestCase {
         
         await viewModel.send(.loadRecipe)
         
-        let expectation = XCTestExpectation(description: "Fetch completes")
-        DispatchQueue.main.async {
-            expectation.fulfill()
-        }
-        await fulfillment(of: [expectation], timeout: 1)
-        
         if case let .error(error) = viewModel.state {
-            XCTAssertEqual(error, RecipeError.notFound(recipeID: 1))
+            XCTAssertEqual(error, RecipeError.notFound(recipeID: invalidRecipeID))
         } else {
             XCTFail("Expected error state")
         }

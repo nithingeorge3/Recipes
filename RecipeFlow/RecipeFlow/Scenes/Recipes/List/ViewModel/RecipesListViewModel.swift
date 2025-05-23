@@ -20,6 +20,7 @@ protocol RecipesListViewModelType: AnyObject, Observable {
     var navTitle: String { get set }
     var remotePagination: RemotePaginationHandlerType { get }
     var localPagination: LocalPaginationHandlerType { get }
+    var searchPagination: LocalPaginationHandlerType { get }
     var recipeActionSubject: PassthroughSubject<RecipeAction, Never> { get  set }
     var state: ResultState { get }
     
@@ -234,7 +235,11 @@ private extension RecipeListViewModel {
                 pageSize: Constants.Recipe.fetchLimit
             )
         )
-                
+        
+        if results.inserted.isEmpty && results.updated.isEmpty && recipes.isEmpty {
+            state = .empty(message: emptyRecipeMessage)
+            return
+        }
         updateRemoteRecipes(with: results)
         try await updateRemotePagination()
     }

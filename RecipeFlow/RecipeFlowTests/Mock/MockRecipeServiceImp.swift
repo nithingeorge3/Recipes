@@ -18,6 +18,7 @@ final class MockRecipeService: RecipeServiceProvider, @unchecked Sendable {
     var favoriteDidChange: AnyPublisher<Int, Never> = Empty().eraseToAnyPublisher()
     var resultsJSON: String
     var stubbedRecipes: [RecipeModel] = []
+    var searchResults: [RecipeModel] = []
     var shouldThrowError: Bool = false
             
     init(mockJSON: String = JSONData.recipeValidJSON) {
@@ -81,7 +82,10 @@ final class MockRecipeService: RecipeServiceProvider, @unchecked Sendable {
     }
     
     func searchRecipes(query: String, startIndex: Int, pageSize: Int) async throws -> [RecipeModel] {
-        []
+        if shouldThrowError {
+            throw NetworkError.failedToDecode
+        }
+        return Array(searchResults.dropFirst(startIndex).prefix(pageSize).map { $0 })
     }
 }
 
