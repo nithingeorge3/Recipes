@@ -10,6 +10,52 @@
 
 <img src="./docs/mvvmc-architecture.png"  width="100%" height="100%">
 
+## Running the Project
+
+1. Clone the repo:
+   ```bash
+   git clone https://github.com/nithingeorge3/Recipes.git
+    ```
+      
+## 🔑 Recipe API Key
+
+The RapidAPI key has a monthly usage limitation, which might cause issues during API calls.  
+Please update the key if required.
+
+You can update the API key in the `APIKeyProvider.swift` file, located in the `RecipeNetworking` module. 
+
+### 🔄 Deleting a Stored (Old/Expired) API Key
+
+To delete a previously stored API key from the Keychain and ensure a clean state:
+
+1. Open the **Recipe App**
+2. Navigate to the **Menu** tab
+3. Tap **Delete API Key**
+4. Confirm by tapping **Delete**
+5. *(Optional)* Delete the app to fully clear local storage and database
+
+This ensures you're using the most up-to-date API key and avoids issues caused by outdated or expired keys.
+
+```swift
+// APIKeyProvider.swift
+    private func fetchKeyFromBackend() async throws -> String {
+        try await Task.sleep(nanoseconds: 1_000_000_000)
+        
+        let backendKey = "YOUR_API_KEY"
+
+        return backendKey
+    }
+```
+
+<details>
+<summary>ToDo – Secure Key Management Plan</summary>
+    •    🔐 Fetch API key securely from backend after login
+    •    Store API key in Keychain instead of hardcoding
+    •    Remove fallback key from source code
+    •    Load per-environment API key from .xcconfig files
+    •    [View RapidAPI Docs](https://rapidapi.com/apidojo/api/tasty/playground/)
+    
+
 ## Approches
 1. MVVM-C Architecture: Implemented MVVM-C using async/await.
 2. Modular Design: Created separate modules for Network, UI, Feature, DataStore(local persistence using SwiftData).

@@ -35,7 +35,14 @@ final class APIKeyProvider: APIKeyProviderType {
         keyChainManager.saveRecipeAPIKey(key)
     }
     
-    //ToDo: fetch key from backend + fetch key after login success. Right now I just hardcoded the recipeAPI key and saved to keyChain
+    /// ToDo:
+    /// - Fetch API key securely from backend after login success
+    /// - Remove hardcoded fallback key
+    /// - Save key to Keychain after retrieval
+    ///
+    /// Note:
+    /// If the current key has reached its usage limit,
+    /// you can temporarily use: "479405c3e3mshd17f0038daa3acap1aa647jsnc7a49c1e2e93"
     private func fetchKeyFromBackend() async throws -> String {
         try await Task.sleep(nanoseconds: 1_000_000_000)
         
