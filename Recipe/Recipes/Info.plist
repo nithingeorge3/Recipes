@@ -2,8 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CFBundleIdentifier</key>
-	<string>$(BUNDLE_IDENTIFIER)</string>
+	<key>APP_NAME</key>
+	<string>${APP_NAME}</string>
 	<key>RECIPE_BASE_URL</key>
 	<string>${RECIPE_BASE_URL}</string>
 	<key>RECIPE_END_POINT</key>
