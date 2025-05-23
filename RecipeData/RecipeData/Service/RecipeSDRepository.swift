@@ -166,7 +166,6 @@ extension RecipeSDRepository {
                 )
             }
 
-            //name CONTAINS[]
             let predicate = #Predicate<SDRecipe> { recipe in
                 recipe.name.localizedStandardContains(normalized)
             }
@@ -180,7 +179,7 @@ extension RecipeSDRepository {
         }
     }
 
-    //Trims + collapses internal whitespace.
+    //trims + collapses internal whitespace.
     private func normalize(_ raw: String) -> String {
         raw.trimmingCharacters(in: .whitespacesAndNewlines)
            .components(separatedBy: .whitespacesAndNewlines)

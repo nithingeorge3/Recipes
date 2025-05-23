@@ -36,10 +36,6 @@ public struct AppConfiguration: AppConfigurableRecipeType, @unchecked Sendable  
     
     public var recipeBaseURL: String {
         value(for: .recipeBaseURL)
-//        guard let url = URL(string: value(for: .recipeBaseURL)) else {
-//            fatalError("Recipe Base URL is invalid")
-//        }
-//        return url
     }
     
     public var recipeEndPoint: String {

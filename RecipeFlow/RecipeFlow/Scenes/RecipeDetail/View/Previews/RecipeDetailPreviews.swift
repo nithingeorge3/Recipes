@@ -12,7 +12,6 @@ import RecipeUI
 import RecipeCore
 import Combine
 
-// MARK: - Previews
 #if DEBUG
 #Preview("Default Detail") {
     RecipeDetailView(viewModel: PreviewDetailViewModel.fullRecipe)

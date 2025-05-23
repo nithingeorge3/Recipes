@@ -12,6 +12,6 @@ public enum Country: String, Codable {
     case us = "US"
     case ind = "IND"
     case gb = "GB"
-    case pl = "PL" //we can add more here
+    case pl = "PL"
     case unknown
 }

@@ -30,7 +30,6 @@ public final class SearchPaginationHandler: LocalPaginationHandlerType {
         hasMoreData = totalItems > 0
     }
     
-    /// Call whenever the user types a brand-new query
     public func newQuery(_ newValue: String) {
         query = newValue
         currentOffset = 0

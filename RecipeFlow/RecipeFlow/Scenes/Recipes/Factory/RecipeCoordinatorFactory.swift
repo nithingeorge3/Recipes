@@ -49,9 +49,6 @@ public final class RecipeListCoordinatorFactory: RecipeListCoordinatorFactoryTyp
             viewFactory: viewFactory,
             modelFactory: modelFactory,
             service: recipeService
-//            paginationSDService: paginationSDService,
-//            recipeSDService: recipeSDService,
-//            favoritesEventService: favoritesEventService
         )
     }
 }

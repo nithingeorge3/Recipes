@@ -27,7 +27,6 @@ final class RecipeService: RecipeServiceProvider, @unchecked Sendable {
     func fetchRecipes(endPoint: EndPoint) async throws(NetworkError) -> (inserted: [RecipeModel], updated: [RecipeModel]) {
         do {
             return try await recipeRepository.fetchRecipes(endPoint: endPoint)
-            //add business logic
         } catch {
             throw NetworkError.failedToDecode
         }

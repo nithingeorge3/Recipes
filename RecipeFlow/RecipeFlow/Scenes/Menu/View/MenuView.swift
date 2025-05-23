@@ -29,16 +29,16 @@ struct MenuView: View {
                 }
             }
         }
-        .navigationTitle("More")
+        .navigationTitle("More")// ToDo: move to VM
         .listStyle(.sidebar)
         .navigationSplitViewColumnWidth(200)
-        .alert("Delete API Key?", isPresented: $viewModel.showDeleteConfirmation) {
+        .alert("Delete API Key?", isPresented: $viewModel.showDeleteConfirmation) { // ToDo: strings move to VM
             Button("Cancel", role: .cancel) { }
             Button("Delete", role: .destructive) {
                 viewModel.deleteRecipeAPIKey()
             }
         } message: {
-            Text("The Recipe API Key will be deleted from Keychain.")
+            Text("The Recipe API Key will be deleted from Keychain.") // ToDo: move to VM
         }
     }
     

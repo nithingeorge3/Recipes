@@ -15,7 +15,6 @@ import Combine
 @testable import RecipeFlow
 
 final class MockRecipeService: RecipeServiceProvider, @unchecked Sendable {
-//    var favoriteDidChange: AnyPublisher<Int, Never> = Empty().eraseToAnyPublisher()
     var resultsJSON: String
     var stubbedRecipes: [RecipeModel] = []
     var searchResults: [RecipeModel] = []
@@ -102,7 +101,6 @@ final class MockRecipeService: RecipeServiceProvider, @unchecked Sendable {
             throw RecipeError.searchFailed("Search failed")
         }
         
-        // Filter by query if you want to test search logic
         let filtered = searchResults.filter { $0.name.localizedCaseInsensitiveContains(query) }
         return Array(filtered.dropFirst(startIndex).prefix(pageSize))
     }

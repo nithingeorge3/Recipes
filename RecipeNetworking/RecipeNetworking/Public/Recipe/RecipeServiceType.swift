@@ -33,8 +33,3 @@ public protocol RecipeLocalServiceType: Sendable {
     func fetchPagination(_ type: EntityType) async throws -> PaginationDomain
     func searchRecipes(query: String, startIndex: Int, pageSize: Int) async throws -> [RecipeModel]
 }
-
-//just added for showing combine
-public protocol RecipeListServiceType {
-    func fetchRecipes(endPoint: EndPoint) -> Future<[RecipeModel], Error>
-}

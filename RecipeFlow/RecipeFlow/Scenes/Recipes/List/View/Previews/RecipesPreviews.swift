@@ -12,7 +12,6 @@ import RecipeCore
 import RecipeData
 import RecipeDomain
 
-// MARK: - Previews
 #if DEBUG
 #Preview("Loading State") {
     RecipesListView(viewModel: PreviewRecipeListViewModel(state: .loading))

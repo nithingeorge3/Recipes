@@ -1,7 +1,7 @@
 import Foundation
 import Security
 
-//this keychain wrapper class I have refered from net
+//this keychain wrapper class I have copied from net
 final class KeychainWrapper {
     
     /// Stores (or updates) a String value in the keychain for a given key.
