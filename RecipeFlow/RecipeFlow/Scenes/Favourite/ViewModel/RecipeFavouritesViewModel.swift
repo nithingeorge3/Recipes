@@ -30,7 +30,6 @@ class RecipeFavouritesViewModel: RecipeFavouritesViewModelType {
     var state: ResultState = .loading
     let service: RecipeServiceProvider
     var recipeActionSubject = PassthroughSubject<RecipeAction, Never>()
-//    private var updateTask: Task<Void, Never>?
     var favouritePagination: LocalPaginationHandlerType
     private var emptyFavoritesMessage = "You haven’t added any favourite recipes."
     
@@ -74,11 +73,7 @@ class RecipeFavouritesViewModel: RecipeFavouritesViewModelType {
 }
 
 private extension RecipeFavouritesViewModel {
-    
     private func fetchLocalRecipes() async {
-        
-        print(favouritePagination.hasMoreData)
-        
         guard favouritePagination.hasMoreData else {
             if recipes.isEmpty {
                 favouritePagination.reset()
@@ -110,13 +105,6 @@ private extension RecipeFavouritesViewModel {
     }
     
     private func listeningFavoritesChanges() {
-        
-//        service.favoriteDidChange
-//            .sink { [weak self] recipeID in
-//                self?.updateRecipeFavoritesStatus(recipeID: recipeID)
-//            }
-//            .store(in: &cancellables)
-        
         service.favoriteDidChange
             .receive(on: DispatchQueue.main)
             .sink { [weak self] recipeID in
