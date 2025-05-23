@@ -17,7 +17,7 @@
    git clone https://github.com/nithingeorge3/Recipes.git
     ```
       
-## 🔑 Recipe API Key
+## Recipe API Key
 
 The RapidAPI key has a monthly usage limitation, which might cause issues during API calls.  
 Please update the key if required.
@@ -47,13 +47,12 @@ This ensures you're using the most up-to-date API key and avoids issues caused b
     }
 ```
 
-<details>
-<summary>ToDo – Secure Key Management Plan</summary>
-    •    🔐 Fetch API key securely from backend after login
-    •    Store API key in Keychain instead of hardcoding
-    •    Remove fallback key from source code
-    •    Load per-environment API key from .xcconfig files
-    •    [View RapidAPI Docs](https://rapidapi.com/apidojo/api/tasty/playground/)
+### ToDo – Secure Key Management Plan
+- 🔐 Fetch API key securely from backend after login
+- Store API key in Keychain instead of hardcoding
+- Remove fallback key from source code
+- Load per-environment API key from .xcconfig files
+- [View RapidAPI Docs](https://rapidapi.com/apidojo/api/tasty/playground/)
     
 
 ## Approches
@@ -86,7 +85,7 @@ This ensures you're using the most up-to-date API key and avoids issues caused b
 ### iPhone Screens
 <img src="./Images/Phone/recipeGrid1.png"  width="25%" height="25%">|<img src="./Images/Phone/recipeGrid2.png"  width="25%" height="25%">|<img src="./Images/Phone/recipeGrid3.png"  width="25%" height="25%">|<img src="./Images/Phone/recipeGrid4.png"  width="25%" height="25%">|<img src="./Images/Phone/recipeDetail1.png"  width="25%" height="25%">|<img src="./Images/Phone/recipeDetail2.png"  width="25%" height="25%">|<img src="./Images/Phone/recipeDetail3.png"  width="25%" height="25%">|<img src="./Images/Phone/more1.png"  width="25%" height="25%">|<img src="./Images/Phone/more2.png"  width="25%" height="25%">|<img src="./Images/Phone/recipeList1.png"  width="25%" height="25%">
 ### iPad Screens
-<img src="./Images/Pad/recipeGrid1.png"  width="25%" height="25%">|<img src="./Images/Pad/recipeGrid2.png"  width="25%" height="25%">|<img src="./Images/Pad/recipeDetail2.png"  width="25%" height="25%">|<img src="./Images/Pad/recipeDetail3.png"  width="25%" height="25%">
+<img src="./Images/Pad/recipeGrid1.png"  width="25%" height="25%">|<img src="./Images/Pad/recipeDetail.png"  width="25%" height="25%">|<img src="./Images/Pad/recipeDetail_Image.png"  width="25%" height="25%">|<img src="./Images/Pad/recipeFavConfirm.png"  width="25%" height="25%">|<img src="./Images/Pad/recipeSaved.png"  width="25%" height="25%">|<img src="./Images/Pad/recipeMenu.png"  width="25%" height="25%">
 
 ## Modules
 1. RecipeNetworking: Provides a simple, reusable API wrapper around the network back end, facilitating data retrieval. It abstracts the complexity of networking and parsing, offering a clean interface for developers to interact with API endpoints.
@@ -101,9 +100,9 @@ The app supports multiple environments using `.xcconfig` files for clean configu
 
 | Target        | Config File                | Description               |
 |---------------|----------------------------|---------------------------|
-| `recipe`      | `Recipe-Release.xcconfig`  | Production environment    |
-| `recipeDev`   | `Recipe-Debug.xcconfig`    | Development environment   |
-| `recipeStg`   | `Recipe-Staging.xcconfig`  | Staging / QA environment  |
+| `Recipe`      | `Recipe-Release.xcconfig`  | Production environment    |
+| `RecipeDev`   | `Recipe-Debug.xcconfig`    | Development environment   |
+| `RecipeStg`   | `Recipe-Staging.xcconfig`  | Staging / QA environment  |
 
 Each configuration file defines:
 
