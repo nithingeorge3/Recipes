@@ -3,4 +3,202 @@
    uuid = "03C8C387-4980-4781-87A3-78C8AD3CAFFF"
    type = "0"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5291E207-DF6D-4F96-B4A7-8C3B71E02029"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RecipeFlow/RecipeFlowTests/Scenes/Recipe/RecipeFavouritesViewModelTests.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "60"
+            endingLineNumber = "60"
+            landmarkName = "testRemoveFavorite_UpdatesUIInstantly()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "5291E207-DF6D-4F96-B4A7-8C3B71E02029 - c91280a45d5c2248"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for RecipeFlowTests.RecipeFavouritesViewModelTests.testRemoveFavorite_UpdatesUIInstantly() async -&gt; ()"
+                  moduleName = "RecipeFlowTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nitingeorge/Documents/SourceCode/Projects2025/Recipe/RecipeFlow/RecipeFlowTests/Scenes/Recipe/RecipeFavouritesViewModelTests.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "60"
+                  endingLineNumber = "60">
+               </Location>
+               <Location
+                  uuid = "5291E207-DF6D-4F96-B4A7-8C3B71E02029 - 67754f9ea7e78449"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) suspend resume partial function for RecipeFlowTests.RecipeFavouritesViewModelTests.testRemoveFavorite_UpdatesUIInstantly() async -&gt; ()"
+                  moduleName = "RecipeFlowTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nitingeorge/Documents/SourceCode/Projects2025/Recipe/RecipeFlow/RecipeFlowTests/Scenes/Recipe/RecipeFavouritesViewModelTests.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "60"
+                  endingLineNumber = "60">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3510F179-711B-4CDB-8D96-234670AC53A2"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RecipeFlow/RecipeFlow/Scenes/Favourite/ViewModel/RecipeFavouritesViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "112"
+            endingLineNumber = "112"
+            landmarkName = "listeningFavoritesChanges()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "2CB240D1-F86E-4AA7-B3E5-C056373A8427"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RecipeFlow/RecipeFlowTests/Scenes/Recipe/RecipeFavouritesViewModelTests.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "58"
+            endingLineNumber = "58"
+            landmarkName = "testRemoveFavorite_UpdatesUIInstantly()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "2CB240D1-F86E-4AA7-B3E5-C056373A8427 - 95cb3e3050455e0c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for RecipeFlowTests.RecipeFavouritesViewModelTests.testRemoveFavorite_UpdatesUIInstantly() async -&gt; ()"
+                  moduleName = "RecipeFlowTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nitingeorge/Documents/SourceCode/Projects2025/Recipe/RecipeFlow/RecipeFlowTests/Scenes/Recipe/RecipeFavouritesViewModelTests.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "58"
+                  endingLineNumber = "58">
+               </Location>
+               <Location
+                  uuid = "2CB240D1-F86E-4AA7-B3E5-C056373A8427 - adb7ebca6eefeb22"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(2) await resume partial function for RecipeFlowTests.RecipeFavouritesViewModelTests.testRemoveFavorite_UpdatesUIInstantly() async -&gt; ()"
+                  moduleName = "RecipeFlowTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nitingeorge/Documents/SourceCode/Projects2025/Recipe/RecipeFlow/RecipeFlowTests/Scenes/Recipe/RecipeFavouritesViewModelTests.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "58"
+                  endingLineNumber = "58">
+               </Location>
+               <Location
+                  uuid = "2CB240D1-F86E-4AA7-B3E5-C056373A8427 - c91280a45d5c220a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for RecipeFlowTests.RecipeFavouritesViewModelTests.testRemoveFavorite_UpdatesUIInstantly() async -&gt; ()"
+                  moduleName = "RecipeFlowTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nitingeorge/Documents/SourceCode/Projects2025/Recipe/RecipeFlow/RecipeFlowTests/Scenes/Recipe/RecipeFavouritesViewModelTests.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "58"
+                  endingLineNumber = "58">
+               </Location>
+               <Location
+                  uuid = "2CB240D1-F86E-4AA7-B3E5-C056373A8427 - 67754f9ea7e7840b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) suspend resume partial function for RecipeFlowTests.RecipeFavouritesViewModelTests.testRemoveFavorite_UpdatesUIInstantly() async -&gt; ()"
+                  moduleName = "RecipeFlowTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nitingeorge/Documents/SourceCode/Projects2025/Recipe/RecipeFlow/RecipeFlowTests/Scenes/Recipe/RecipeFavouritesViewModelTests.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "58"
+                  endingLineNumber = "58">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "FFD8C9F7-144E-44DC-9FBE-391DCF6AEEE4"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RecipeFlow/RecipeFlow/Scenes/Favourite/ViewModel/RecipeFavouritesViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "119"
+            endingLineNumber = "119"
+            landmarkName = "updateRecipeFavoriteStatus(recipeID:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "FFD8C9F7-144E-44DC-9FBE-391DCF6AEEE4 - d45502ae6e61a987"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for closure #1 () async -&gt; () in RecipeFlow.RecipeFavouritesViewModel.updateRecipeFavoriteStatus(recipeID: Swift.Int) -&gt; ()"
+                  moduleName = "RecipeFlow"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nitingeorge/Documents/SourceCode/Projects2025/Recipe/RecipeFlow/RecipeFlow/Scenes/Favourite/ViewModel/RecipeFavouritesViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "119"
+                  endingLineNumber = "119">
+               </Location>
+               <Location
+                  uuid = "FFD8C9F7-144E-44DC-9FBE-391DCF6AEEE4 - d45502ae6e61a987"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for closure #1 () async -&gt; () in RecipeFlow.RecipeFavouritesViewModel.updateRecipeFavoriteStatus(recipeID: Swift.Int) -&gt; ()"
+                  moduleName = "RecipeFlow"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nitingeorge/Documents/SourceCode/Projects2025/Recipe/RecipeFlow/RecipeFlow/Scenes/Favourite/ViewModel/RecipeFavouritesViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "119"
+                  endingLineNumber = "119">
+               </Location>
+               <Location
+                  uuid = "FFD8C9F7-144E-44DC-9FBE-391DCF6AEEE4 - 44895f477fc7749a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (RecipeCore.Recipe) -&gt; Swift.Bool in closure #1 () async -&gt; () in RecipeFlow.RecipeFavouritesViewModel.updateRecipeFavoriteStatus(recipeID: Swift.Int) -&gt; ()"
+                  moduleName = "RecipeFlow"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nitingeorge/Documents/SourceCode/Projects2025/Recipe/RecipeFlow/RecipeFlow/Scenes/Favourite/ViewModel/RecipeFavouritesViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "119"
+                  endingLineNumber = "119">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>
