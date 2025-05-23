@@ -9,6 +9,7 @@ import XCTest
 import RecipeNetworking
 import RecipeCore
 import RecipeData
+import RecipeDomain
 
 @testable import RecipeFlow
 
@@ -46,5 +47,26 @@ final class RecipeListViewModelTests: XCTestCase {
     func testInitialStateIsLoading() {
         XCTAssertEqual(viewModel.state, .loading, "Initial state should be .loading")
         XCTAssertTrue(viewModel.recipes.isEmpty, "Initially, recipes should be empty")
+    }
+    
+    func testRecipeFetch() async {
+        XCTAssertEqual(viewModel.state, .loading)
+        
+        await viewModel.send(.refresh)
+        
+        let expectation = XCTestExpectation(description: "Fetch completes")
+        DispatchQueue.main.async {
+            expectation.fulfill()
+        }
+        await fulfillment(of: [expectation], timeout: 1)
+        
+        if case .success = viewModel.state {
+            XCTAssertFalse(viewModel.recipes.isEmpty)
+            XCTAssertEqual(viewModel.recipes.count, 4)
+        } else {
+            XCTFail("Expected error state")
+        }
+        
+        XCTAssertEqual(viewModel.navTitle, "Recipes")
     }
 }

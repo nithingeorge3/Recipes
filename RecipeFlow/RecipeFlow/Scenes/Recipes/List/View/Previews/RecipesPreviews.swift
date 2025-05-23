@@ -10,6 +10,7 @@ import Combine
 import RecipeUI
 import RecipeCore
 import RecipeData
+import RecipeDomain
 
 // MARK: - Previews
 #if DEBUG
@@ -32,7 +33,8 @@ import RecipeData
 }
 
 #Preview("Error State") {
-    RecipesListView(viewModel: PreviewRecipeListViewModel(state: .failed(error: NSError(domain: "Preview", code: 00))))
+    RecipesListView(viewModel: PreviewRecipeListViewModel(state: .failed(error: RecipeError.fetchFailed("Recipe fetch failure"))))
+                                                                            
         .environmentObject(TabBarVisibility())
 }
 
@@ -104,7 +106,7 @@ private class PreviewRecipeListViewModel: RecipesListViewModelType {
         recipes = []
         remotePagination.isLoading = false
         localPagination.isLoading = false
-        state = .failed(error: error)
+        state = .failed(error: RecipeError.fetchFailed("Recipe fetch failure"))
     }
     
     func send(_ action: RecipeAction) async {

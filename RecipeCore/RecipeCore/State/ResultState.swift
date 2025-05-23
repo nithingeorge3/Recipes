@@ -6,10 +6,11 @@
 //
 
 import Foundation
+import RecipeDomain
 
 public enum ResultState: Equatable {
     case loading
-    case failed(error: Error)
+    case failed(error: RecipeError)
     case empty(message: String)
     case success
     

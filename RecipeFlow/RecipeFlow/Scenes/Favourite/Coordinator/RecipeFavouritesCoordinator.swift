@@ -67,7 +67,7 @@ public final class RecipeFavouritesCoordinator: ObservableObject, Coordinator, T
     }
     
     public func start() -> some View {
-        RecipeFavouritesCoordinatorView(coordinator: self)
+        AnyView(RecipeFavouritesCoordinatorView(coordinator: self))
     }
     
     func addSubscriptions() {

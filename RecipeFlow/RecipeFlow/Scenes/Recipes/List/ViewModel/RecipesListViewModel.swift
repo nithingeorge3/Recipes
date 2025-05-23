@@ -141,7 +141,7 @@ class RecipeListViewModel: RecipesListViewModelType {
             searchPagination.updateHasMoreData(receivedCount: results.count)
             state = recipes.isEmpty ? .empty(message: "No matches found") : .success
         } catch {
-            state = .failed(error: error)
+            state = .failed(error: RecipeError.searchFailed("search failed"))
         }
         
         isSearching = false
@@ -164,7 +164,7 @@ private extension RecipeListViewModel {
                 _ = try await (localOrRemote)
             } catch {
                 if recipes.count == 0 {
-                    state = .failed(error: error)
+                    state = .failed(error: RecipeError.fetchFailed("recipe fetch failed"))
                 }
                 print("error fetching recipes: \(error)")
             }
@@ -186,7 +186,7 @@ private extension RecipeListViewModel {
             localPagination.incrementOffset()
             state = recipes.isEmpty ? .empty(message: "No matches found") : .success
         } catch {
-            state = .failed(error: error)
+            state = .failed(error: RecipeError.searchFailed("recipe search failed"))
         }
     }
     
