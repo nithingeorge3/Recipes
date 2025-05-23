@@ -113,7 +113,6 @@ class RecipeListViewModel: RecipesListViewModelType {
         
         isSearching = true
         
-        // First search in memory
         let filtered = originalRecipes.filter {
             $0.name.localizedCaseInsensitiveContains(searchQuery)
         }
@@ -125,7 +124,6 @@ class RecipeListViewModel: RecipesListViewModelType {
             return
         }
         
-        // Fall back to SwiftData search
         do {
             let start = searchPagination.currentOffset
             let size  = searchPagination.pageSize
@@ -136,7 +134,6 @@ class RecipeListViewModel: RecipesListViewModelType {
                 pageSize: size
             )
             
-//            recipes = results.map { Recipe(from: $0) }
             recipes.append(contentsOf: results.map(Recipe.init))
             searchPagination.incrementOffset()
             searchPagination.updateHasMoreData(receivedCount: results.count)
@@ -173,13 +170,13 @@ private extension RecipeListViewModel {
     }
     
     private func fetchSearchResults() async {
-        guard localPagination.hasMoreData else { return }
+        guard searchPagination.hasMoreData else { return }
         
         do {
             let results = try await service.searchRecipes(
                 query: searchQuery,
-                startIndex: localPagination.currentOffset, // need to handle search start and normal start fetch index
-                pageSize: localPagination.pageSize // need to handle search start and normal start fetch index
+                startIndex: searchPagination.currentOffset,
+                pageSize: searchPagination.pageSize
             )
             
             let newRecipes = results.map { Recipe(from: $0) }

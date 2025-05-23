@@ -87,72 +87,76 @@ final class RecipeListViewModelTests: XCTestCase {
         
         XCTAssertEqual(viewModel.navTitle, "Recipes")
     }
-
 }
 
 //search test cases
 extension RecipeListViewModelTests {
     func testSearch_EmptyQuery_ShowsOriginalRecipes() async {
-        // Arrange
-        await viewModel.send(.refresh) // Load initial data
+        await viewModel.send(.refresh)
         let originalCount = viewModel.recipes.count
         
-        // Act
         viewModel.searchQuery = ""
         await viewModel.searchRecipes()
         
-        // Assert
         XCTAssertEqual(viewModel.recipes.count, originalCount)
         XCTAssertFalse(viewModel.isSearching)
     }
 
     func testSearch_FiltersLocalRecipes() async {
-        // Arrange
         await viewModel.send(.refresh)
         let searchTerm = "Pasta"
         
-        // Act
         viewModel.searchQuery = searchTerm
         await viewModel.searchRecipes()
         
-        // Assert
         XCTAssertTrue(viewModel.recipes.allSatisfy { $0.name.contains(searchTerm) })
         XCTAssertEqual(viewModel.state, .success)
     }
 
-//    func testSearch_Pagination_AppendsNewResults() async {
-//        // Arrange
-//        let mockService = service as! MockRecipeService
-//        mockService.stubbedRecipes = Array(repeating: RecipeModel(id: 1, name: "Curry"), count: 20)
-//        viewModel.searchQuery = "Curry"
-//        
-//        // Act - First page
-//        await viewModel.searchRecipes()
-//        let firstPageCount = viewModel.recipes.count
-//        
-//        // Act - Second page
-//        await viewModel.send(.loadMore)
-//        
-//        // Assert
-//        XCTAssertGreaterThan(viewModel.recipes.count, firstPageCount)
-//        XCTAssertTrue(viewModel.searchPagination.hasMoreData)
-//    }
+    func testSearch_Pagination_AppendsNewResults() async {
+        let mockService = service as! MockRecipeService
+        mockService.searchResults = Array(repeating: RecipeModel(id: 1, name: "Curry"), count: 20)
+        viewModel.searchQuery = "Curry"
+        
+        await viewModel.searchRecipes()
+        let firstPageCount = viewModel.recipes.count
+        
+        await viewModel.send(.loadMore)
+        
+        XCTAssertGreaterThan(viewModel.recipes.count, firstPageCount)
+        XCTAssertTrue(viewModel.searchPagination.hasMoreData)
+    }
     
-//    func testRefresh_ClearsSearchState() async {
-//        // Arrange
-//        viewModel.searchQuery = "Pasta"
-//        await viewModel.searchRecipes()
-//        
-//        // Act
-//        await viewModel.send(.refresh)
-//        
-//        // Assert
-//        XCTAssertTrue(viewModel.searchQuery.isEmpty)
-//        XCTAssertFalse(viewModel.isSearching)
-//    }
+    func testSearch_ReturnsMatchingRecipes() async {
+        let mockService = service as! MockRecipeService
+        mockService.searchResults = [
+            RecipeModel(id: 1, name: "Chicken Pasta"),
+            RecipeModel(id: 2, name: "Chicken Curry"),
+            RecipeModel(id: 3, name: "Italian Pasta")
+        ]
+        
+        viewModel.searchQuery = "Chicken"
+        await viewModel.searchRecipes()
+        
+        XCTAssertEqual(viewModel.recipes.count, 2)
+        XCTAssertTrue(viewModel.recipes.allSatisfy { $0.name.contains("Chicken") })
+    }
+
+    func testSearch_Pagination_AppendsResults() async {
+        let mockService = service as! MockRecipeService
+        mockService.searchResults = Array(repeating: RecipeModel(id: 1, name: "Matching Recipe"), count: 30)
+        viewModel.searchQuery = "Matching"
+        
+        await viewModel.searchRecipes()
+        let firstPageCount = viewModel.recipes.count
+        
+        await viewModel.send(.loadMore)
+        
+        XCTAssertGreaterThan(viewModel.recipes.count, firstPageCount)
+        XCTAssertTrue(viewModel.searchPagination.hasMoreData)
+    }
     
     func testInitialLoad_EmptyResponse_ShowsEmptyState() async {
-        // Arrange
         service = MockRecipeService(mockJSON: JSONData.recipeEmptyJSON)
         
         viewModel = RecipeListViewModel(
@@ -162,48 +166,53 @@ extension RecipeListViewModelTests {
             searchPagination: searchPagination
         )
         
-        // Act
         await viewModel.loadInitialData()
         await viewModel.send(.refresh)
         
-        // Assert
         if case .empty = viewModel.state {
             XCTAssertTrue(viewModel.isEmpty)
         } else {
             XCTFail("Expected empty state")
         }
     }
-}
+    
+    func testSearch_ExactMatch() async {
+        let mockService = service as! MockRecipeService
+        mockService.searchResults = [
+            RecipeModel(id: 1, name: "Chicken Tikka Masala")
+        ]
+        
+        viewModel.searchQuery = "Tikka"
+        await viewModel.searchRecipes()
+        
+        XCTAssertEqual(viewModel.recipes.first?.name, "Chicken Tikka Masala")
+    }
 
-//pagination
-//extension RecipeListViewModelTests {
-//    func testLocalPagination_LoadsMoreWhenScrolling() async {
-//        // Arrange
-//        let mockService = service as! MockRecipeService
-//        mockService.stubbedRecipes = Array(repeating: RecipeModel(id: 1, name: "Recipe"), count: 30)
-//        
-//        // Act - Initial load
-//        await viewModel.send(.refresh)
-//        let initialCount = viewModel.recipes.count
-//        
-//        // Act - Load more
-//        await viewModel.send(.loadMore)
-//        
-//        // Assert
-//        XCTAssertGreaterThan(viewModel.recipes.count, initialCount)
-//        XCTAssertEqual(viewModel.localPagination.currentOffset, 20) // Assuming pageSize = 20
-//    }
-//
-//    func testRemotePagination_FallsBackWhenLocalExhausted() async {
-//        // Arrange
-//        let mockLocal = localPagination as! MockLocalPaginationHandler
-//        mockLocal.hasMoreData = false // Force remote fallback
-//        
-//        // Act
-//        await viewModel.send(.loadMore)
-//        
-//        // Assert
-//        XCTAssertTrue((remotePagination as! MockRemotePaginationHandler).isLoading)
-//        XCTAssertEqual(viewModel.state, .success)
-//    }
-//}
+    func testSearch_CaseInsensitive() async {
+        let mockService = service as! MockRecipeService
+        mockService.searchResults = [
+            RecipeModel(id: 1, name: "PASTA")
+        ]
+        
+        viewModel.searchQuery = "pasta"
+        await viewModel.searchRecipes()
+        
+        XCTAssertFalse(viewModel.recipes.isEmpty)
+    }
+    
+    func testSearch_NoResults_ShowsEmptyState() async {
+        let mockService = service as! MockRecipeService
+        mockService.searchResults = [
+            RecipeModel(id: 1, name: "Pizza")
+        ]
+        
+        viewModel.searchQuery = "Taco"
+        await viewModel.searchRecipes()
+        
+        if case .empty = viewModel.state {
+            XCTAssertTrue(viewModel.recipes.isEmpty)
+        } else {
+            XCTFail("Expected empty state")
+        }
+    }
+}

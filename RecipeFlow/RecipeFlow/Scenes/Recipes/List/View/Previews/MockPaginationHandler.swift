@@ -68,7 +68,7 @@ final class MockFavoritesPaginationHandler: LocalPaginationHandlerType {
 
 final class MockSearchPaginationHandler: LocalPaginationHandlerType {
     var currentOffset: Int = 0
-    var pageSize: Int = 20
+    var pageSize: Int = 5
     var totalItems: Int = 40
     var isLoading: Bool = false
     var lastUpdated: Date = Date()

@@ -83,9 +83,12 @@ final class MockRecipeService: RecipeServiceProvider, @unchecked Sendable {
     
     func searchRecipes(query: String, startIndex: Int, pageSize: Int) async throws -> [RecipeModel] {
         if shouldThrowError {
-            throw NetworkError.failedToDecode
+            throw RecipeError.searchFailed("Search failed")
         }
-        return Array(searchResults.dropFirst(startIndex).prefix(pageSize).map { $0 })
+        
+        // Filter by query if you want to test search logic
+        let filtered = searchResults.filter { $0.name.localizedCaseInsensitiveContains(query) }
+        return Array(filtered.dropFirst(startIndex).prefix(pageSize))
     }
 }
 
