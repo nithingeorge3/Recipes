@@ -31,9 +31,7 @@ public final class RecipeListCoordinator: ObservableObject, Coordinator, TabItem
     private var cancellables: [AnyCancellable] = []
     
     @Published var navigationPath = NavigationPath()
-    
-    private let favoritesEventService: FavoritesEventServiceType
-    
+        
     public var tabItem: TabItem {
         _tabItem
     }
@@ -43,36 +41,30 @@ public final class RecipeListCoordinator: ObservableObject, Coordinator, TabItem
         tabBarVisibility: TabBarVisibility,
         viewFactory: RecipesViewFactoryType,
         modelFactory: RecipesViewModelFactoryType,
-        paginationSDService: PaginationSDServiceType,
-        recipeSDService: RecipeSDServiceType,
-        favoritesEventService: FavoritesEventServiceType
+        service: RecipeServiceProvider
     ) async {
         _tabItem = tabItem
         self.tabBarVisibility = tabBarVisibility
         self.viewFactory = viewFactory
         self.modelFactory = modelFactory
-        self.favoritesEventService = favoritesEventService
-        
-        self.service = RecipeServiceFactory.makeRecipeService(
-            recipeSDService: recipeSDService,
-            paginationSDService: paginationSDService,
-            favoritesEventService: favoritesEventService
-        )
+        self.service = service
 
         let remotePagination: RemotePaginationHandlerType = RemotePaginationHandler()
         let localPagination: LocalPaginationHandlerType = LocalPaginationHandler()
+        let searchPagination: LocalPaginationHandlerType =  SearchPaginationHandler()
         
         self.viewModel = await modelFactory.makeRecipeListViewModel(
             service: service,
             remotePagination: remotePagination,
-            localPagination: localPagination
+            localPagination: localPagination,
+            searchPagination: searchPagination
         )
 
         addSubscriptions()
     }
     
     public func start() -> some View {
-        RecipeListCoordinatorView(coordinator: self)
+        AnyView( RecipeListCoordinatorView(coordinator: self))
     }
     
     func addSubscriptions() {

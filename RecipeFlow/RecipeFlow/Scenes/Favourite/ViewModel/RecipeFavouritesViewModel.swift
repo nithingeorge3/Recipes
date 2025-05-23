@@ -15,7 +15,7 @@ import RecipeData
 
 @MainActor
 protocol RecipeFavouritesViewModelType: AnyObject, Observable {
-    var recipes: [Recipe] { get }
+    var recipes: [Recipe] { get set }
     var isEmpty: Bool { get }
     var favouritePagination: LocalPaginationHandlerType { get }
     var recipeActionSubject: PassthroughSubject<RecipeAction, Never> { get  set }
@@ -30,10 +30,9 @@ class RecipeFavouritesViewModel: RecipeFavouritesViewModelType {
     var state: ResultState = .loading
     let service: RecipeServiceProvider
     var recipeActionSubject = PassthroughSubject<RecipeAction, Never>()
-//    private var updateTask: Task<Void, Never>?
     var favouritePagination: LocalPaginationHandlerType
     private var emptyFavoritesMessage = "You haven’t added any favourite recipes."
-    
+    private var recipeCache: [Int: Recipe] = [:]
     private var cancellables = Set<AnyCancellable>()
     
     var recipes: [Recipe] = []
@@ -74,11 +73,7 @@ class RecipeFavouritesViewModel: RecipeFavouritesViewModelType {
 }
 
 private extension RecipeFavouritesViewModel {
-    
     private func fetchLocalRecipes() async {
-        
-        print(favouritePagination.hasMoreData)
-        
         guard favouritePagination.hasMoreData else {
             if recipes.isEmpty {
                 favouritePagination.reset()
@@ -110,13 +105,6 @@ private extension RecipeFavouritesViewModel {
     }
     
     private func listeningFavoritesChanges() {
-        
-//        service.favoriteDidChange
-//            .sink { [weak self] recipeID in
-//                self?.updateRecipeFavoritesStatus(recipeID: recipeID)
-//            }
-//            .store(in: &cancellables)
-        
         service.favoriteDidChange
             .receive(on: DispatchQueue.main)
             .sink { [weak self] recipeID in
@@ -126,9 +114,36 @@ private extension RecipeFavouritesViewModel {
     }
     
     private func updateRecipeFavoriteStatus(recipeID: Int) {
-        if let index = recipes.firstIndex(where: { $0.id == recipeID }) {
-            recipes.remove(at: index)
-            favouritePagination.decrementTotalItems()
+        Task { @MainActor in
+            if let index = recipes.firstIndex(where: { $0.id == recipeID }) {
+                recipes.remove(at: index)
+                favouritePagination.decrementTotalItems()
+            } else {
+                await handleNewFavoriteAddition(recipeID: recipeID)
+            }
+            
+            if recipes.isEmpty {
+                state = .empty(message: emptyFavoritesMessage)
+            }
         }
+    }
+    
+    private func handleNewFavoriteAddition(recipeID: Int) async {
+        do {
+            let recipeDomain = try await service.fetchRecipe(for: recipeID)
+            let newRecipe = Recipe(from: recipeDomain)
+            
+            insertRecipeSorted(newRecipe)
+            
+            favouritePagination.incrementOffset()
+            state = recipes.isEmpty ? .empty(message: emptyFavoritesMessage) : .success
+        } catch {
+            print("Failed to fetch new favorite: \(error)")
+        }
+    }
+    
+    private func insertRecipeSorted(_ recipe: Recipe) {
+        let insertIndex = recipes.firstIndex { $0.name > recipe.name } ?? recipes.endIndex
+        recipes.insert(recipe, at: insertIndex)
     }
 }

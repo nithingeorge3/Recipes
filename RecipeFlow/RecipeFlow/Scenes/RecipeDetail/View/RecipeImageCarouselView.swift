@@ -85,7 +85,7 @@ struct RecipeImageCarouselView: View {
         .accessibilityElement(children: .ignore)
     }
     
-    // MARK: - Dimension Calculations
+    //Dimension Calculations
     private func calculatedWidth(for itemCount: Int, size: CGSize) -> CGFloat {
         size.width - (itemCount == 1 ? 16 : 44)
     }
@@ -94,7 +94,6 @@ struct RecipeImageCarouselView: View {
         size.width - 30
     }
     
-    // MARK: - Action Handling
     private func handleMediaSelection(_ index: Int, _ media: PresentedMedia) {
         presentedMedia = media
         selectedIndex = index

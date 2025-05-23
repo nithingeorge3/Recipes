@@ -42,7 +42,7 @@ public final class AppTabViewFactory: AppTabViewFactoryType {
 @MainActor
 extension AppTabViewFactory: TabProvider {
     func view(for tabID: UUID) -> AnyView {
-        // Find the coordinator whose `tabItem` matches the `tabID`
+        // Find the coordinator whose tabItem matches the tabID
         guard let coordinator = coordinators.first(where: { $0.tabItem.id == tabID }) else {
             return AnyView(Text("Unknown Tab").foregroundColor(.black))
         }

@@ -15,13 +15,24 @@ import Combine
 @testable import RecipeFlow
 
 final class MockRecipeService: RecipeServiceProvider, @unchecked Sendable {
-    var favoriteDidChange: AnyPublisher<Int, Never> = Empty().eraseToAnyPublisher()
     var resultsJSON: String
     var stubbedRecipes: [RecipeModel] = []
+    var searchResults: [RecipeModel] = []
     var shouldThrowError: Bool = false
-            
-    init(mockJSON: String = JSONData.recipeValidJSON) {
+      
+    private let favoritesEventService: FavoritesEventServiceType
+    
+    public var favoriteDidChange: AnyPublisher<Int, Never> {
+        favoritesEventService.favoriteDidChange
+            .eraseToAnyPublisher()
+    }
+    
+    init(
+        mockJSON: String = JSONData.recipeValidJSON,
+        favoritesEventService: FavoritesEventServiceType = MockFavoritesEventService()
+    ) {
         self.resultsJSON = mockJSON
+        self.favoritesEventService = favoritesEventService
     }
     
     func triggerFavoriteChange(recipeID: Int) {
@@ -40,9 +51,11 @@ final class MockRecipeService: RecipeServiceProvider, @unchecked Sendable {
     }
     
     func fetchRecipe(for recipeID: Int) async throws -> RecipeModel {
-        guard let recipe = stubbedRecipes.first else {
+        guard var recipe = stubbedRecipes.first else {
             throw RecipeError.notFound(recipeID: recipeID)
         }
+        
+        recipe.isFavorite = true
         return recipe
     }
     
@@ -56,6 +69,9 @@ final class MockRecipeService: RecipeServiceProvider, @unchecked Sendable {
         }
         
         stubbedRecipes[index].isFavorite.toggle()
+        
+        favoritesEventService.favoriteDidChange.send(recipeID)
+        
         return stubbedRecipes[index].isFavorite
     }
     
@@ -81,7 +97,12 @@ final class MockRecipeService: RecipeServiceProvider, @unchecked Sendable {
     }
     
     func searchRecipes(query: String, startIndex: Int, pageSize: Int) async throws -> [RecipeModel] {
-        []
+        if shouldThrowError {
+            throw RecipeError.searchFailed("Search failed")
+        }
+        
+        let filtered = searchResults.filter { $0.name.localizedCaseInsensitiveContains(query) }
+        return Array(filtered.dropFirst(startIndex).prefix(pageSize))
     }
 }
 

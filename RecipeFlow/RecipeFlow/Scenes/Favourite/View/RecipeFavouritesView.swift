@@ -78,7 +78,6 @@ struct RecipeFavouritesView<ViewModel: RecipeFavouritesViewModelType>: View {
     
     private func handleAppear() {
         Task {
-//            await viewModel.loadInitialData()
             await viewModel.send(.refresh)
         }
         

@@ -8,9 +8,7 @@
 import Foundation
 
 protocol URLBuilder {
-    var recipeBaseURL: String { get }
-    var path: String { get }
-    func url() throws -> URL
+    func url(baseURL: String, endPoint: String) throws -> URL
 }
 
 public enum EndPoint: Sendable {
@@ -18,15 +16,11 @@ public enum EndPoint: Sendable {
 }
 
 extension EndPoint: URLBuilder {
-    func url() throws -> URL {
+    func url(baseURL: String, endPoint: String) throws -> URL {
         var components = URLComponents()
         components.scheme = "https"
-        components.path = path
-        
-        switch self {
-        case .recipes:
-            components.host = recipeBaseURL
-        }
+        components.path = endPoint
+        components.host = baseURL
         
         if case let .recipes(startIndex, pageSize) = self {
             components.queryItems = [
@@ -41,17 +35,6 @@ extension EndPoint: URLBuilder {
         }
         
         return url
-    }
-    
-    var recipeBaseURL: String {
-        "tasty.p.rapidapi.com"
-    }
-    
-    var path: String {
-        switch self {
-        case .recipes:
-            "/recipes/list"
-        }
     }
 }
 
