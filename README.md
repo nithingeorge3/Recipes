@@ -119,5 +119,5 @@ Each configuration file defines:
 ```xcconfig
 RECIPE_BASE_URL = tasty.p.rapidapi.com
 RECIPE_END_POINT = /recipes/list
-BUNDLE_IDENTIFIER = com.recipe.staging
+BUNDLE_IDENTIFIER = com.xxxx.xxx
 APP_NAME = RecipeStg
