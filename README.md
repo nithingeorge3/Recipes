@@ -24,7 +24,7 @@ Please update the key if required.
 
 You can update the API key in the `APIKeyProvider.swift` file, located in the `RecipeNetworking` module. 
 
-### 🔄 Deleting a Stored (Old/Expired) API Key
+### Deleting a Stored (Old/Expired) API Key
 
 To delete a previously stored API key from the Keychain and ensure a clean state:
 
@@ -48,7 +48,7 @@ This ensures you're using the most up-to-date API key and avoids issues caused b
 ```
 
 ### ToDo – Secure Key Management Plan
-- 🔐 Fetch API key securely from backend after login
+- Fetch API key securely from backend after login
 - Store API key in Keychain instead of hardcoding
 - Remove fallback key from source code
 - Load per-environment API key from .xcconfig files
@@ -69,9 +69,22 @@ This ensures you're using the most up-to-date API key and avoids issues caused b
 ## limitations
 1. I have used the same image for both the thumbnail and detail views. In a real scenario, I would resize the image for the thumbnail and save it separately, making it more efficient to decode and render.
 2. Due to time constraints, I used simple Git commit messages. However, in a real work environment, I follow proper commit conventions, use feature branches, and submit pull requests (PRs). I prefer maintaining develop and master branches, but for this project, I committed directly to main.
-3. Pending unit test cases.
-4. Accessibility/VoiceOver support, DynamicType increase, Dark mode, SwiftData migration has not been implemented.
-5. UI test cases are not covered, but I have included UI testing using Previews and snapshot testing.
+3. Accessibility/VoiceOver support, DynamicType increase, Dark mode, SwiftData migration has not been implemented.
+4. UI test cases are not covered, but I have included UI testing using Previews and snapshot testing.
+
+### Unit Testing
+
+Unit tests have been added for the core functionality across:
+
+- Networking layer (`RecipeNetworking`)
+- Domain logic (`RecipeDomain`)
+- Flow coordination logic (`RecipeFlow`)
+- Search handling and pagination
+
+All services and repositories are **mocked using protocols**, following dependency injection best practices.  
+This allows for clean isolation and testability across modules.
+
+>  Due to time constraints, additional test coverage (especially for edge cases and UI states) was not fully achieved. However, the structure is in place for easily adding more tests if needed.
 
 ## Known Issues & Future Improvements
 1. I noticed a couple of issues that may require further investigation. Given more time, I would refine data handling and optimize UI updates to ensure the best user experience. These improvements would be prioritised in a production environment.
