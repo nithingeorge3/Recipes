@@ -73,7 +73,6 @@ This ensures you're using the most up-to-date API key and avoids issues caused b
 4. UI test cases are not covered, but I have included UI testing using Previews and snapshot testing.
 
 ### Unit Testing
-
 Unit tests have been added for the core functionality across:
 
 - Networking layer (`RecipeNetworking`)
@@ -81,10 +80,8 @@ Unit tests have been added for the core functionality across:
 - Flow coordination logic (`RecipeFlow`)
 - Search handling and pagination
 
-All services and repositories are **mocked using protocols**, following dependency injection best practices.  
-This allows for clean isolation and testability across modules.
-
->  Due to time constraints, additional test coverage (especially for edge cases and UI states) was not fully achieved. However, the structure is in place for easily adding more tests if needed.
+All services and repositories are **mocked using protocols**, following dependency injection best practices. This allows for clean isolation and testability across modules.
+Due to time constraints, additional test coverage (especially for edge cases and UI states) was not fully achieved. However, the structure is in place for easily adding more tests.
 
 ## Known Issues & Future Improvements
 1. I noticed a couple of issues that may require further investigation. Given more time, I would refine data handling and optimize UI updates to ensure the best user experience. These improvements would be prioritised in a production environment.
