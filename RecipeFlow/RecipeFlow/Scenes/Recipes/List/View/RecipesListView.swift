@@ -13,15 +13,13 @@ struct RecipesListView<ViewModel: RecipesListViewModelType>: View {
     @Bindable var viewModel: ViewModel
     @EnvironmentObject private var tabBarVisibility: TabBarVisibility
     
-    @State private var showSearch = false
     @FocusState private var isSearchFieldFocused: Bool
     
     var body: some View {
         content
             .searchable(
-                text: $viewModel.searchQuery,
-                isPresented: $showSearch,
-                placement: .toolbar
+                text: $viewModel.searchText,
+                prompt: "Search recipes" // ToDo: read it from viewmodel
             )
             .withCustomNavigationTitle(title: viewModel.navTitle)
             .navigationAccessibility(title: viewModel.navTitle)

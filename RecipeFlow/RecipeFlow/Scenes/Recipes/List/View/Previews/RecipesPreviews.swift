@@ -39,7 +39,9 @@ import RecipeDomain
 
 @MainActor @Observable
 private class PreviewRecipeListViewModel: RecipesListViewModelType {
-    var searchQuery = ""
+    var searchTask: Task<Void, Never>? = Task { }
+    
+    var searchText = ""
     
     var isSearching = false
     

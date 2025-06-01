@@ -25,11 +25,10 @@ protocol RecipesListViewModelType: AnyObject, Observable {
     var state: ResultState { get }
     
     //search
-    var searchQuery: String { get set }
+    var searchText: String { get set }
+    var searchTask: Task<Void, Never>? { get set }
     var isSearching: Bool { get }
-    
-    func searchRecipes() async
-    
+        
     func send(_ action: RecipeAction) async
     func loadInitialData() async
 }
@@ -50,7 +49,8 @@ class RecipeListViewModel: RecipesListViewModelType {
     
     var recipes: [Recipe] = []
     private var originalRecipes: [Recipe] = []
-    private var searchTask: Task<Void, Never>?
+    
+    var searchTask: Task<Void, Never>?
     
     var isEmpty: Bool {
         recipes.isEmpty &&
@@ -58,13 +58,13 @@ class RecipeListViewModel: RecipesListViewModelType {
         !localPagination.isLoading
     }
     
-    var searchQuery = "" {
+    var searchText = "" {
         didSet {
             searchTask?.cancel()
             searchTask = Task {
                 try? await Task.sleep(for: .milliseconds(300))
                 guard !Task.isCancelled else { return }
-                searchPagination.newQuery(searchQuery)
+                searchPagination.newQuery(searchText)
                 recipes.removeAll()
                 await searchRecipes()
             }
@@ -105,8 +105,8 @@ class RecipeListViewModel: RecipesListViewModelType {
         }
     }
     
-    func searchRecipes() async {
-        guard !searchQuery.isEmpty else {
+    private func searchRecipes() async {
+        guard !searchText.isEmpty else {
             await resetSearch()
             return
         }
@@ -114,7 +114,7 @@ class RecipeListViewModel: RecipesListViewModelType {
         isSearching = true
         
         let filtered = originalRecipes.filter {
-            $0.name.localizedCaseInsensitiveContains(searchQuery)
+            $0.name.localizedCaseInsensitiveContains(searchText)
         }
         
         if !filtered.isEmpty {
@@ -129,7 +129,7 @@ class RecipeListViewModel: RecipesListViewModelType {
             let size  = searchPagination.pageSize
 
             let results = try await service.searchRecipes(
-                query: searchQuery,
+                query: searchText,
                 startIndex: start,
                 pageSize: size
             )
@@ -148,7 +148,7 @@ class RecipeListViewModel: RecipesListViewModelType {
 
 private extension RecipeListViewModel {
     private func fetchRecipes() async {
-        if !searchQuery.isEmpty {
+        if !searchText.isEmpty {
             await fetchSearchResults()
         } else {
             let hasMoreLocal = localPagination.hasMoreData
@@ -174,7 +174,7 @@ private extension RecipeListViewModel {
         
         do {
             let results = try await service.searchRecipes(
-                query: searchQuery,
+                query: searchText,
                 startIndex: searchPagination.currentOffset,
                 pageSize: searchPagination.pageSize
             )

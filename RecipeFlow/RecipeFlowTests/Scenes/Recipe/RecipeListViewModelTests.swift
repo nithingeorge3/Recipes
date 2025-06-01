@@ -95,8 +95,8 @@ extension RecipeListViewModelTests {
         await viewModel.send(.refresh)
         let originalCount = viewModel.recipes.count
         
-        viewModel.searchQuery = ""
-        await viewModel.searchRecipes()
+        viewModel.searchText = ""
+        await viewModel.searchTask?.value
         
         XCTAssertEqual(viewModel.recipes.count, originalCount)
         XCTAssertFalse(viewModel.isSearching)
@@ -106,8 +106,8 @@ extension RecipeListViewModelTests {
         await viewModel.send(.refresh)
         let searchTerm = "Pasta"
         
-        viewModel.searchQuery = searchTerm
-        await viewModel.searchRecipes()
+        viewModel.searchText = searchTerm
+        await viewModel.searchTask?.value
         
         XCTAssertTrue(viewModel.recipes.allSatisfy { $0.name.contains(searchTerm) })
         XCTAssertEqual(viewModel.state, .success)
@@ -116,9 +116,9 @@ extension RecipeListViewModelTests {
     func testSearch_Pagination_AppendsNewResults() async {
         let mockService = service as! MockRecipeService
         mockService.searchResults = Array(repeating: RecipeModel(id: 1, name: "Curry"), count: 20)
-        viewModel.searchQuery = "Curry"
+        viewModel.searchText = "Curry"
         
-        await viewModel.searchRecipes()
+        await viewModel.searchTask?.value
         let firstPageCount = viewModel.recipes.count
         
         await viewModel.send(.loadMore)
@@ -135,8 +135,8 @@ extension RecipeListViewModelTests {
             RecipeModel(id: 3, name: "Italian Pasta")
         ]
         
-        viewModel.searchQuery = "Chicken"
-        await viewModel.searchRecipes()
+        viewModel.searchText = "Chicken"
+        await viewModel.searchTask?.value
         
         XCTAssertEqual(viewModel.recipes.count, 2)
         XCTAssertTrue(viewModel.recipes.allSatisfy { $0.name.contains("Chicken") })
@@ -145,9 +145,9 @@ extension RecipeListViewModelTests {
     func testSearch_Pagination_AppendsResults() async {
         let mockService = service as! MockRecipeService
         mockService.searchResults = Array(repeating: RecipeModel(id: 1, name: "Matching Recipe"), count: 30)
-        viewModel.searchQuery = "Matching"
+        viewModel.searchText = "Matching"
         
-        await viewModel.searchRecipes()
+        await viewModel.searchTask?.value
         let firstPageCount = viewModel.recipes.count
         
         await viewModel.send(.loadMore)
@@ -182,8 +182,8 @@ extension RecipeListViewModelTests {
             RecipeModel(id: 1, name: "Chicken Tikka Masala")
         ]
         
-        viewModel.searchQuery = "Tikka"
-        await viewModel.searchRecipes()
+        viewModel.searchText = "Tikka"
+        await viewModel.searchTask?.value
         
         XCTAssertEqual(viewModel.recipes.first?.name, "Chicken Tikka Masala")
     }
@@ -194,8 +194,8 @@ extension RecipeListViewModelTests {
             RecipeModel(id: 1, name: "PASTA")
         ]
         
-        viewModel.searchQuery = "pasta"
-        await viewModel.searchRecipes()
+        viewModel.searchText = "pasta"
+        await viewModel.searchTask?.value
         
         XCTAssertFalse(viewModel.recipes.isEmpty)
     }
@@ -206,8 +206,8 @@ extension RecipeListViewModelTests {
             RecipeModel(id: 1, name: "Pizza")
         ]
         
-        viewModel.searchQuery = "Taco"
-        await viewModel.searchRecipes()
+        viewModel.searchText = "Taco"
+        await viewModel.searchTask?.value
         
         if case .empty = viewModel.state {
             XCTAssertTrue(viewModel.recipes.isEmpty)
